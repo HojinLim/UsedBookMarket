@@ -39,6 +39,7 @@
         android:id="@+id/userImage"
         />
     <EditText
+        android:id="@+id/inputEmailEditText"
         android:background="@color/white"
         android:padding="15dp"
         android:hint="Enter email"
@@ -63,8 +64,10 @@
         android:id="@+id/passwordImage"
         />
     <EditText
+        android:id="@+id/inputPasswordEditText"
         android:background="@color/white"
         android:padding="15dp"
+        android:inputType="numberPassword"
         android:hint="Enter password"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -76,6 +79,7 @@
         />
     <androidx.appcompat.widget.AppCompatButton
         android:textColor="@color/white"
+        android:id="@+id/signUpButton"
         android:text="가입하기"
         android:textSize="20dp"
         android:background="@color/carrot"
