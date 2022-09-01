@@ -1,5 +1,6 @@
 package com.example.usedbookmarket
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -27,6 +28,7 @@ class SignUpActivity : AppCompatActivity() {
                 .addOnCompleteListener(this){ task ->
                     if(task.isSuccessful){
                         Toast.makeText(this, "회원가입에 성공하였습니다! 로그인 버튼을 눌러 로그인해주세요.", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, LoginActivity::class.java))
                         // finish()
                     }else {
                         Toast.makeText(this, "이미 가입한 이메일이거나, 회원가입에 실패했습니다!", Toast.LENGTH_SHORT).show()

@@ -29,11 +29,6 @@ class LoginActivity : AppCompatActivity() {
             val email= getInputEmail()
             val password= getInputPassword()
 
-            if(email== null && password == null) {
-                Log.d("hi", "둘다 비어있어")
-                return@setOnClickListener
-            }
-
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this){ task ->
                     if(task.isSuccessful){
@@ -48,9 +43,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun getInputEmail(): String{
-        return findViewById<EditText>(R.id.inputEmailEditText).text.toString()
+        return findViewById<EditText>(R.id.inputEmailEditText).text.toString().trim()
+
     }
     private fun getInputPassword(): String{
-        return findViewById<EditText>(R.id.inputPasswordEditText).text.toString()
+        return findViewById<EditText>(R.id.inputPasswordEditText).text.toString().trim()
     }
 }
