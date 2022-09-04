@@ -1,10 +1,15 @@
-package com.example.gitproject.model
+package com.example.usedbookmarket.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Book(
-    @SerializedName("itemId") val id: Long,
+    @SerializedName("isbn") val id: String,
     @SerializedName("title") val title: String,
     @SerializedName("description") val description: String,
-    @SerializedName("coverSmallUrl") val coverSmallUrl: String
-)
+    @SerializedName("price") val priceSales: String?,
+    @SerializedName("image") val coverSmallUrl: String,
+    @SerializedName("link") val mobileLink: String?
+): Parcelable

@@ -1,5 +1,6 @@
-package com.example.gitproject.model
+package com.example.usedbookmarket.model
 
+/*
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,3 +10,5 @@ data class History(
     @PrimaryKey val uid: Int?,
     @ColumnInfo(name = "keyword") val keyword: String?
 )
+
+ */

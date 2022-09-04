@@ -1,4 +1,4 @@
-package com.example.gitproject.fragment
+package com.example.usedbookmarket.fragment
 
 import androidx.fragment.app.Fragment
 
