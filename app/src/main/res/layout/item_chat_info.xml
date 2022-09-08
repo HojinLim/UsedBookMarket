@@ -9,7 +9,7 @@
     >
 
     <ImageView
-        android:id="@+id/coverImageView"
+        android:id="@+id/books_you_have_coverImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/background_light_carrot_circle"
@@ -21,7 +21,7 @@
         tools:src="@drawable/logo"/>
 
     <TextView
-        android:id="@+id/chatInfo_userNameTextView"
+        android:id="@+id/books_you_have_bookNameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -30,7 +30,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/coverImageView"
+        app:layout_constraintStart_toEndOf="@id/books_you_have_coverImageView"
 
         tools:text="Hojin" />
     <TextView
@@ -42,9 +42,9 @@
         android:textColor="@color/black"
         android:textSize="10sp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/chatInfo_userNameTextView"
+        app:layout_constraintStart_toEndOf="@id/books_you_have_bookNameTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/chatInfo_userNameTextView"
+        app:layout_constraintBottom_toBottomOf="@id/books_you_have_bookNameTextView"
         tools:text="3일 전" />
 
     <TextView
@@ -54,8 +54,8 @@
         android:layout_marginTop="12dp"
         android:ellipsize="end"
         android:maxLines="3"
-        app:layout_constraintTop_toBottomOf="@id/chatInfo_userNameTextView"
-        app:layout_constraintStart_toStartOf="@id/chatInfo_userNameTextView"
+        app:layout_constraintTop_toBottomOf="@id/books_you_have_bookNameTextView"
+        app:layout_constraintStart_toStartOf="@id/books_you_have_bookNameTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="거래 감사합니다 ~" />

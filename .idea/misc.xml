@@ -17,6 +17,7 @@
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.233" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/drawable/ic_baseline_keyboard_arrow_left_24.xml" value="0.233" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/drawable/ic_baseline_local_grocery_store_24.xml" value="0.233" />
+        <entry key="..\:/Android/UsedBookMarket/app/src/main/res/drawable/ic_baseline_mode_comment_24.xml" value="0.158" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/drawable/ic_baseline_photo_24.xml" value="0.233" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/drawable/ic_baseline_receipt_24.xml" value="0.233" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/drawable/ic_baseline_vpn_key_24.xml" value="0.1735" />
@@ -24,6 +25,9 @@
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.75" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout-w936dp/activity_login.xml" value="0.9" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/activitiy_sell.xml" value="0.18541666666666667" />
+        <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/activity.xml" value="0.3333333333333333" />
+        <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/activity_add_book.xml" value="0.33" />
+        <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/activity_books_you_have.xml" value="0.25" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/activity_buy_history.xml" value="0.22239583333333332" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/activity_chat.xml" value="0.33" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/activity_chatlist.xml" value="0.25" />
@@ -41,6 +45,7 @@
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/fragment_chatlist.xml" value="0.18645833333333334" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/item_book.xml" value="0.25" />
+        <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/item_books_you_have.xml" value="0.25" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/item_chat_info.xml" value="0.33" />
       </map>
     </option>

@@ -16,7 +16,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
 
-            android:id="@+id/chatlist_backButton"
+            android:id="@+id/books_you_have_backButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/ic_baseline_keyboard_arrow_left_24"
@@ -24,7 +24,7 @@
             />
 
         <TextView
-            android:id="@+id/chatInfo_userNameTextView"
+            android:id="@+id/books_you_have_bookNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="bottom"
