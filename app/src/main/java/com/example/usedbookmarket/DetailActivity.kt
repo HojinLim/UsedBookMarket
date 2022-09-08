@@ -1,13 +1,20 @@
 package com.example.usedbookmarket
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.usedbookmarket.adapter.BookAdapter
 import com.example.usedbookmarket.databinding.ActivityDetailBinding
 import com.example.usedbookmarket.model.Book
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
+    private lateinit var adapter: BookAdapter
+    private val books: ArrayList<Book> = ArrayList()
 //    private lateinit var db: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +49,20 @@ class DetailActivity : AppCompatActivity() {
             }
         }.start()
  */
+        adapter= BookAdapter {
 
+        }
+
+        /*
+        val bookRecyclerView= findViewById<RecyclerView>(R.id.savedBookRecyclerView)
+        bookRecyclerView.layoutManager = LinearLayoutManager(this)
+        bookRecyclerView.adapter = adapter
+ */
         binding.saveButton.setOnClickListener {
-
+            if (bookModel != null) {
+                books.add(bookModel)
+            }
+            adapter.submitList(books)
 
             /*
             Thread {

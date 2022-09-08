@@ -12,7 +12,7 @@ import com.example.usedbookmarket.databinding.ItemBookBinding
 class BookAdapter(val clickListener: (Book) -> Unit): ListAdapter<Book, BookAdapter.BookItemViewHolder>(diffUtil) {
     inner class BookItemViewHolder(private val binding: ItemBookBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(bookModel: Book){
-            binding.titleTextView.text= bookModel.title
+            binding.chatInfoUserNameTextView.text= bookModel.title
             binding.descriptionTextView.text= bookModel.description
 
 

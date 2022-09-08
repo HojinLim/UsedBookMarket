@@ -49,6 +49,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
         service = retrofit.create(BookAPI::class.java)
 
+
         adapter= BookAdapter(clickListener = {
             val intent = Intent(requireContext(), DetailActivity::class.java)
             intent.putExtra("bookModel", it)

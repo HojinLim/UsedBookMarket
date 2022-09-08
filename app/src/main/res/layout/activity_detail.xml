@@ -4,69 +4,161 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/basic_background"
     tools:context=".DetailActivity">
-    <ScrollView
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints"
+        android:id="@+id/chatlist_titleLayout">
+
+        <androidx.appcompat.widget.AppCompatButton
+
+            android:id="@+id/chatlist_backButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_baseline_keyboard_arrow_left_24"
+
+            />
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:padding="5dp"
+            tools:text="해리포터 불사조의 기사단"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/chatlist_titleLayout"
+        android:background="@color/black"
+        android:layout_marginTop="10dp"
+        android:id="@+id/detail_topBar"
+        />
+    <ImageView
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@id/detail_topBar"
+        android:src="@drawable/logo"
+        android:id="@+id/coverImageView"
+        />
+
+    <ImageView
+        android:layout_margin="10dp"
+        android:id="@+id/userImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/background_light_carrot_circle"
+        android:contentDescription="책 표지"
+        android:padding="15dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        tools:src="@drawable/logo"/>
+
+    <TextView
+        android:id="@+id/chatInfo_userNameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:lines="1"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/userImageView"
+        app:layout_constraintStart_toEndOf="@id/userImageView"
+        tools:text="Hojin"
+/>
+
+
+    <TextView
+        android:id="@+id/descriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        app:layout_constraintTop_toBottomOf="@id/chatInfo_userNameTextView"
+        app:layout_constraintStart_toStartOf="@id/chatInfo_userNameTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        tools:text="서울시 노원구" />
+
+    <TextView
+        android:id="@+id/chatInfo_userDateTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:lines="1"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/chatInfo_userNameTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
+        tools:text="3일 전" />
+    
+    <TextView
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toBottomOf="@+id/userImageView"
+        tools:text="깨끗히 잘 사용하였습니다^^ \n직거래는 노원역 희망합니다."
+        android:id="@+id/detail_content"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/detail_like"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/ic_baseline_favorite_24"
+        android:layout_margin="10dp"
+        />
+    <View
+        android:layout_marginHorizontal="10dp"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/detail_like"
+        app:layout_constraintTop_toTopOf="@id/detail_like"
+        app:layout_constraintBottom_toBottomOf="@id/detail_like"
+        android:background="@color/gray"
+        android:id="@+id/detail_bottomBar"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/detail_bottomBar"
+        app:layout_constraintBottom_toBottomOf="@id/detail_like"
+        tools:text="5,000원"
+        android:textColor="@color/white"
+        android:layout_marginStart="15dp"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:textColor="@color/white"
+        android:background="@color/carrot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/detail_like"
+        android:text="채팅하기"
+        android:id="@+id/saveButton"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
-            <ImageView
-                android:id="@+id/coverImageView"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/titleTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
-            <TextView
-                android:id="@+id/descriptionTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/coverImageView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
-            <EditText
-                android:id="@+id/reviewEditText"
-                android:layout_width="0dp"
-                android:layout_height="300dp"
-                app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/saveButton" />
 
-            <Button
-                android:id="@+id/saveButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="저장하기"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

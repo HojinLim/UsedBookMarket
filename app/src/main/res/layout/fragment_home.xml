@@ -6,17 +6,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/basic_background">
 
+    <ImageView
+        android:src="@drawable/ic_baseline_search_24"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/home_searchImg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="8dp"
+        />
     <EditText
+        android:hint="찾고 싶은 책을 검색하세요."
         android:id="@+id/searchEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:inputType="text"
         android:lines="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/home_searchImg"
+        app:layout_constraintTop_toTopOf="@id/home_searchImg"
+        app:layout_constraintEnd_toStartOf="@id/home_notificationButton"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/ic_baseline_notifications_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/home_searchImg"
+        android:id="@+id/home_notificationButton"
+        />
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="10dp"
         android:id="@+id/bookRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
