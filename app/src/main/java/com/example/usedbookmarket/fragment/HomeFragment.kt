@@ -1,7 +1,7 @@
 package com.example.usedbookmarket.fragment
 
-import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 
 import android.os.Bundle
 
@@ -9,13 +9,14 @@ import android.view.*
 
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.usedbookmarket.AddBookActivity
 import com.example.usedbookmarket.DetailActivity
-import com.example.usedbookmarket.model.Book
 import com.example.usedbookmarket.R
 import com.example.usedbookmarket.adapter.BookAdapter
 import com.example.usedbookmarket.api.BookAPI
 import com.example.usedbookmarket.databinding.FragmentHomeBinding
 import com.example.usedbookmarket.model.SearchBooksDto
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,14 +33,18 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
     // private lateinit var db: AppDatabase
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val v=inflater.inflate(R.layout.fragment_home,container,false)
+
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
+        v.findViewById<FloatingActionButton>(R.id.home_floatBtn).setOnClickListener {
+            startActivity(Intent(activity, AddBookActivity::class.java))
+        }
 
 
         val retrofit = Retrofit.Builder()
@@ -66,13 +71,9 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             return@setOnKeyListener false
 
         }
-
-
-
-        return binding.root
+        return v
     }
     private fun search(text: String) {
-
 
         service.getBooksByName(
             getString(R.string.naver_id),
@@ -108,27 +109,6 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         private const val BASE_URL = "https://openapi.naver.com/"
     }
 }
-
-
-
-/*
-    private fun initBookRecyclerView(){
-        adapter= BookAdapter()
-
-        binding.bookRecyclerView.layoutManager= LinearLayoutManager(requireContext())
-        binding.bookRecyclerView.adapter= adapter
-        adapter.submitList(arrayListOf<Book>(Book(11,"불멸의 이순신","이순신의 모험")
-            ,Book(22,"bye","1111")))
-
-    }
-
- */
-
-
-
-
-
-
         /*
         db = Room.databaseBuilder(
             requireActivity().applicationContext,

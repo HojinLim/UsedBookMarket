@@ -35,9 +35,9 @@ class DetailActivity : AppCompatActivity() {
         binding.titleTextView.text = bookModel?.title.orEmpty()
 
         Glide
-            .with(binding.coverImageView.context)
+            .with(binding.detailCoverImageView.context)
             .load(bookModel?.coverSmallUrl.orEmpty())
-            .into(binding.coverImageView)
+            .into(binding.detailCoverImageView)
 
         binding.descriptionTextView.text = bookModel?.description.orEmpty()
 

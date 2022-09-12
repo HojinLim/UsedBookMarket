@@ -31,7 +31,9 @@
             android:padding="5dp"
             tools:text="해리포터 불사조의 기사단"
             android:textColor="@color/white"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:lines="1"
+            android:ellipsize="end"/>
 
 
     </LinearLayout>
@@ -43,18 +45,19 @@
         android:layout_marginTop="10dp"
         android:id="@+id/detail_topBar"
         />
+
     <ImageView
-        android:layout_marginTop="30dp"
+        android:id="@+id/detail_coverImageView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:layout_constraintTop_toBottomOf="@id/detail_topBar"
+        android:layout_marginTop="28dp"
         android:src="@drawable/logo"
-        android:id="@+id/books_you_have_coverImageView"
-        />
+        app:layout_constraintTop_toBottomOf="@id/detail_topBar"
+        tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
         android:layout_margin="10dp"
-        android:id="@+id/userImageView"
+        android:id="@+id/detail_userImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/background_light_carrot_circle"
@@ -66,7 +69,7 @@
         tools:src="@drawable/logo"/>
 
     <TextView
-        android:id="@+id/books_you_have_bookNameTextView"
+        android:id="@+id/detail_bookNameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -74,8 +77,8 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="@id/userImageView"
-        app:layout_constraintStart_toEndOf="@id/userImageView"
+        app:layout_constraintTop_toTopOf="@id/detail_userImageView"
+        app:layout_constraintStart_toEndOf="@id/detail_userImageView"
         tools:text="Hojin"
 />
 
@@ -87,8 +90,8 @@
         android:layout_marginTop="12dp"
         android:ellipsize="end"
         android:maxLines="3"
-        app:layout_constraintTop_toBottomOf="@id/books_you_have_bookNameTextView"
-        app:layout_constraintStart_toStartOf="@id/books_you_have_bookNameTextView"
+        app:layout_constraintTop_toBottomOf="@id/detail_bookNameTextView"
+        app:layout_constraintStart_toStartOf="@id/detail_bookNameTextView"
         app:layout_constraintEnd_toEndOf="parent"
 
         tools:text="서울시 노원구" />
@@ -101,7 +104,7 @@
         android:lines="1"
         android:textColor="@color/black"
         android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@id/books_you_have_bookNameTextView"
+        app:layout_constraintStart_toStartOf="@id/detail_bookNameTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
         tools:text="3일 전" />
@@ -112,7 +115,7 @@
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        app:layout_constraintTop_toBottomOf="@+id/userImageView"
+        app:layout_constraintTop_toBottomOf="@+id/detail_userImageView"
         tools:text="깨끗히 잘 사용하였습니다^^ \n직거래는 노원역 희망합니다."
         android:id="@+id/detail_content"
         />

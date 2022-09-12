@@ -12,14 +12,14 @@ import com.example.usedbookmarket.databinding.ItemBookBinding
 class BookAdapter(val clickListener: (Book) -> Unit): ListAdapter<Book, BookAdapter.BookItemViewHolder>(diffUtil) {
     inner class BookItemViewHolder(private val binding: ItemBookBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(bookModel: Book){
-            binding.chatInfoUserNameTextView.text= bookModel.title
-            binding.descriptionTextView.text= bookModel.description
+            binding.bookBookNameTextView.text= bookModel.title
+            binding.bookDescriptionTextView.text= bookModel.description
 
 
             Glide
-                .with(binding.coverImageView.context)
+                .with(binding.bookCoverImageView.context)
                 .load(bookModel.coverSmallUrl)
-                .into(binding.coverImageView)
+                .into(binding.bookCoverImageView)
 
             binding.root.setOnClickListener {
                 clickListener(bookModel)

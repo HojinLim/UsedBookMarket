@@ -24,7 +24,9 @@
         android:lines="1"
         app:layout_constraintStart_toEndOf="@id/home_searchImg"
         app:layout_constraintTop_toTopOf="@id/home_searchImg"
-        app:layout_constraintEnd_toStartOf="@id/home_notificationButton"/>
+        app:layout_constraintEnd_toStartOf="@id/home_notificationButton"
+
+        />
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="48dp"
@@ -43,6 +45,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:backgroundTint="@color/carrot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_control_point_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="15dp"
+        android:tint="@color/white"
+        app:tint="@null"
+        android:id="@+id/home_floatBtn"
+        android:padding="0dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
