@@ -9,11 +9,14 @@ class IntroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
+
         var handler = Handler()
         handler.postDelayed( {
             var intent = Intent( this, StartActivity::class.java)
             startActivity(intent)
         }, 3000)    // 3 초후 00 액티비티로 이동
+
+
     }
 
     override fun onPause() {

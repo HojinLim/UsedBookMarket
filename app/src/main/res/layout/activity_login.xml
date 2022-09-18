@@ -38,7 +38,8 @@
         app:layout_constraintBottom_toBottomOf="@id/userImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/userImage"
-        app:layout_constraintTop_toTopOf="@id/userImage" />
+        app:layout_constraintTop_toTopOf="@id/userImage"
+        android:id="@+id/login_emailEditText"/>
 
     <ImageView
         android:id="@+id/passwordImage"
@@ -62,7 +63,8 @@
         app:layout_constraintBottom_toBottomOf="@id/passwordImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/passwordImage"
-        app:layout_constraintTop_toTopOf="@id/passwordImage" />
+        app:layout_constraintTop_toTopOf="@id/passwordImage"
+        android:id="@+id/login_passEditText"/>
 
     <androidx.appcompat.widget.AppCompatButton
 
@@ -77,7 +79,7 @@
         android:textSize="20dp"
         android:layout_marginStart="10dp"
         app:layout_constraintTop_toBottomOf="@id/passwordImage"
-        app:layout_constraintEnd_toStartOf="@id/loginButton"
+        app:layout_constraintEnd_toStartOf="@id/login_loginButton"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -88,7 +90,7 @@
         android:text="로그인"
         android:textColor="@color/white"
         android:textSize="20dp"
-        android:id="@+id/loginButton"
+        android:id="@+id/login_loginButton"
         app:layout_constraintTop_toTopOf="@id/goSignUpButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/goSignUpButton" />

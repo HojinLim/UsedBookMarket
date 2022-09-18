@@ -15,7 +15,6 @@ class BookAdapter(val clickListener: (Book) -> Unit): ListAdapter<Book, BookAdap
             binding.bookBookNameTextView.text= bookModel.title
             binding.bookDescriptionTextView.text= bookModel.description
 
-
             Glide
                 .with(binding.bookCoverImageView.context)
                 .load(bookModel.coverSmallUrl)

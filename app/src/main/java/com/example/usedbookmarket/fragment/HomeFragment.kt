@@ -1,14 +1,13 @@
 package com.example.usedbookmarket.fragment
 
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
-
 import android.os.Bundle
-
+import android.util.Log.i
 import android.view.*
-
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.usedbookmarket.AddBookActivity
 import com.example.usedbookmarket.DetailActivity
 import com.example.usedbookmarket.R
@@ -38,9 +37,10 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v=inflater.inflate(R.layout.fragment_home,container,false)
 
-        binding = FragmentHomeBinding.inflate(layoutInflater)
+
+        val v: View = inflater.inflate(R.layout.fragment_home,container,false)
+        //binding = FragmentHomeBinding.inflate(layoutInflater)
 
         v.findViewById<FloatingActionButton>(R.id.home_floatBtn).setOnClickListener {
             startActivity(Intent(activity, AddBookActivity::class.java))
@@ -55,17 +55,22 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         service = retrofit.create(BookAPI::class.java)
 
 
+
         adapter= BookAdapter(clickListener = {
             val intent = Intent(requireContext(), DetailActivity::class.java)
             intent.putExtra("bookModel", it)
             startActivity(intent)
         })
-        binding.bookRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.bookRecyclerView.adapter = adapter
 
-        binding.searchEditText.setOnKeyListener { v, keyCode, event ->
+        //binding.bookRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        //binding.bookRecyclerView.adapter = adapter
+        v.findViewById<RecyclerView>(R.id.bookRecyclerView).layoutManager=  LinearLayoutManager(requireContext())
+        v.findViewById<RecyclerView>(R.id.bookRecyclerView).adapter = adapter
+
+
+        v.findViewById<EditText>(R.id.searchEditText).setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                search(binding.searchEditText.text.toString())
+                search(v.findViewById<EditText>(R.id.searchEditText).text.toString())
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false

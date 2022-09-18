@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.widget.addTextChangedListener
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
@@ -20,14 +21,16 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
         initLoginButton()
+        initEmailAndPasswordEditText()
 
     }
     // TODO 로그인 구현
     private fun initLoginButton(){
-        val loginButton= findViewById<AppCompatButton>(R.id.loginButton)
+        val loginButton= findViewById<AppCompatButton>(R.id.login_loginButton)
         loginButton.setOnClickListener{
             val email= getInputEmail()
             val password= getInputPassword()
+
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this){ task ->
@@ -39,6 +42,20 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, "잘못 입력하였거나 계정이 존재하지 않습니다!", Toast.LENGTH_SHORT).show()
                     }
                 }
+        }
+    }
+    private fun initEmailAndPasswordEditText(){
+        val emailEditText= findViewById<EditText>(R.id.login_emailEditText)
+        val passwordEditText= findViewById<EditText>(R.id.login_passEditText)
+        val loginButton= findViewById<AppCompatButton>(R.id.login_loginButton)
+
+        emailEditText.addTextChangedListener {
+            val enable= emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()
+            loginButton.isEnabled= enable
+        }
+        passwordEditText.addTextChangedListener {
+            val enable= emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()
+            loginButton.isEnabled= enable
         }
     }
 
