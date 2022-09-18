@@ -43,7 +43,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         //binding = FragmentHomeBinding.inflate(layoutInflater)
 
         v.findViewById<FloatingActionButton>(R.id.home_floatBtn).setOnClickListener {
-            startActivity(Intent(activity, AddBookActivity::class.java))
+            startActivity(Intent(requireContext(), AddBookActivity::class.java))
         }
 
 

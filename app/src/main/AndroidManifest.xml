@@ -30,6 +30,9 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".AddBookActivity"
+            android:exported="false"/>
+        <activity
             android:name=".IntroActivity"
             android:exported="true">
             <intent-filter>
