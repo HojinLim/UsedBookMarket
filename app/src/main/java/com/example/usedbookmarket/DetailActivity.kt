@@ -39,7 +39,7 @@ class DetailActivity : AppCompatActivity() {
             .load(bookModel?.coverSmallUrl.orEmpty())
             .into(binding.detailCoverImageView)
 
-        binding.descriptionTextView.text = bookModel?.description.orEmpty()
+        binding.detailDescriptionTextView.text = bookModel?.description.orEmpty()
 
         /*
         Thread {

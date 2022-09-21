@@ -162,7 +162,8 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         binding.bookRecyclerView.adapter = adapter
 
         binding.searchEditText.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+            if (keyCode == KeyEvent
+                    .KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 search(binding.searchEditText.text.toString())
                 return@setOnKeyListener true
             }

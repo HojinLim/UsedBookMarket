@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.widget.addTextChangedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -19,7 +18,6 @@ class SignUpActivity : AppCompatActivity() {
 
         auth= Firebase.auth
         initSignUpButton()
-        initEmailAndPasswordEditText()
     }
     private fun initSignUpButton(){
         val signUpButton= findViewById<AppCompatButton>(R.id.signUpButton)
@@ -29,27 +27,13 @@ class SignUpActivity : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this){ task ->
                     if(task.isSuccessful){
-                        Toast.makeText(this, "completed to sign up.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "회원가입에 성공하였습니다! 로그인 버튼을 눌러 로그인해주세요.", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
                         // finish()
                     }else {
-                        Toast.makeText(this, "failed to sign up!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "이미 가입한 이메일이거나, 회원가입에 실패했습니다!", Toast.LENGTH_SHORT).show()
                     }
                 }
-        }
-    }
-    private fun initEmailAndPasswordEditText(){
-        val emailEditText= findViewById<EditText>(R.id.inputEmailEditText)
-        val passwordEditText= findViewById<EditText>(R.id.inputPasswordEditText)
-        val signupButton= findViewById<AppCompatButton>(R.id.signUpButton)
-
-        emailEditText.addTextChangedListener {
-            val enable= emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()
-            signupButton.isEnabled= enable
-        }
-        passwordEditText.addTextChangedListener {
-            val enable= emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()
-            signupButton.isEnabled= enable
         }
     }
     private fun getInputEmail(): String{

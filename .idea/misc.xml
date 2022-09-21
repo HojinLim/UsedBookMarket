@@ -47,6 +47,16 @@
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/item_book.xml" value="0.25" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/item_books_you_have.xml" value="0.25" />
         <entry key="..\:/Android/UsedBookMarket/app/src/main/res/layout/item_chat_info.xml" value="0.33" />
+        <entry key="..\:/Users/Hojin/AndroidStudioProjects/UsedBookMarket/app/src/main/res/layout/activitiy_sell.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/Hojin/AndroidStudioProjects/UsedBookMarket/app/src/main/res/layout/activity_add_book.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Hojin/AndroidStudioProjects/UsedBookMarket/app/src/main/res/layout/activity_detail.xml" value="0.264" />
+        <entry key="..\:/Users/Hojin/AndroidStudioProjects/UsedBookMarket/app/src/main/res/layout/activity_interest.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Hojin/AndroidStudioProjects/UsedBookMarket/app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="..\:/Users/Hojin/AndroidStudioProjects/UsedBookMarket/app/src/main/res/layout/activity_sales_article.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/Hojin/AndroidStudioProjects/UsedBookMarket/app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+        <entry key="..\:/Users/Hojin/AndroidStudioProjects/UsedBookMarket/app/src/main/res/layout/activity_sold_history.xml" value="0.11927083333333334" />
+        <entry key="..\:/Users/Hojin/AndroidStudioProjects/UsedBookMarket/app/src/main/res/layout/item_book.xml" value="0.25" />
+        <entry key="..\:/Users/Hojin/AndroidStudioProjects/UsedBookMarket/app/src/main/res/layout/item_books_you_have.xml" value="0.14739583333333334" />
       </map>
     </option>
   </component>
