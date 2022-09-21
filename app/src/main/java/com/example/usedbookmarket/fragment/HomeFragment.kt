@@ -40,12 +40,13 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
 
         val v: View = inflater.inflate(R.layout.fragment_home,container,false)
+
         //binding = FragmentHomeBinding.inflate(layoutInflater)
 
         v.findViewById<FloatingActionButton>(R.id.home_floatBtn).setOnClickListener {
             startActivity(Intent(requireContext(), AddBookActivity::class.java))
         }
-
+/*
 
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -76,7 +77,11 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             return@setOnKeyListener false
 
         }
+
+ */
         return v
+
+
     }
     private fun search(text: String) {
 
@@ -113,6 +118,8 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         private const val TAG = "HomeFragment"
         private const val BASE_URL = "https://openapi.naver.com/"
     }
+
+
 }
         /*
         db = Room.databaseBuilder(
