@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.widget.addTextChangedListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -20,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.goSignUpButton).setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
+        auth= Firebase.auth
         initLoginButton()
         initEmailAndPasswordEditText()
 
@@ -31,13 +34,12 @@ class LoginActivity : AppCompatActivity() {
             val email= getInputEmail()
             val password= getInputPassword()
 
-
-            auth.signInWithEmailAndPassword(email, password)
+            auth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this){ task ->
                     if(task.isSuccessful){
                         //finish()
-                        startActivity(Intent(this, StartActivity::class.java))
                         Toast.makeText(this, "로그인 완료!", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, StartActivity::class.java))
                     }else{
                         Toast.makeText(this, "잘못 입력하였거나 계정이 존재하지 않습니다!", Toast.LENGTH_SHORT).show()
                     }
@@ -60,10 +62,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun getInputEmail(): String{
-        return findViewById<EditText>(R.id.inputEmailEditText).text.toString().trim()
+        return findViewById<EditText>(R.id.login_emailEditText).text.toString()
 
     }
     private fun getInputPassword(): String{
-        return findViewById<EditText>(R.id.inputPasswordEditText).text.toString().trim()
+        return findViewById<EditText>(R.id.login_passEditText).text.toString()
     }
 }

@@ -60,6 +60,7 @@
         android:background="@color/white"
         android:hint="Enter password"
         android:padding="15dp"
+        android:inputType="numberPassword"
         app:layout_constraintBottom_toBottomOf="@id/passwordImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/passwordImage"
@@ -93,6 +94,7 @@
         android:id="@+id/login_loginButton"
         app:layout_constraintTop_toTopOf="@id/goSignUpButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/goSignUpButton" />
+        app:layout_constraintStart_toEndOf="@id/goSignUpButton"
+        android:enabled="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
