@@ -1,9 +1,9 @@
 package com.example.usedbookmarket
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.google.firebase.auth.FirebaseAuth
 
@@ -14,6 +14,7 @@ class StartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_start)
 
         auth= FirebaseAuth.getInstance()
+
 
         findViewById<TextView>(R.id.testText)?.text= auth.currentUser?.email.toString()
 

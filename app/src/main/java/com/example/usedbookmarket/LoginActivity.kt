@@ -1,11 +1,10 @@
 package com.example.usedbookmarket
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.widget.addTextChangedListener
 import com.google.firebase.auth.FirebaseAuth
@@ -13,7 +12,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
+
+
     private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -39,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
                     if(task.isSuccessful){
                         //finish()
                         Toast.makeText(this, "로그인 완료!", Toast.LENGTH_SHORT).show()
+
                         startActivity(Intent(this, StartActivity::class.java))
                     }else{
                         Toast.makeText(this, "잘못 입력하였거나 계정이 존재하지 않습니다!", Toast.LENGTH_SHORT).show()
