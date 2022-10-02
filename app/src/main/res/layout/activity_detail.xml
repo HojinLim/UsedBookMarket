@@ -119,6 +119,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/detail_like"
         android:text="저장하기"
-        android:id="@+id/saveButton"/>
+        android:id="@+id/detail_saveButton"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

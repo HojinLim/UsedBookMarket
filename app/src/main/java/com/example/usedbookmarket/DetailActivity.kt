@@ -1,26 +1,53 @@
 package com.example.usedbookmarket
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.usedbookmarket.adapter.BookAdapter
 import com.example.usedbookmarket.databinding.ActivityDetailBinding
 import com.example.usedbookmarket.model.Book
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+
 
 class DetailActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityDetailBinding
     private lateinit var adapter: BookAdapter
     private val books: ArrayList<Book> = ArrayList()
+
+    private var articleDB = FirebaseDatabase.getInstance().reference
+    private var myRef = articleDB.child("text")
+
+
 //    private lateinit var db: AppDatabase
+
+    private val listener= object: ChildEventListener {
+        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+
+        }
+
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+        }
+
+        override fun onChildRemoved(snapshot: DataSnapshot) {
+        }
+
+        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+        }
+
+        override fun onCancelled(error: DatabaseError) {}
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        myRef.addChildEventListener(listener)
+
 
         /*
         db = Room.databaseBuilder(
@@ -58,11 +85,9 @@ class DetailActivity : AppCompatActivity() {
         bookRecyclerView.layoutManager = LinearLayoutManager(this)
         bookRecyclerView.adapter = adapter
  */
-        binding.saveButton.setOnClickListener {
-            if (bookModel != null) {
-                books.add(bookModel)
-            }
-            adapter.submitList(books)
+        binding.detailSaveButton.setOnClickListener {
+
+
 
             /*
             Thread {
