@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/book_bookNameTextView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:lines="1"
@@ -30,8 +30,26 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/book_coverImageView"
-        app:layout_constraintEnd_toEndOf="parent"
         tools:text="안드로이드 마스터하기" />
+    <TextView
+        android:textColor="@color/black"
+        android:layout_marginStart="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/book_bookNameTextView"
+        tools:text="5000"
+        app:layout_constraintTop_toTopOf="@id/book_bookNameTextView"
+        android:id="@+id/book_priceTextView"
+        />
+    <TextView
+        android:textColor="@color/black"
+        android:layout_marginStart="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="원"
+        app:layout_constraintStart_toEndOf="@id/book_priceTextView"
+        app:layout_constraintTop_toTopOf="@id/book_priceTextView"
+        />
 
     <TextView
         android:id="@+id/book_descriptionTextView"

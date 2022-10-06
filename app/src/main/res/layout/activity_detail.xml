@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/detail_bottomBar"
         app:layout_constraintBottom_toTopOf="@id/detail_price"
-        tools:text="희망 소비자 가격"
+        android:text="희망 소비자 가격"
         android:textColor="@color/yellow"
         android:layout_marginStart="15dp"
         android:id="@+id/detail_alarm_price"
@@ -106,10 +106,18 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/detail_bottomBar"
         app:layout_constraintBottom_toBottomOf="@id/detail_bottomBar"
-        tools:text="5,000원"
+        tools:text="5,000"
         android:textColor="@color/white"
         android:layout_marginStart="15dp"
         android:id="@+id/detail_price"
+        />
+    <TextView
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/detail_price"
+        app:layout_constraintTop_toTopOf="@id/detail_price"
+        android:text="원"
         />
     <androidx.appcompat.widget.AppCompatButton
         android:textColor="@color/white"

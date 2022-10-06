@@ -1,5 +1,6 @@
 package com.example.usedbookmarket
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -67,7 +68,7 @@ class DetailActivity : AppCompatActivity() {
             .into(binding.detailCoverImageView)
 
         binding.detailDescriptionTextView.text = bookModel?.description.orEmpty()
-
+        binding.detailPrice.text= bookModel?.priceSales.orEmpty()
         /*
         Thread {
             val review = db.reviewDao().getOne(bookModel?.id.orEmpty())
@@ -86,9 +87,9 @@ class DetailActivity : AppCompatActivity() {
         bookRecyclerView.adapter = adapter
  */
         binding.detailSaveButton.setOnClickListener {
-
-
-
+            val intent = Intent(this, SalesArticleFormActivity::class.java)
+            intent.putExtra("bookModel", bookModel)
+            startActivity(intent)
             /*
             Thread {
                 db.reviewDao().saveReview(

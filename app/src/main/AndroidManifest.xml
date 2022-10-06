@@ -32,6 +32,9 @@
         <activity
             android:name=".AddBookActivity"
             android:exported="false"/>
+        <activity android:name=".SalesArticleFormActivity"
+            android:exported="false"
+            />
         <activity
             android:name=".IntroActivity"
             android:exported="true">

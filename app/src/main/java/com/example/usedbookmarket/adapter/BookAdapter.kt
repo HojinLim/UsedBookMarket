@@ -6,14 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.usedbookmarket.model.Book
 import com.example.usedbookmarket.databinding.ItemBookBinding
+import com.example.usedbookmarket.model.Book
 
 class BookAdapter(val clickListener: (Book) -> Unit): ListAdapter<Book, BookAdapter.BookItemViewHolder>(diffUtil) {
     inner class BookItemViewHolder(private val binding: ItemBookBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(bookModel: Book){
             binding.bookBookNameTextView.text= bookModel.title
             binding.bookDescriptionTextView.text= bookModel.description
+            binding.bookPriceTextView.text= bookModel.priceSales
 
             Glide
                 .with(binding.bookCoverImageView.context)
