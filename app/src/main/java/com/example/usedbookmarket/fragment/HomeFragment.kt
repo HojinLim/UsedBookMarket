@@ -1,37 +1,39 @@
 package com.example.usedbookmarket.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log.i
-import android.view.*
-import android.widget.EditText
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usedbookmarket.AddBookActivity
 import com.example.usedbookmarket.DetailActivity
 import com.example.usedbookmarket.R
-import com.example.usedbookmarket.adapter.BookAdapter
+import com.example.usedbookmarket.adapter.ArticleAdapter
 import com.example.usedbookmarket.api.BookAPI
 import com.example.usedbookmarket.databinding.FragmentHomeBinding
+import com.example.usedbookmarket.model.Book
 import com.example.usedbookmarket.model.SearchBooksDto
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class HomeFragment: Fragment(R.layout.fragment_home) {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var adapter: BookAdapter
+    private lateinit var adapter: ArticleAdapter
     //private lateinit var historyAdapter: HistoryAdapter
+    private lateinit var recyclerView: RecyclerView
 
     private lateinit var service: BookAPI
 
     // private lateinit var db: AppDatabase
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,10 +44,25 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         val v: View = inflater.inflate(R.layout.fragment_home,container,false)
 
         //binding = FragmentHomeBinding.inflate(layoutInflater)
+        recyclerView =v.findViewById(R.id.home_bookRecyclerView)
 
         v.findViewById<FloatingActionButton>(R.id.home_floatBtn).setOnClickListener {
             startActivity(Intent(requireContext(), AddBookActivity::class.java))
         }
+
+        adapter= ArticleAdapter(clickListener = {
+            val intent = Intent(requireContext(), DetailActivity::class.java)
+            intent.putExtra("bookModel", it)
+            startActivity(intent)
+        })
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
+
+        adapter.submitList(listOf(Book("9788993827446","DDD Start!"
+            ,"DDD의 핵심 개념을 배우고","3000","https://shopping-phinf.pstatic.net/main_3245626/32456266806.20220527031023.jpg",""),Book("9791162245385","도메인 주도 개발 시작하기"
+            ,"가장 쉽게 배우는 도메인 주도 설계 입문서!","25200","https://shopping-phinf.pstatic.net/main_3243631/32436316743.20220527044029.jpg","")))
+
 /*
 
         val retrofit = Retrofit.Builder()

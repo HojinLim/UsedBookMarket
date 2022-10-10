@@ -1,6 +1,6 @@
 package com.example.usedbookmarket.model
 
-/*
+
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,4 +11,3 @@ data class History(
     @ColumnInfo(name = "keyword") val keyword: String?
 )
 
- */
