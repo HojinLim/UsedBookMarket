@@ -35,6 +35,15 @@
         <activity android:name=".SalesArticleFormActivity"
             android:exported="false"
             />
+        <activity android:name=".BooksYouHaveActivity"
+            android:exported="false"
+            />
+        <activity android:name=".BooksYouSellActivity"
+            android:exported="false"
+            />
+        <activity android:name=".BooksYouLikeActivity"
+            android:exported="false"
+            />
         <activity
             android:name=".IntroActivity"
             android:exported="true">

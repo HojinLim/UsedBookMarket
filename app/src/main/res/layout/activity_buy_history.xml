@@ -43,7 +43,7 @@
         android:id="@+id/books_you_have_topBar"
         />
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/books_you_have_recyclerView"
+        android:id="@+id/books_you_have_history_recyclerView"
         android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="0dp"

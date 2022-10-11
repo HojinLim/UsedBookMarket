@@ -8,7 +8,7 @@
     >
 
     <ImageView
-        android:id="@+id/books_you_have_coverImageView"
+        android:id="@+id/item_books_you_have_cover_img"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/background_gray_stroke_radius_8"
@@ -20,7 +20,7 @@
         tools:src="@drawable/logo"/>
 
     <TextView
-        android:id="@+id/item_chatList_nickName"
+        android:id="@+id/item_books_you_have_book_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -29,15 +29,15 @@
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/books_you_have_coverImageView"
+        app:layout_constraintStart_toEndOf="@id/item_books_you_have_cover_img"
         tools:text="안드로이드 마스터하기" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:background="@color/carrot"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/item_chatList_nickName"
-        app:layout_constraintBottom_toBottomOf="@id/books_you_have_coverImageView"
+        app:layout_constraintStart_toStartOf="@id/item_books_you_have_book_title"
+        app:layout_constraintBottom_toBottomOf="@id/item_books_you_have_cover_img"
         android:text="판매하기"
         android:textColor="@color/white"
         android:id="@+id/books_you_have_sellBtn"
@@ -48,7 +48,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/books_you_have_sellBtn"
-        app:layout_constraintBottom_toBottomOf="@id/books_you_have_coverImageView"
+        app:layout_constraintBottom_toBottomOf="@id/item_books_you_have_cover_img"
         android:text="삭제하기"
         android:textColor="@color/white"
         android:id="@+id/books_you_have_delBtn"
