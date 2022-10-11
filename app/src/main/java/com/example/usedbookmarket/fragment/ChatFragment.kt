@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.usedbookmarket.DetailActivity
 import com.example.usedbookmarket.R
 import com.example.usedbookmarket.adapter.ChatlistAdapter
-import com.example.usedbookmarket.model.Book
+import com.example.usedbookmarket.model.ChatList
 
 class ChatFragment : Fragment(R.layout.fragment_chatlist) {
     private lateinit var adapter: ChatlistAdapter
@@ -34,7 +34,7 @@ class ChatFragment : Fragment(R.layout.fragment_chatlist) {
 
         adapter = ChatlistAdapter(clickListener = {
             val intent = Intent(requireContext(), DetailActivity::class.java)
-            intent.putExtra("bookModel", it)
+            intent.putExtra("chatListModel", it)
             startActivity(intent)
         })
 
@@ -43,21 +43,19 @@ class ChatFragment : Fragment(R.layout.fragment_chatlist) {
 
         adapter.submitList(
             listOf(
-                Book(
-                    "9788993827446",
-                    "DDD Start!",
-                    "DDD의 핵심 개념을 배우고",
-                    "3000",
-                    "https://shopping-phinf.pstatic.net/main_3245626/32456266806.20220527031023.jpg",
-                    ""
+                ChatList(
+                    "https://sample-videos.com/img/Sample-jpg-image-1mb.jpg",
+                    "Hojin",
+                    "거래 희망합니다.",
+                    "1일 전",
+                    "https://shopping-phinf.pstatic.net/main_3245626/32456266806.20220527031023.jpg"
                 ),
-                Book(
-                    "9791162245385",
-                    "도메인 주도 개발 시작하기",
-                    "가장 쉽게 배우는 도메인 주도 설계 입문서!",
-                    "25200",
-                    "https://shopping-phinf.pstatic.net/main_3243631/32436316743.20220527044029.jpg",
-                    ""
+                ChatList(
+                    "https://sample-videos.com/img/Sample-jpg-image-1mb.jpg",
+                    "Jins-su",
+                    "감사합니다!",
+                    "3시간 전",
+                    "https://shopping-phinf.pstatic.net/main_3243631/32436316743.20220527044029.jpg"
                 )
             )
         )

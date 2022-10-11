@@ -6,31 +6,37 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.usedbookmarket.databinding.ItemArticleBinding
+import com.example.usedbookmarket.adapter.ChatlistAdapter.ChatItemViewHolder
 import com.example.usedbookmarket.databinding.ItemChatListBinding
-import com.example.usedbookmarket.model.Book
+import com.example.usedbookmarket.model.ChatList
 
-class ChatlistAdapter(val clickListener: (Book) -> Unit): ListAdapter<Book, ChatlistAdapter.ChatItemViewHolder>(diffUtil) {
+class ChatlistAdapter(val clickListener: (ChatList) -> Unit): ListAdapter<ChatList, ChatItemViewHolder>(diffUtil) {
     inner class ChatItemViewHolder(private val binding: ItemChatListBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(bookModel: Book){
-            //binding.itemChatlistProfile.text= bookModel.title
-            binding.itemArticleTime.text= bookModel.description
-            binding.itemArticlePriceTextView.text= bookModel.priceSales
+        fun bind(chatListModel: ChatList){
 
             Glide
-                .with(binding.itemArticleCoverImageView.context)
-                .load(bookModel.coverSmallUrl)
-                .into(binding.itemArticleCoverImageView)
+                .with(binding.itemChatListProfile.context)
+                .load(chatListModel.userProfileUrl)
+                .into(binding.itemChatListProfile)
+
+            Glide
+                .with(binding.itemChatListBookImg.context)
+                .load(chatListModel.bookImgUrl)
+                .into(binding.itemChatListBookImg)
+
+            binding.itemChatListNickName.text= chatListModel.userNickName
+            binding.itemChatListTime.text= chatListModel.time
+            binding.itemChatListLastMsg.text= chatListModel.lastMsg
 
             binding.root.setOnClickListener {
-                clickListener(bookModel)
+                clickListener(chatListModel)
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleAdapter.ArticleItemViewHolder {
-        return ArticleAdapter.ArticleItemViewHolder(
-            ItemArticleBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatItemViewHolder {
+        return ChatItemViewHolder(
+            ItemChatListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -38,17 +44,17 @@ class ChatlistAdapter(val clickListener: (Book) -> Unit): ListAdapter<Book, Chat
         )
     }
 
-    override fun onBindViewHolder(holder: ArticleAdapter.ArticleItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChatItemViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
 
     companion object {
-        val diffUtil= object : DiffUtil.ItemCallback<Book>() {
-            override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
+        val diffUtil= object : DiffUtil.ItemCallback<ChatList>() {
+            override fun areItemsTheSame(oldItem: ChatList, newItem: ChatList): Boolean {
                 return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
-                return oldItem.id == newItem.id
+            override fun areContentsTheSame(oldItem: ChatList, newItem: ChatList): Boolean {
+                return oldItem.userProfileUrl == newItem.userProfileUrl
             }
         }
     }

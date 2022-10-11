@@ -97,7 +97,7 @@
         tools:text="서울시 노원구" />
 
     <TextView
-        android:id="@+id/chatInfo_userDateTextView"
+        android:id="@+id/item_chatList_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
