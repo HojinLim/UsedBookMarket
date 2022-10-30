@@ -26,11 +26,22 @@
             android:id="@+id/item_chatList_nickName"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="bottom"
+            android:gravity="center"
             android:padding="5dp"
-            tools:text="Hojin"
+            android:text="Hojin"
             android:textColor="@color/white"
             android:textSize="25dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/background_light_gray_ellipse"
+            android:gravity="center"
+            android:text="37.6°C"
+            android:textColor="@color/carrot"
+            android:textSize="15sp" />
+
 
 
     </LinearLayout>

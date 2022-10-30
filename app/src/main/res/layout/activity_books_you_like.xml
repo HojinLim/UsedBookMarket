@@ -30,7 +30,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
-        android:id="@+id/interest_recyclerView"
+        android:id="@+id/books_you_like_recyclerView"
         app:layout_constraintTop_toBottomOf="@id/interest_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

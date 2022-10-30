@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.usedbookmarket.DetailActivity
+import com.example.usedbookmarket.ChatActivity
 import com.example.usedbookmarket.R
 import com.example.usedbookmarket.adapter.ChatlistAdapter
 import com.example.usedbookmarket.model.ChatList
@@ -33,7 +33,7 @@ class ChatFragment : Fragment(R.layout.fragment_chatlist) {
         recyclerView = v.findViewById(R.id.chatlist_recyclerView)
 
         adapter = ChatlistAdapter(clickListener = {
-            val intent = Intent(requireContext(), DetailActivity::class.java)
+            val intent = Intent(requireContext(), ChatActivity::class.java)
             intent.putExtra("chatListModel", it)
             startActivity(intent)
         })

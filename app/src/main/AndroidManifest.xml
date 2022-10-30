@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.usedbookmarket">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UsedBookMarket"
         tools:targetApi="31">
+        <activity
+            android:name=".NotificationActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".DetailActivity"
             android:exported="false" />
@@ -31,19 +39,22 @@
             android:exported="false" />
         <activity
             android:name=".AddBookActivity"
-            android:exported="false"/>
-        <activity android:name=".SalesArticleFormActivity"
-            android:exported="false"
-            />
-        <activity android:name=".BooksYouHaveActivity"
-            android:exported="false"
-            />
-        <activity android:name=".BooksYouSellActivity"
-            android:exported="false"
-            />
-        <activity android:name=".BooksYouLikeActivity"
-            android:exported="false"
-            />
+            android:exported="false" />
+        <activity
+            android:name=".SalesArticleFormActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BooksYouHaveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BooksYouSellActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BooksYouLikeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
         <activity
             android:name=".IntroActivity"
             android:exported="true">

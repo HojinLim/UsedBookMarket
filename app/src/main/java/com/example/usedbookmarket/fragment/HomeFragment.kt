@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usedbookmarket.AddBookActivity
 import com.example.usedbookmarket.DetailActivity
+import com.example.usedbookmarket.NotificationActivity
 import com.example.usedbookmarket.R
 import com.example.usedbookmarket.adapter.ArticleAdapter
 import com.example.usedbookmarket.api.BookAPI
@@ -48,6 +50,9 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
         v.findViewById<FloatingActionButton>(R.id.home_floatBtn).setOnClickListener {
             startActivity(Intent(requireContext(), AddBookActivity::class.java))
+        }
+        v.findViewById<AppCompatButton>(R.id.home_notificationButton).setOnClickListener {
+            startActivity(Intent(requireContext(), NotificationActivity::class.java))
         }
 
         adapter= ArticleAdapter(clickListener = {
