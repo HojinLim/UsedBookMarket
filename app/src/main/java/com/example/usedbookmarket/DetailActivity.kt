@@ -7,9 +7,6 @@ import com.bumptech.glide.Glide
 import com.example.usedbookmarket.adapter.BookAdapter
 import com.example.usedbookmarket.databinding.ActivityDetailBinding
 import com.example.usedbookmarket.model.Book
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 
 
@@ -23,40 +20,12 @@ class DetailActivity : AppCompatActivity() {
     private var myRef = articleDB.child("text")
 
 
-//    private lateinit var db: AppDatabase
-
-    private val listener= object: ChildEventListener {
-        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-
-        }
-
-        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-        }
-
-        override fun onChildRemoved(snapshot: DataSnapshot) {
-        }
-
-        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-        }
-
-        override fun onCancelled(error: DatabaseError) {}
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        myRef.addChildEventListener(listener)
-
-
-        /*
-        db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "historyDB"
-        ).build()
-    */
+       // myRef.addChildEventListener(listener)
 
         val bookModel = intent.getParcelableExtra<Book>("bookModel")
 

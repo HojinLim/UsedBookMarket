@@ -33,7 +33,6 @@ class AddBookActivity: AppCompatActivity() {
 
             service = retrofit.create(BookAPI::class.java)
 
-
             adapter= BookAdapter(clickListener = {
                 val intent = Intent(this, DetailActivity::class.java)
                 intent.putExtra("bookModel", it)
@@ -54,7 +53,6 @@ class AddBookActivity: AppCompatActivity() {
 
         }
         private fun search(text: String) {
-
             service.getBooksByName(
                 getString(R.string.naver_id),
                 getString(R.string.naver_secret_key),

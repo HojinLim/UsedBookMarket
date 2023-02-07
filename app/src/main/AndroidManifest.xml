@@ -4,6 +4,7 @@
     package="com.example.usedbookmarket">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UsedBookMarket"
         tools:targetApi="31">
+        <activity
+            android:name=".AddBookYouHaveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CompletedSalesArticleForm"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".NotificationActivity"
             android:exported="false">

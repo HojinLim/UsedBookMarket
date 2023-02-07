@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.usedbookmarket.databinding.ItemBooksYouHaveBinding
-import com.example.usedbookmarket.model.Book
+import com.example.usedbookmarket.model.ArticleForm
 
-class BooksYouHaveListAdapter(val clickListener: (Book) -> Unit): ListAdapter<Book, BooksYouHaveListAdapter.BooksYouHaveItemViewHolder>(diffUtil) {
+class BooksYouHaveListAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<ArticleForm, BooksYouHaveListAdapter.BooksYouHaveItemViewHolder>(diffUtil) {
     inner class BooksYouHaveItemViewHolder(private val binding: ItemBooksYouHaveBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(bookModel: Book){
+        fun bind(bookModel: ArticleForm){
 
             Glide
                 .with(binding.itemBooksYouHaveCoverImg.context)
@@ -41,11 +41,11 @@ class BooksYouHaveListAdapter(val clickListener: (Book) -> Unit): ListAdapter<Bo
     }
 
     companion object {
-        val diffUtil= object : DiffUtil.ItemCallback<Book>() {
-            override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
+        val diffUtil= object : DiffUtil.ItemCallback<ArticleForm>() {
+            override fun areItemsTheSame(oldItem: ArticleForm, newItem: ArticleForm): Boolean {
                 return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
+            override fun areContentsTheSame(oldItem: ArticleForm, newItem: ArticleForm): Boolean {
                 return oldItem.id == newItem.id
             }
         }

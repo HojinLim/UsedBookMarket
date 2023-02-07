@@ -76,7 +76,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/add_book_searchImg"
         android:background="@drawable/background_light_gray_ellipse"
         />
-
+    <!--android:privateImeOptions="defaultInputmode=korean"-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/add_book_recyclerView"
         android:layout_margin="10dp"

@@ -7,13 +7,48 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usedbookmarket.adapter.BooksYouSellListAdapter
-import com.example.usedbookmarket.model.Book
+import com.example.usedbookmarket.model.ArticleForm
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class BooksYouSellActivity: AppCompatActivity() {
+    private lateinit var articleDB: DatabaseReference
     private lateinit var adapter: BooksYouSellListAdapter
     private lateinit var recyclerView: RecyclerView
+    private val articleFormList= mutableListOf<ArticleForm>()
+    private var auth= Firebase.auth
 
     @SuppressLint("MissingInflatedId")
+    private val listener= object: ChildEventListener {
+        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+            val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
+            articleForm ?: return
+            if(articleForm.uid == auth.currentUser?.uid){
+                articleFormList.add(articleForm)
+            }
+            adapter.submitList(articleFormList)
+            adapter.notifyDataSetChanged()
+        }
+
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onChildRemoved(snapshot: DataSnapshot) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onCancelled(error: DatabaseError) { }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_books_you_sell)
@@ -22,20 +57,17 @@ class BooksYouSellActivity: AppCompatActivity() {
 
         recyclerView = findViewById(R.id.books_you_sell_recyclerView)
 
-        adapter = BooksYouSellListAdapter(clickListener = {
-            val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("bookModel", it)
-            startActivity(intent)
-        })
+
+        adapter= BooksYouSellListAdapter {  }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        adapter.submitList(listOf(
-            Book("9788993827446","DDD Start!"
-                ,"DDD의 핵심 개념을 배우고","3000","https://shopping-phinf.pstatic.net/main_3245626/32456266806.20220527031023.jpg","")
-            , Book("9791162245385","도메인 주도 개발 시작하기"
-                ,"가장 쉽게 배우는 도메인 주도 설계 입문서!","25200","https://shopping-phinf.pstatic.net/main_3243631/32436316743.20220527044029.jpg","")
-        ))
+        articleDB= Firebase.database.reference.child("sell_list")
+
+        articleDB.addChildEventListener(listener)
+
+        adapter.submitList(articleFormList)
+
 
 
     }

@@ -7,16 +7,29 @@
     android:background="@color/purple_200">
 
     <TextView
-        android:padding="15dp"
         android:id="@+id/account_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="15dp"
         android:text="나의 정보"
+        android:textColor="@color/white"
         android:textSize="30dp"
-        android:textColor="@color/white"/>
+        android:layout_margin="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/account_logout_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그아웃"
+        android:textColor="@color/white"
+        android:background="@color/carrot"
+        android:padding="15dp"
+        android:layout_margin="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
@@ -25,24 +38,26 @@
         android:layout_marginTop="10dp"
         android:id="@+id/account_topBar"
         />
+
+
+
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:id="@+id/account_profile_pic"
         app:layout_constraintTop_toBottomOf="@id/account_topBar"
         app:layout_constraintStart_toStartOf="parent"
-       android:src="@drawable/ic_baseline_account_circle_24"
-        app:tint="@color/white"
+        android:src="@drawable/ic_baseline_account_circle_24"
         android:layout_margin="20dp"/>
 
     <TextView
         android:layout_marginStart="10dp"
-        android:id="@+id/account_userName"
+        android:id="@+id/account_userEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/account_profile_pic"
         app:layout_constraintTop_toTopOf="@id/account_profile_pic"
-        android:text="User_NickName"
+        android:text="User_Email"
         android:textColor="@color/white"
         android:textSize="25dp"/>
     <TextView
@@ -50,8 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/account_user_home"
-        app:layout_constraintTop_toBottomOf="@id/account_userName"
-        app:layout_constraintStart_toStartOf="@id/account_userName"
+        app:layout_constraintTop_toBottomOf="@id/account_userEmail"
+        app:layout_constraintStart_toStartOf="@id/account_userEmail"
         android:text="매너온도 : 36.5"
         android:textColor="@color/carrot"
         android:textSize="18dp"/>
@@ -141,6 +156,27 @@
         android:layout_marginBottom="15dp"
         android:id="@+id/account_del_user"
         />
+    <EditText
+        android:layout_marginTop="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Nick Name"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/account_profile_pic"
+        app:layout_constraintStart_toStartOf="@+id/account_profile_pic"
+        android:id="@+id/account_UserName"
+        />
+    <Button
+        android:id="@+id/account_changeName_btn"
+        android:text="변경"
+        android:backgroundTint="#823CFE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/account_UserName"
+        app:layout_constraintTop_toTopOf="@+id/account_UserName"
+        />
+
 
 
 

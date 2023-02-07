@@ -1,5 +1,6 @@
 package com.example.usedbookmarket.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,6 +12,8 @@ import com.example.usedbookmarket.databinding.ItemBooksYouLikeBinding
 import com.example.usedbookmarket.model.Book
 
 class BooksYouLikeListAdapter(val clickListener: (Book) -> Unit): ListAdapter<Book, BooksYouLikeItemViewHolder>(diffUtil) {
+    private var isLiked= false
+
     inner class BooksYouLikeItemViewHolder(private val binding: ItemBooksYouLikeBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(bookModel: Book){
 
@@ -24,7 +27,17 @@ class BooksYouLikeListAdapter(val clickListener: (Book) -> Unit): ListAdapter<Bo
             binding.root.setOnClickListener {
                 clickListener(bookModel)
             }
-
+            binding.booksYouLikeInterestBtn.let { it ->
+                it.setOnClickListener{  // 하트 색 제어
+                    isLiked = if(!isLiked){
+                        it.background.setTint(Color.RED)
+                        true
+                    }else{
+                        it.background.setTint(Color.WHITE)
+                        false
+                    }
+                }
+            }
         }
     }
 

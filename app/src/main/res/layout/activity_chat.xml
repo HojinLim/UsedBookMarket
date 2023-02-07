@@ -70,7 +70,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/chat_sendButton"
         app:layout_constraintBottom_toBottomOf="@+id/chat_sendButton"
-        android:background="@drawable/background_light_gray_ellipse"/>
+        android:background="@drawable/background_light_gray_ellipse"
+        android:id="@+id/chat_msg"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/chat_sendButton"

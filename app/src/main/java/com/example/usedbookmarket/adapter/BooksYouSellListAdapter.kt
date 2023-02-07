@@ -8,21 +8,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.usedbookmarket.adapter.BooksYouSellListAdapter.BooksYouSellItemViewHolder
 import com.example.usedbookmarket.databinding.ItemBooksYouSellBinding
-import com.example.usedbookmarket.model.Book
+import com.example.usedbookmarket.model.ArticleForm
 
-class BooksYouSellListAdapter(val clickListener: (Book) -> Unit): ListAdapter<Book, BooksYouSellItemViewHolder>(diffUtil) {
+
+class BooksYouSellListAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<ArticleForm, BooksYouSellItemViewHolder>(diffUtil) {
     inner class BooksYouSellItemViewHolder(private val binding: ItemBooksYouSellBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(bookModel: Book){
+        fun bind(articleModel: ArticleForm){
 
             Glide
                 .with(binding.itemBooksYouSellCoverImg.context)
-                .load(bookModel.coverSmallUrl)
+                .load(articleModel.coverSmallUrl)
                 .into(binding.itemBooksYouSellCoverImg)
 
-            binding.itemBooksYouSellBookTitle.text= bookModel.title
+            binding.itemBooksYouSellBookTitle.text= articleModel.title
 
             binding.root.setOnClickListener {
-                clickListener(bookModel)
+                clickListener(articleModel)
+            }
+
+            binding.itemBooksYouSellEditBtn.setOnClickListener {
+
             }
         }
     }
@@ -35,6 +40,8 @@ class BooksYouSellListAdapter(val clickListener: (Book) -> Unit): ListAdapter<Bo
                 false
             )
         )
+
+
     }
 
     override fun onBindViewHolder(holder: BooksYouSellListAdapter.BooksYouSellItemViewHolder, position: Int) {
@@ -42,11 +49,11 @@ class BooksYouSellListAdapter(val clickListener: (Book) -> Unit): ListAdapter<Bo
     }
 
     companion object {
-        val diffUtil= object : DiffUtil.ItemCallback<Book>() {
-            override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
+        val diffUtil= object : DiffUtil.ItemCallback<ArticleForm>() {
+            override fun areItemsTheSame(oldItem: ArticleForm, newItem: ArticleForm): Boolean {
                 return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
+            override fun areContentsTheSame(oldItem: ArticleForm, newItem: ArticleForm): Boolean {
                 return oldItem.id == newItem.id
             }
         }

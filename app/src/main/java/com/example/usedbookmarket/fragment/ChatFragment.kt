@@ -15,6 +15,11 @@ import com.example.usedbookmarket.adapter.ChatlistAdapter
 import com.example.usedbookmarket.model.ChatList
 
 class ChatFragment : Fragment(R.layout.fragment_chatlist) {
+    companion object{
+        fun newInstance() : ChatFragment {
+            return ChatFragment()
+        } // 프래그먼트 재생성(화면 회전과 같은)시 빈생성자가 있어야 한다?
+    }
     private lateinit var adapter: ChatlistAdapter
 
     //private lateinit var historyAdapter: HistoryAdapter
