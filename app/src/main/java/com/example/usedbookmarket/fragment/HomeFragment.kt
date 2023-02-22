@@ -1,21 +1,23 @@
 package com.example.usedbookmarket.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatButton
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.usedbookmarket.AddBookActivity
-import com.example.usedbookmarket.CompletedSalesArticleForm
-import com.example.usedbookmarket.NotificationActivity
-import com.example.usedbookmarket.R
+import androidx.room.Room
+import com.example.usedbookmarket.*
 import com.example.usedbookmarket.adapter.ArticleAdapter
+import com.example.usedbookmarket.adapter.HistoryAdapter
+import com.example.usedbookmarket.databinding.FragmentHomeBinding
 import com.example.usedbookmarket.model.ArticleForm
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.usedbookmarket.model.History
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,6 +28,8 @@ import com.google.firebase.ktx.Firebase
 
 class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
+    private lateinit var binding: FragmentHomeBinding
+
     companion object {
         private const val TAG = "HomeFragment"
         private const val BASE_URL = "https://openapi.naver.com/"
@@ -33,8 +37,22 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             return HomeFragment()
         }
     }
+    // 1. Context를 받아올 변수 선언
+    lateinit var mainActivity: MainActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // 2. Context를 Activity로 형변환하여 할당
+        mainActivity = context as MainActivity
+    }
+
+
     private lateinit var articleDB: DatabaseReference
     private lateinit var articleAdapter: ArticleAdapter
+
+    private lateinit var historyAdapter: HistoryAdapter
+    private lateinit var db: AppDatabase
 
     private lateinit var recyclerView: RecyclerView
     private val articleFormList = mutableListOf<ArticleForm>()
@@ -66,13 +84,25 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
     // private lateinit var db: AppDatabase
 
-    @SuppressLint("MissingInflatedId")
+
+    @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v: View = inflater.inflate(R.layout.fragment_home, container, false)
+        db = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java,
+            "historyDB"
+        )
+            .build()
+
+        //val view: View = inflater.inflate(R.layout.fragment_home, container, false)
+        //binding = FragmentHomeBinding.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+
 
         val database = Firebase.database
         articleFormList.clear()
@@ -80,13 +110,13 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
         //Toast.makeText(requireContext(),Firebase.auth.currentUser?.uid,Toast.LENGTH_SHORT).show()
 
-        v.findViewById<FloatingActionButton>(R.id.home_floatBtn).setOnClickListener {
+        binding.homeFloatBtn.setOnClickListener {
             startActivity(Intent(requireContext(), AddBookActivity::class.java))
         }
-        v.findViewById<AppCompatButton>(R.id.home_notificationButton).setOnClickListener {
+        binding.homeNotificationButton.setOnClickListener {
             startActivity(Intent(requireContext(), NotificationActivity::class.java))
         }
-        recyclerView = v.findViewById(R.id.home_bookRecyclerView)
+        recyclerView = binding.homeBookRecyclerView
 
         articleDB = Firebase.database.reference.child("sell_list")
         articleAdapter = ArticleAdapter(clickListener = {
@@ -101,8 +131,52 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
         articleDB.addChildEventListener(listener)
 
+        // 히스토리
+        historyAdapter = HistoryAdapter(historyDeleteClickListener = {
+            deleteSearchKeyword(it)
+        })
+        binding.searchEditText.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                showHistoryView()
+            }
 
-        return v
+            return@setOnTouchListener false
+        }
+
+        return binding.root
+    }
+    private fun showHistoryView() {
+        Thread(Runnable {
+            db.historyDao()
+                .getAll()
+                .reversed()
+                .run {
+                    mainActivity.runOnUiThread {
+                        binding.historyRecyclerView.isVisible = true
+                        historyAdapter.submitList(this)
+                    }
+                }
+
+        }).start()
+
+    }
+    private fun hideHistoryView() {
+        binding.historyRecyclerView.isVisible = false
+    }
+
+    private fun saveSearchKeyword(keyword: String) {
+        Thread(Runnable {
+            db.historyDao()
+                .insertHistory(History(null, keyword))
+        }).start()
+    }
+
+    private fun deleteSearchKeyword(keyword: String) {
+        Thread(Runnable {
+            db.historyDao()
+                .delete(keyword)
+            showHistoryView()
+        }).start()
     }
 
     override fun onResume() {
