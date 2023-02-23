@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -135,6 +133,17 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         historyAdapter = HistoryAdapter(historyDeleteClickListener = {
             deleteSearchKeyword(it)
         })
+        binding.searchEditText.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                //search(binding.searchEditText.text.toString())
+                saveSearchKeyword(binding.searchEditText.text.toString())
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+
+        }
+
+
         binding.searchEditText.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 showHistoryView()
@@ -142,6 +151,9 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
             return@setOnTouchListener false
         }
+
+        binding.historyRecyclerView.adapter = historyAdapter
+        binding.historyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         return binding.root
     }
@@ -154,11 +166,10 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
                     mainActivity.runOnUiThread {
                         binding.historyRecyclerView.isVisible = true
                         historyAdapter.submitList(this)
+                        Log.d("TAG", this.toString())
                     }
                 }
-
         }).start()
-
     }
     private fun hideHistoryView() {
         binding.historyRecyclerView.isVisible = false
@@ -190,6 +201,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
         articleDB.removeEventListener(listener)
     }
+
     /*
     private fun search(text: String) {
 
@@ -220,7 +232,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
             })
     }
-     */
+*/
 
 
 }
