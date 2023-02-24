@@ -8,12 +8,13 @@
 
     <ImageView
         android:src="@drawable/ic_baseline_search_24"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:id="@+id/home_searchImg"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="8dp"
+        android:layout_margin="3dp"
+        android:layout_marginRight="5dp"
         />
     <EditText
         android:hint="찾고 싶은 책을 검색하세요."

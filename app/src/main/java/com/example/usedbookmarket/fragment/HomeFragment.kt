@@ -24,6 +24,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 
+@Suppress("DEPRECATION")
 class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
     private lateinit var binding: FragmentHomeBinding
@@ -40,7 +41,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
+        Log.d("TEST", "OnAttach")
         // 2. Context를 Activity로 형변환하여 할당
         mainActivity = context as MainActivity
     }
@@ -55,9 +56,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
     private lateinit var recyclerView: RecyclerView
     private val articleFormList = mutableListOf<ArticleForm>()
     private val searchedArticleFormList = mutableListOf<ArticleForm>()
-    private var foundKeyword: Boolean= false
 
-    // private lateinit var service: BookAPI
     private val listener = object : ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
@@ -91,6 +90,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("TEST", "OnCreateView")
         db = Room.databaseBuilder(
             requireContext(),
             AppDatabase::class.java,
@@ -129,8 +129,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             deleteSearchKeyword(it)
         })
         binding.searchEditText.setOnKeyListener { v, keyCode, event ->
-
-
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 //search(binding.searchEditText.text.toString())
 
@@ -144,20 +142,24 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             return@setOnKeyListener false
 
         }
-
-        binding.homeSearchImg.setOnClickListener {
-            hideHistoryView()
-
-        }
-
-
         binding.searchEditText.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 showHistoryView()
+                binding.homeSearchImg.setImageResource(R.drawable.ic_baseline_keyboard_arrow_left_24)
             }
-
             return@setOnTouchListener false
         }
+
+        binding.homeSearchImg.setOnClickListener {
+            //hideHistoryView()
+            mainActivity.supportFragmentManager.beginTransaction()
+                .apply{
+                    replace(R.id.fragmentContainer, newInstance())
+                    commit()
+                }
+        }
+
+
 
         binding.historyRecyclerView.adapter = historyAdapter
         binding.historyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -213,47 +215,17 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
-
+        Log.d("TEST", "OnResume")
         articleAdapter.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-
+        Log.d("TEST", "OnDestroyView")
         articleDB.removeEventListener(listener)
     }
 
-    /*
-    private fun search(text: String) {
 
-        service.getBooksByName(
-            getString(R.string.naver_id),
-            getString(R.string.naver_secret_key),
-            text
-        )
-            .enqueue(object : Callback<SearchBooksDto> {
-                override fun onFailure(call: Call<SearchBooksDto>, t: Throwable) {
-                   // hideHistoryView()
-                }
-
-                override fun onResponse(call: Call<SearchBooksDto>, response: Response<SearchBooksDto>) {
-
-                    //hideHistoryView()
-                   // saveSearchKeyword(text)
-
-                    if (response.isSuccessful.not()) {
-                        return
-                    }
-
-                    response.body()
-                        ?.let {
-                            adapter.submitList(it.books)
-                        }
-                }
-
-            })
-    }
-*/
 
 
 }

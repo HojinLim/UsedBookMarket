@@ -13,24 +13,20 @@
         tools:ignore="MissingConstraints"
         android:id="@+id/chatlist_titleLayout">
 
-        <androidx.appcompat.widget.AppCompatButton
 
-            android:id="@+id/books_you_have_backButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_baseline_keyboard_arrow_left_24"
-
-            />
 
         <TextView
+            android:layout_margin="15dp"
             android:id="@+id/item_chatList_nickName"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+
             android:gravity="bottom"
             android:padding="5dp"
+            android:textStyle="bold"
             android:text="채팅"
             android:textColor="@color/white"
-            android:textSize="25dp" />
+            android:textSize="35dp" />
 
 
     </LinearLayout>

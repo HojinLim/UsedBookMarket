@@ -21,8 +21,13 @@ class CompletedSalesArticleForm : AppCompatActivity() {
         setContentView(R.layout.activity_completed_sales_article_form)
 
         initView()
+        findViewById<AppCompatButton>(R.id.books_you_have_backButton).setOnClickListener {
+            onBackPressed()
+        }
 
-
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
     @SuppressLint("ResourceAsColor")
     private fun initView(){
