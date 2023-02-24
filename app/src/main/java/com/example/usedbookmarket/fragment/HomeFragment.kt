@@ -54,6 +54,8 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
     private lateinit var recyclerView: RecyclerView
     private val articleFormList = mutableListOf<ArticleForm>()
+    private val searchedArticleFormList = mutableListOf<ArticleForm>()
+    private var foundKeyword: Boolean= false
 
     // private lateinit var service: BookAPI
     private val listener = object : ChildEventListener {
@@ -96,17 +98,11 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         )
             .build()
 
-        //val view: View = inflater.inflate(R.layout.fragment_home, container, false)
-        //binding = FragmentHomeBinding.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        // 왜 해주는건지 잘 몰겠다
+        //articleFormList.clear()
 
-
-        val database = Firebase.database
-        articleFormList.clear()
-
-
-        //Toast.makeText(requireContext(),Firebase.auth.currentUser?.uid,Toast.LENGTH_SHORT).show()
 
         binding.homeFloatBtn.setOnClickListener {
             startActivity(Intent(requireContext(), AddBookActivity::class.java))
@@ -123,7 +119,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             startActivity(intent)
         })
 
-
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = articleAdapter
 
@@ -134,12 +129,24 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             deleteSearchKeyword(it)
         })
         binding.searchEditText.setOnKeyListener { v, keyCode, event ->
+
+
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 //search(binding.searchEditText.text.toString())
+
                 saveSearchKeyword(binding.searchEditText.text.toString())
+                showHistoryView()
+                searchBooks(binding.searchEditText.text.toString())
+                binding.searchEditText.text= null
                 return@setOnKeyListener true
             }
+            //foundKeyword != foundKeyword
             return@setOnKeyListener false
+
+        }
+
+        binding.homeSearchImg.setOnClickListener {
+            hideHistoryView()
 
         }
 
@@ -157,14 +164,17 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
         return binding.root
     }
+
+
+
     private fun showHistoryView() {
+        binding.historyRecyclerView.isVisible = true
         Thread(Runnable {
             db.historyDao()
                 .getAll()
                 .reversed()
                 .run {
                     mainActivity.runOnUiThread {
-                        binding.historyRecyclerView.isVisible = true
                         historyAdapter.submitList(this)
                         Log.d("TAG", this.toString())
                     }
@@ -173,6 +183,17 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
     }
     private fun hideHistoryView() {
         binding.historyRecyclerView.isVisible = false
+    }
+    private fun searchBooks(keyword: String) {
+        //foundKeyword != foundKeyword
+        for(articleForm in articleFormList){
+            if(articleForm.title.toString().contains(keyword))
+                searchedArticleFormList.add(articleForm)
+                //Toast.makeText(requireContext(), "Found!", Toast.LENGTH_SHORT).show()
+        }
+        hideHistoryView()
+        articleAdapter.submitList(searchedArticleFormList)
+        //articleAdapter.notifyDataSetChanged()
     }
 
     private fun saveSearchKeyword(keyword: String) {
