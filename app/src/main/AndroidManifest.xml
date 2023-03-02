@@ -55,6 +55,9 @@
             android:name=".SalesArticleFormActivity"
             android:exported="false" />
         <activity
+            android:name=".SalesArticleFormActivity2"
+            android:exported="false" />
+        <activity
             android:name=".BooksYouHaveActivity"
             android:exported="false" />
         <activity

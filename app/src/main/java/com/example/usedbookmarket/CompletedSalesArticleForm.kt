@@ -68,5 +68,14 @@ class CompletedSalesArticleForm : AppCompatActivity() {
             intent.putExtra("msgSend", auth.currentUser?.email)
             startActivity(intent)
         }
+        // 자신의 글일 시의 수정 완료 버튼
+        findViewById<Button>(R.id.article_form_complete_btn).setOnClickListener {
+            //TODO SalesArticleForm2으로
+            val intent = Intent(this, SalesArticleFormActivity2::class.java)
+            intent.putExtra("formModel", formModel)
+            startActivity(intent)
+        }
+
     }
+
 }

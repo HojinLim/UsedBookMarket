@@ -25,8 +25,6 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-       // myRef.addChildEventListener(listener)
-
         val bookModel = intent.getParcelableExtra<Book>("bookModel")
 
         binding.titleTextView.text = bookModel?.title.orEmpty()
@@ -38,39 +36,17 @@ class DetailActivity : AppCompatActivity() {
 
         binding.detailDescriptionTextView.text = bookModel?.description.orEmpty()
         binding.detailPrice.text= bookModel?.priceSales.orEmpty()
-        /*
-        Thread {
-            val review = db.reviewDao().getOne(bookModel?.id.orEmpty())
-            runOnUiThread {
-                binding.reviewEditText.setText(review?.review.orEmpty())
-            }
-        }.start()
- */
+
         adapter= BookAdapter {
 
         }
 
-        /*
-        val bookRecyclerView= findViewById<RecyclerView>(R.id.savedBookRecyclerView)
-        bookRecyclerView.layoutManager = LinearLayoutManager(this)
-        bookRecyclerView.adapter = adapter
- */
+
         binding.detailSaveButton.setOnClickListener {
             val intent = Intent(this, SalesArticleFormActivity::class.java)
             intent.putExtra("bookModel", bookModel)
             startActivity(intent)
-            /*
-            Thread {
-                db.reviewDao().saveReview(
-                    Review(
-                        bookModel?.id.orEmpty(),
-                        binding.reviewEditText.text.toString()
-                    )
-                )
 
-            }.start()
-
-             */
         }
 
 

@@ -1,49 +1,41 @@
 package com.example.usedbookmarket
 
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.usedbookmarket.databinding.ActivitiySalesArticleFormBinding
 import com.example.usedbookmarket.model.ArticleForm
-import com.example.usedbookmarket.model.Book
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class SalesArticleFormActivity:AppCompatActivity() {
-    //private lateinit var database: Firebase
+class SalesArticleFormActivity2: AppCompatActivity() {
+    private lateinit var formModel: ArticleForm
     private var database = Firebase.database.reference
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var binding: ActivitiySalesArticleFormBinding
 
-    @SuppressLint("MissingInflatedId", "ResourceAsColor", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val coverImageView: ImageView
-        val reference = Firebase.database
         binding = ActivitiySalesArticleFormBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        // CompletedSaleForm에서 온 인텐트
+        formModel = intent.getParcelableExtra<ArticleForm>("formModel")!!
+        initView()
 
-        //newOrEdit()
 
 
 
-
-        val bookModel = intent.getParcelableExtra<Book>("bookModel")
-        bookModel ?: return
+        /*
         binding.articleFormCompleteBtn.setOnClickListener {
             val articleModel = ArticleForm(
                 auth.currentUser?.uid,
-                bookModel.id,
-                bookModel.title,
-                bookModel.description,
-                bookModel.priceSales,
-                bookModel.coverSmallUrl,
+                formModel.id,
+                formModel.title,
+                formModel.description,
+                formModel.priceSales,
+                formModel.coverSmallUrl,
                 binding.articleFormFormTitle.text.toString(),
                 binding.articleFormDescription.text.toString(),
                 binding.articleFormWishPrice.text.toString()
@@ -61,28 +53,21 @@ class SalesArticleFormActivity:AppCompatActivity() {
             .into(coverImageView)
         findViewById<TextView>(R.id.article_form_discount).text = bookModel?.priceSales.orEmpty()
 
+
+         */
+    }
+
+    private fun initView() {
+        binding.articleFormDetailTitle.text= formModel.title
+        binding.articleFormFormTitle.setText(formModel.formTitle)
+        binding.articleFormWishPrice.setText(formModel.wishPrice)
+        binding.articleFormDiscount.text = formModel.priceSales.orEmpty()
+        binding.articleFormDescription.setText(formModel.formDescription)
+
+        // 이미지 삽입
+        Glide
+            .with(applicationContext)
+            .load(formModel?.coverSmallUrl.orEmpty())
+            .into(binding.articleFormCoverImg)
     }
 }
-    private fun newOrEdit(){
-
-    }
-
-        /*
-
-        findViewById<Button>(R.id.article_form_complete_btn).setOnClickListener {
-            //val myRef = database.child(auth.currentUser.toString()).child("from")
-            //myRef.setValue("John")
-            saveSellData()
-            
-
-        }
-
-    }
-
-    private fun saveSellData() {
-        database.child("sell_list").setValue(auth.currentUser?.email.toString())
-        Log.d("TAG",database.child("message").parent.toString())
-        //database.getReference("test").setValue("testcontent")
-
-    }
-    */
