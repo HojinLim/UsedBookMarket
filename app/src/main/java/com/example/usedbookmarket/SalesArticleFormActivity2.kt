@@ -1,6 +1,8 @@
 package com.example.usedbookmarket
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.usedbookmarket.databinding.ActivitiySalesArticleFormBinding
@@ -21,7 +23,7 @@ class SalesArticleFormActivity2: AppCompatActivity() {
         setContentView(binding.root)
 
         // CompletedSaleForm에서 온 인텐트
-        formModel = intent.getParcelableExtra<ArticleForm>("formModel")!!
+        formModel = intent.getParcelableExtra("formModel")!!
         initView()
 
 
@@ -69,5 +71,13 @@ class SalesArticleFormActivity2: AppCompatActivity() {
             .with(applicationContext)
             .load(formModel?.coverSmallUrl.orEmpty())
             .into(binding.articleFormCoverImg)
+
+        // 이미지를 클릭시 이미지 크게 보기
+        binding.articleFormCoverImg.setOnClickListener {
+            val intent= Intent(this, ZoomImageActivity::class.java)
+            intent.putExtra("formImage", formModel.coverSmallUrl)
+            startActivity(intent)
+            Log.d("TEST","HI")
+        }
     }
 }
