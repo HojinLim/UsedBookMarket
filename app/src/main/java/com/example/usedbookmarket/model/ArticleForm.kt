@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ArticleForm(
+    val aid: String?,
     val uid: String?,
     val id: String?,
     val title: String?,
@@ -17,7 +18,7 @@ data class ArticleForm(
 ): Parcelable
 {
     constructor(): this("","","","",
-    "","","","","")
+    "","","","","","")
 }
 /*
 @SerializedName("isbn") val id: String,

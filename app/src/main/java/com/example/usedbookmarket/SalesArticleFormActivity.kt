@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.usedbookmarket.databinding.ActivitiySalesArticleFormBinding
@@ -36,8 +37,12 @@ class SalesArticleFormActivity:AppCompatActivity() {
 
         val bookModel = intent.getParcelableExtra<Book>("bookModel")
         bookModel ?: return
+
+        val articleKey= reference.getReference("sell_list").push().key
+
         binding.articleFormCompleteBtn.setOnClickListener {
             val articleModel = ArticleForm(
+                articleKey,
                 auth.currentUser?.uid,
                 bookModel.id,
                 bookModel.title,
@@ -48,7 +53,10 @@ class SalesArticleFormActivity:AppCompatActivity() {
                 binding.articleFormDescription.text.toString(),
                 binding.articleFormWishPrice.text.toString()
             )
-            reference.getReference("sell_list").push().setValue(articleModel)
+            // 랜덤 키 생성
+            Toast.makeText(this, articleKey,Toast.LENGTH_SHORT).show()
+            reference.getReference("sell_list/$articleKey").setValue(articleModel)
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
 

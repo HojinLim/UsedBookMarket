@@ -14,8 +14,6 @@ class StartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_start)
 
         auth= FirebaseAuth.getInstance()
-
-
         findViewById<TextView>(R.id.testText)?.text= auth.currentUser?.email.toString()
 
 //        임의로 만든 책목록 페이지 바로가기
