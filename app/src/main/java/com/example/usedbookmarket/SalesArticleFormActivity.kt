@@ -34,7 +34,6 @@ class SalesArticleFormActivity:AppCompatActivity() {
 
 
 
-
         val bookModel = intent.getParcelableExtra<Book>("bookModel")
         bookModel ?: return
 

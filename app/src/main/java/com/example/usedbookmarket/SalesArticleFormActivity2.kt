@@ -2,7 +2,6 @@ package com.example.usedbookmarket
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.usedbookmarket.databinding.ActivitiySalesArticleFormBinding
@@ -31,11 +30,14 @@ class SalesArticleFormActivity2: AppCompatActivity() {
 
         // 완료 버튼을 누를시
         binding.articleFormCompleteBtn.setOnClickListener {
+
             val changedFormModel =
-                formModel.copy(formTitle= binding.articleFormFormTitle.toString(),
-                wishPrice = binding.articleFormWishPrice.toString(),
-                formDescription = binding.articleFormDescription.toString())
-            Toast.makeText(this, reference.getReference("sell_list").key, Toast.LENGTH_SHORT).show()
+                formModel.copy(formTitle= binding.articleFormFormTitle.text.toString(),
+                wishPrice = binding.articleFormWishPrice.text.toString(),
+                formDescription = binding.articleFormDescription.text.toString())
+            //reference.getReference("sell_list").child(changedFormModel.aid.toString()).setValue(changedFormModel)
+            reference.getReference("sell_list").child(changedFormModel.aid.toString()).setValue(changedFormModel)
+            // 업데이트 하는법 알아야함
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

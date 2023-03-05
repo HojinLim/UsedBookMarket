@@ -67,7 +67,11 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-            TODO("Not yet implemented")
+            val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
+            articleForm ?: return
+            articleFormList.add(articleForm)
+            articleAdapter.submitList(articleFormList)
+            articleAdapter.notifyDataSetChanged()
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
