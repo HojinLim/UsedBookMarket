@@ -67,7 +67,7 @@
             android:name=".BooksYouLikeActivity"
             android:exported="false" />
         <activity
-            android:name=".ChatActivity"
+            android:name=".MessageActivity"
             android:exported="false" />
         <activity
             android:name=".IntroActivity"

@@ -36,9 +36,17 @@ class CompletedSalesArticleForm : AppCompatActivity() {
         val formModel = intent.getParcelableExtra<ArticleForm>("formModel")
         formModel ?: return
 
-        // 자신이 작성한 글이 아닐 시 수정 불가
+        // 자신이 작성한 글일 시 수정, 채팅, 관심 버튼 사라짐
+        // 상대방 글
         if(formModel.uid != auth.currentUser?.uid){
-            findViewById<Button>(R.id.article_form_complete_btn).isVisible= false
+            findViewById<Button>(R.id.article_form_edit_btn).isVisible= false
+            findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).isVisible= true
+            findViewById<AppCompatButton>(R.id.c_sales_article_like).isVisible= true
+        }else{
+        // 자신의 글
+            findViewById<Button>(R.id.article_form_edit_btn).isVisible= true
+            findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).isVisible= false
+            findViewById<AppCompatButton>(R.id.c_sales_article_like).isVisible= false
         }
 
         val coverImageView = findViewById<ImageView>(R.id.c_sales_article_form_coverImg)
@@ -63,13 +71,21 @@ class CompletedSalesArticleForm : AppCompatActivity() {
                 }
             }
         }
+        // 채팅 버튼 누를 시
         findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).setOnClickListener {
-            val intent= Intent(this, ChatActivity::class.java)
-            intent.putExtra("msgSend", auth.currentUser?.email)
+            /*
+            val intent= Intent(this, MessageActivity::class.java)
+            //intent.putExtra("msgSend", auth.currentUser?.email)
+            intent.putExtra("who", formModel)
             startActivity(intent)
+             */
+            val intent = Intent(this, MessageActivity::class.java)
+            intent.putExtra("destinationUid", auth.currentUser?.uid)
+            this.startActivity(intent)
         }
+
         // 자신의 글일 시의 수정 완료 버튼
-        findViewById<Button>(R.id.article_form_complete_btn).setOnClickListener {
+        findViewById<Button>(R.id.article_form_edit_btn).setOnClickListener {
             //TODO SalesArticleForm2으로
             val intent = Intent(this, SalesArticleFormActivity2::class.java)
             intent.putExtra("formModel", formModel)

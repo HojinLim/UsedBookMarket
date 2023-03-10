@@ -29,7 +29,7 @@ class SalesArticleFormActivity2: AppCompatActivity() {
 
 
         // 완료 버튼을 누를시
-        binding.articleFormCompleteBtn.setOnClickListener {
+        binding.articleFormEditBtn.setOnClickListener {
 
             val changedFormModel =
                 formModel.copy(formTitle= binding.articleFormFormTitle.text.toString(),

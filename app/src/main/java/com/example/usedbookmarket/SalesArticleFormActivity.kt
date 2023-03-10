@@ -39,7 +39,7 @@ class SalesArticleFormActivity:AppCompatActivity() {
 
         val articleKey= reference.getReference("sell_list").push().key
 
-        binding.articleFormCompleteBtn.setOnClickListener {
+        binding.articleFormEditBtn.setOnClickListener {
             val articleModel = ArticleForm(
                 articleKey,
                 auth.currentUser?.uid,

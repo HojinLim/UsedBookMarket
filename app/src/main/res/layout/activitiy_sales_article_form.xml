@@ -39,7 +39,7 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/article_form_complete_btn"
+            android:id="@+id/article_form_edit_btn"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

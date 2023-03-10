@@ -121,9 +121,7 @@ class SignUpActivity : AppCompatActivity() {
                         }
                     }
             }
-
         }
-
     }
     public override fun onStart() {
         super.onStart()
