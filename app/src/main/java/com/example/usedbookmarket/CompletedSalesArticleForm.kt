@@ -80,7 +80,7 @@ class CompletedSalesArticleForm : AppCompatActivity() {
             startActivity(intent)
              */
             val intent = Intent(this, MessageActivity::class.java)
-            intent.putExtra("destinationUid", auth.currentUser?.uid)
+            intent.putExtra("destinationUid", formModel.uid)
             this.startActivity(intent)
         }
 
