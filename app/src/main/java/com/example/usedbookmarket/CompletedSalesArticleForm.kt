@@ -84,7 +84,7 @@ class CompletedSalesArticleForm : AppCompatActivity() {
             this.startActivity(intent)
         }
 
-        // 자신의 글일 시의 수정 완료 버튼
+        // 자신의 글일 시의 수정 버튼
         findViewById<Button>(R.id.article_form_edit_btn).setOnClickListener {
             //TODO SalesArticleForm2으로
             val intent = Intent(this, SalesArticleFormActivity2::class.java)

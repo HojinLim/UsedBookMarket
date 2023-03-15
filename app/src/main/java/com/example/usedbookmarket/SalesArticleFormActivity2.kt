@@ -2,6 +2,7 @@ package com.example.usedbookmarket
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.usedbookmarket.databinding.ActivitiySalesArticleFormBinding
@@ -27,7 +28,6 @@ class SalesArticleFormActivity2: AppCompatActivity() {
         formModel = intent.getParcelableExtra("formModel")!!
         initView()
 
-
         // 완료 버튼을 누를시
         binding.articleFormEditBtn.setOnClickListener {
 
@@ -35,10 +35,9 @@ class SalesArticleFormActivity2: AppCompatActivity() {
                 formModel.copy(formTitle= binding.articleFormFormTitle.text.toString(),
                 wishPrice = binding.articleFormWishPrice.text.toString(),
                 formDescription = binding.articleFormDescription.text.toString())
-            //reference.getReference("sell_list").child(changedFormModel.aid.toString()).setValue(changedFormModel)
-            reference.getReference("sell_list").child(changedFormModel.aid.toString()).setValue(changedFormModel)
-            // 업데이트 하는법 알아야함
 
+            reference.getReference("sell_list").child(changedFormModel.aid.toString()).setValue(changedFormModel)
+            Toast.makeText(this, "수정 완료하였습니다!", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

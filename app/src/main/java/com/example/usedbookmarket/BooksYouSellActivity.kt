@@ -3,10 +3,15 @@ package com.example.usedbookmarket
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.usedbookmarket.adapter.BooksYouSellListAdapter
+import com.bumptech.glide.Glide
+import com.example.usedbookmarket.databinding.ItemBooksYouSellBinding
 import com.example.usedbookmarket.model.ArticleForm
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
@@ -36,7 +41,13 @@ class BooksYouSellActivity: AppCompatActivity() {
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-            TODO("Not yet implemented")
+            val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
+            articleForm ?: return
+            if(articleForm.uid == auth.currentUser?.uid){
+                articleFormList.add(articleForm)
+            }
+            adapter.submitList(articleFormList)
+            adapter.notifyDataSetChanged()
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
@@ -71,4 +82,58 @@ class BooksYouSellActivity: AppCompatActivity() {
 
 
     }
+    inner class BooksYouSellListAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<ArticleForm, BooksYouSellListAdapter.BooksYouSellItemViewHolder>(diffUtil) {
+        inner class BooksYouSellItemViewHolder(private val binding: ItemBooksYouSellBinding): RecyclerView.ViewHolder(binding.root){
+            fun bind(articleModel: ArticleForm){
+
+
+                Glide
+                    .with(binding.itemBooksYouSellCoverImg.context)
+                    .load(articleModel.coverSmallUrl)
+                    .into(binding.itemBooksYouSellCoverImg)
+
+                binding.itemBooksYouSellBookTitle.text= articleModel.title
+
+                binding.root.setOnClickListener {
+                    clickListener(articleModel)
+                }
+
+                // 수정하기 버튼
+                binding.itemBooksYouSellEditBtn.setOnClickListener {
+                    val intent = Intent(this@BooksYouSellActivity, SalesArticleFormActivity2::class.java)
+                    intent.putExtra("formModel", articleModel)
+                    startActivity(intent)
+                }
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BooksYouSellItemViewHolder {
+            return BooksYouSellItemViewHolder(
+                ItemBooksYouSellBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+
+
+        }
+
+        override fun onBindViewHolder(holder: BooksYouSellListAdapter.BooksYouSellItemViewHolder, position: Int) {
+            holder.bind(currentList[position])
+        }
+
+
+    }
+    companion object {
+        val diffUtil= object : DiffUtil.ItemCallback<ArticleForm>() {
+            override fun areItemsTheSame(oldItem: ArticleForm, newItem: ArticleForm): Boolean {
+                return oldItem == newItem
+            }
+            override fun areContentsTheSame(oldItem: ArticleForm, newItem: ArticleForm): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
+    }
+
 }
