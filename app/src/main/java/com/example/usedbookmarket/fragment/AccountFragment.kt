@@ -1,5 +1,6 @@
 package com.example.usedbookmarket.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -70,6 +71,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             }
         }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

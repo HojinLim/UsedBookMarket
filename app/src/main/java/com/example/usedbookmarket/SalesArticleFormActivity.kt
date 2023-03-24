@@ -29,11 +29,6 @@ class SalesArticleFormActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-
-        //newOrEdit()
-
-
-
         val bookModel = intent.getParcelableExtra<Book>("bookModel")
         bookModel ?: return
 
@@ -50,7 +45,8 @@ class SalesArticleFormActivity:AppCompatActivity() {
                 bookModel.coverSmallUrl,
                 binding.articleFormFormTitle.text.toString(),
                 binding.articleFormDescription.text.toString(),
-                binding.articleFormWishPrice.text.toString()
+                binding.articleFormWishPrice.text.toString(),
+                "false"
             )
             // 랜덤 키 생성
             Toast.makeText(this, articleKey,Toast.LENGTH_SHORT).show()

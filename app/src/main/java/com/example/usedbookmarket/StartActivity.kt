@@ -22,6 +22,7 @@ class StartActivity : AppCompatActivity() {
         }
 
 
+
         // 회원가입 화면으로 이동
         findViewById<AppCompatButton>(R.id.goSignUpButton).setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))

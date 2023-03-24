@@ -1,11 +1,14 @@
 package com.example.usedbookmarket.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.usedbookmarket.ZoomImageActivity
 import com.example.usedbookmarket.databinding.ItemBookBinding
 import com.example.usedbookmarket.model.Book
 
@@ -20,6 +23,7 @@ class BookAdapter(val clickListener: (Book) -> Unit): ListAdapter<Book, BookAdap
                 .with(binding.bookCoverImageView.context)
                 .load(bookModel.coverSmallUrl)
                 .into(binding.bookCoverImageView)
+
 
             binding.root.setOnClickListener {
                 clickListener(bookModel)

@@ -58,24 +58,33 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
     private val searchedArticleFormList = mutableListOf<ArticleForm>()
 
     private val listener = object : ChildEventListener {
+        @SuppressLint("NotifyDataSetChanged")
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
             articleForm ?: return
             articleFormList.add(articleForm)
             articleAdapter.submitList(articleFormList)
             articleAdapter.notifyDataSetChanged()
+            Log.d("TEST","onChildAdded")
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
             articleForm ?: return
             articleFormList.add(articleForm)
             articleAdapter.submitList(articleFormList)
             articleAdapter.notifyDataSetChanged()
+            Log.d("TEST","onChildChanged")
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
-            TODO("Not yet implemented")
+            val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
+            articleForm ?: return
+            articleFormList.remove(articleForm)
+            articleAdapter.submitList(articleFormList)
+            articleAdapter.notifyDataSetChanged()
+            Log.d("TEST","onChildRemoved")
         }
 
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
@@ -115,6 +124,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             startActivity(Intent(requireContext(), NotificationActivity::class.java))
         }
         recyclerView = binding.homeBookRecyclerView
+
 
         articleDB = Firebase.database.reference.child("sell_list")
         articleAdapter = ArticleAdapter(clickListener = {
@@ -219,8 +229,10 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "OnResume")
+        Log.d("TEST", "OnResume$articleFormList")
         articleAdapter.notifyDataSetChanged()
+
+
     }
 
     override fun onDestroyView() {

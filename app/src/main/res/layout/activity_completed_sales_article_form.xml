@@ -175,7 +175,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="15dp"
         android:id="@+id/c_sales_article_like"
-        android:backgroundTint="#FFFFFF"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

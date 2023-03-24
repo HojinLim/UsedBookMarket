@@ -115,35 +115,6 @@ class MessageActivity: AppCompatActivity() {
             }
         }
 
-        /*
-        val someOne=intent.getParcelableExtra<ArticleForm>("who")
-        val uid= someOne?.uid
-        Toast.makeText(this,database.getReference("users/$uid").key,Toast.LENGTH_SHORT).show()
-
-         */
-
-
-        /*
-        auth ?: return
-        val userName= auth.currentUser?.email
-        val myRef= database.getReference("chat_list")
-
-        val userID=intent.getStringExtra("msgSend")
-        findViewById<TextView>(R.id.item_chatList_nickName).text= userID
-
-        //val chat= Chat
-        findViewById<EditText>(R.id.chat_msg).text
-        findViewById<AppCompatButton>(R.id.chat_sendButton).setOnClickListener {
-            //myRef.push().setValue(Chat)
-        }
-
-            recyclerView.layoutManager = LinearLayoutManager(this)
-            recyclerView.adapter = chatListAdapter
-
-            myRef.addChildEventListener(listener)
-
-         */
-
         checkChatRoom()
         }
     private fun checkChatRoom(){
