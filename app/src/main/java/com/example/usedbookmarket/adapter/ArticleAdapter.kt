@@ -25,6 +25,7 @@ class ArticleAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<Arti
             binding.root.setOnClickListener {
                 clickListener(bookModel)
             }
+            binding.itemArticleTime.text= bookModel.createdAt
         }
     }
 

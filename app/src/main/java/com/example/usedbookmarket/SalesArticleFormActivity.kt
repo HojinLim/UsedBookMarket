@@ -17,6 +17,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SalesArticleFormActivity:AppCompatActivity() {
     //private lateinit var database: Firebase
@@ -38,6 +40,11 @@ class SalesArticleFormActivity:AppCompatActivity() {
         val bookModel = intent.getParcelableExtra<Book>("bookModel")
         bookModel ?: return
 
+        // 파일 생성한 시간
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("MM월 dd일")
+        val curTime = dateFormat.format(Date(time)).toString()
+
         val articleKey= reference.getReference("sell_list").push().key
 
         binding.articleFormEditBtn.setOnClickListener {
@@ -52,7 +59,8 @@ class SalesArticleFormActivity:AppCompatActivity() {
                 binding.articleFormFormTitle.text.toString(),
                 binding.articleFormDescription.text.toString(),
                 binding.articleFormWishPrice.text.toString(),
-                "false"
+                "false",
+                curTime
             )
             // 랜덤 키 생성
             Toast.makeText(this, articleKey,Toast.LENGTH_SHORT).show()

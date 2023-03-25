@@ -33,24 +33,15 @@
         tools:text="안드로이드 마스터하기 판매합니다" />
 
 
-    <TextView
-        android:id="@+id/item_article_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        app:layout_constraintTop_toBottomOf="@id/item_article_articleTitleTextView"
-        app:layout_constraintStart_toStartOf="@id/item_article_articleTitleTextView"
 
-        tools:text="18초전" />
 
     <TextView
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="@id/item_article_time"
+        app:layout_constraintStart_toStartOf="@id/item_article_articleTitleTextView"
         tools:text="5000"
-        app:layout_constraintTop_toBottomOf="@id/item_article_time"
+        app:layout_constraintTop_toBottomOf="@id/item_article_articleTitleTextView"
         android:id="@+id/item_article_priceTextView"
         />
     <TextView
@@ -62,5 +53,14 @@
         app:layout_constraintStart_toEndOf="@id/item_article_priceTextView"
         app:layout_constraintTop_toTopOf="@id/item_article_priceTextView"
         />
+    <TextView
+        android:id="@+id/item_article_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintTop_toBottomOf="@id/item_article_priceTextView"
+        app:layout_constraintStart_toStartOf="@id/item_article_priceTextView"
+        tools:text="3월 15일" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
