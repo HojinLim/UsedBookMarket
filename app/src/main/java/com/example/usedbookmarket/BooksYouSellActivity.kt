@@ -104,6 +104,12 @@ class BooksYouSellActivity: AppCompatActivity() {
                     intent.putExtra("formModel", articleModel)
                     startActivity(intent)
                 }
+
+                binding.itemBooksYouSellCoverImg.setOnClickListener {// 이미지 확대
+                    val intent= Intent(this@BooksYouSellActivity, ZoomImageActivity::class.java)
+                    intent.putExtra("formImage", articleModel.coverSmallUrl)
+                    startActivity(intent)
+                }
             }
         }
 

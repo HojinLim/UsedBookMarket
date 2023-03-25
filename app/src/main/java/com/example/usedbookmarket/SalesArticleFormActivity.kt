@@ -2,15 +2,18 @@ package com.example.usedbookmarket
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.usedbookmarket.databinding.ActivitiySalesArticleFormBinding
 import com.example.usedbookmarket.model.ArticleForm
 import com.example.usedbookmarket.model.Book
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -21,6 +24,9 @@ class SalesArticleFormActivity:AppCompatActivity() {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var binding: ActivitiySalesArticleFormBinding
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("MissingInflatedId", "ResourceAsColor", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         val coverImageView: ImageView

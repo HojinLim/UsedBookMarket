@@ -34,6 +34,12 @@ class DetailActivity : AppCompatActivity() {
             .load(bookModel?.coverSmallUrl.orEmpty())
             .into(binding.detailCoverImageView)
 
+        binding.detailCoverImageView.setOnClickListener {// 이미지 확대
+            val intent= Intent(this@DetailActivity, ZoomImageActivity::class.java)
+            intent.putExtra("formImage", bookModel?.coverSmallUrl)
+            startActivity(intent)
+        }
+
         binding.detailDescriptionTextView.text = bookModel?.description.orEmpty()
         binding.detailPrice.text= bookModel?.priceSales.orEmpty()
 
@@ -48,6 +54,7 @@ class DetailActivity : AppCompatActivity() {
             startActivity(intent)
 
         }
+
 
 
         }

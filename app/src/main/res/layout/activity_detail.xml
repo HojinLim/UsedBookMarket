@@ -56,44 +56,40 @@
         tools:layout_editor_absoluteX="0dp" />
 
 
-    <TextView
-        android:textSize="18sp"
-        android:padding="10dp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="5"
-        android:ellipsize="end"
-        app:layout_constraintTop_toBottomOf="@+id/detail_coverImageView"
-        tools:text="우리 시대에 가장 사랑받는 21세기의 고전 《해리포터》를 고전답게 재해석하다! 선과 악의 대립 속에서 평범한 어린 소년이 한 사람의 영웅으로 성장해나가는 보편적인 테마를 바탕으로 빈틈없는 소설적 구성과 생생하게 살아"
-        android:id="@+id/detail_descriptionTextView"
-        />
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/detail_like"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/ic_baseline_favorite_24"
-        android:layout_margin="10dp"
-        />
-    <View
-        android:layout_marginHorizontal="10dp"
-        android:layout_width="2dp"
+    <ScrollView
+        android:layout_margin="15dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@id/detail_like"
-        app:layout_constraintTop_toTopOf="@id/detail_like"
-        app:layout_constraintBottom_toBottomOf="@id/detail_like"
-        android:background="@color/gray"
-        android:id="@+id/detail_bottomBar"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/detail_coverImageView"
+        app:layout_constraintBottom_toTopOf="@id/detail_alarm_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                app:layout_constraintTop_toBottomOf="@+id/detail_coverImageView"
+                tools:text="우리 시대에 가장 사랑받는 21세기의 고전 《해리포터》를 고전답게 재해석하다! 선과 악의 대립 속에서 평범한 어린 소년이 한 사람의 영웅으로 성장해나가는 보편적인 테마를 바탕으로 빈틈없는 소설적 구성과 생생하게 살아"
+                android:id="@+id/detail_descriptionTextView"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/detail_bottomBar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/detail_price"
         android:text="희망 소비자 가격"
         android:textColor="@color/yellow"
@@ -104,8 +100,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/detail_bottomBar"
-        app:layout_constraintBottom_toBottomOf="@id/detail_bottomBar"
+        app:layout_constraintStart_toStartOf="@+id/detail_alarm_price"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="5,000"
         android:textColor="@color/white"
         android:layout_marginStart="15dp"
@@ -125,7 +121,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/detail_like"
+        app:layout_constraintBottom_toBottomOf="@id/detail_price"
         android:text="저장하기"
         android:id="@+id/detail_saveButton"/>
 
