@@ -1,14 +1,18 @@
 package com.example.usedbookmarket
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.usedbookmarket.databinding.ActivityCompletedSalesArticleFormBinding
 import com.example.usedbookmarket.model.ArticleForm
@@ -25,6 +29,7 @@ import com.google.firebase.ktx.Firebase
 //Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
 class CompletedSalesArticleForm : AppCompatActivity() {
     var isLiked = false
+    var isBusy = false
     val auth = FirebaseAuth.getInstance()
     private var reference = Firebase.database
     private lateinit var binding: ActivityCompletedSalesArticleFormBinding
@@ -32,6 +37,16 @@ class CompletedSalesArticleForm : AppCompatActivity() {
     private lateinit var heart: AppCompatButton
     private lateinit var uid: String
     private lateinit var aid: String
+
+    lateinit var sliderViewPager: ViewPager2
+    lateinit var layoutIndicator: LinearLayout
+    private val images = arrayOf(
+        "https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg",
+        "https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_1280.jpg",
+        "https://cdn.pixabay.com/photo/2020/03/08/21/41/landscape-4913841_1280.jpg",
+        "https://cdn.pixabay.com/photo/2020/09/02/18/03/girl-5539094_1280.jpg",
+        "https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg"
+    )
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -41,6 +56,20 @@ class CompletedSalesArticleForm : AppCompatActivity() {
         binding = ActivityCompletedSalesArticleFormBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        sliderViewPager = binding.sliderViewPager
+        layoutIndicator = binding.layoutIndicators
+
+        sliderViewPager.offscreenPageLimit = 1
+        sliderViewPager.adapter = ImageSliderAdapter(this, images)
+        sliderViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                setCurrentIndicator(position)
+            }
+        })
+        setupIndicators(images.size)
+
 
 
         // 뒤로가기 버튼
@@ -72,6 +101,88 @@ class CompletedSalesArticleForm : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    private fun setupIndicators(count: Int) {
+        val indicators: Array<ImageView?> = arrayOfNulls<ImageView>(count)
+        val params = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(16, 8, 16, 8)
+        for (i in indicators.indices) {
+            indicators[i] = ImageView(this)
+            indicators[i]?.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    R.drawable.bg_indicator_inactive
+                )
+            )
+            indicators[i]?.layoutParams = params
+            layoutIndicator.addView(indicators[i])
+        }
+        setCurrentIndicator(0)
+    }
+
+    private fun setCurrentIndicator(position: Int) {
+        val childCount = layoutIndicator.childCount
+        for (i in 0 until childCount) {
+            val imageView: ImageView = layoutIndicator.getChildAt(i) as ImageView
+            if (i == position) {
+                imageView.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.bg_indicator_active
+                    )
+                )
+            } else {
+                imageView.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.bg_indicator_inactive
+                    )
+                )
+            }
+        }
+    }
+    // 내부 이미지 슬라이더 어댑터
+    inner class ImageSliderAdapter(context: Context, sliderImage: Array<String>) :
+        RecyclerView.Adapter<ImageSliderAdapter.MyViewHolder>() {
+        private val context: Context
+        private val sliderImage: Array<String>
+
+        init {
+            this.context = context
+            this.sliderImage = sliderImage
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+            val view: View = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_slider, parent, false)
+            return MyViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+            holder.bindSliderImage(sliderImage[position])
+        }
+
+        override fun getItemCount(): Int {
+            return sliderImage.size
+        }
+
+        inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            private val mImageView: ImageView
+
+            init {
+                mImageView = itemView.findViewById(R.id.imageSlider)
+            }
+
+            fun bindSliderImage(imageURL: String?) {
+                Glide.with(context)
+                    .load(imageURL)
+                    .into(mImageView)
+            }
+        }
+    }
+
     private fun initView() {
         // 공통 부분
         val coverImageView = findViewById<ImageView>(R.id.c_sales_article_form_coverImg)
@@ -81,6 +192,15 @@ class CompletedSalesArticleForm : AppCompatActivity() {
             .with(coverImageView.context)
             .load(formModel?.coverSmallUrl.orEmpty())
             .into(coverImageView)
+
+        // 이미지 확대
+        coverImageView.setOnClickListener {
+            isBusy= true
+            val intent= Intent(this, ZoomImageActivity::class.java)
+            intent.putExtra("formImage", formModel.coverSmallUrl)
+            startActivity(intent)
+        }
+
         findViewById<TextView>(R.id.article_form_discount).text = formModel?.priceSales.orEmpty()
         findViewById<TextView>(R.id.c_sales_article_form_title).text =
             formModel?.formTitle.orEmpty()
@@ -148,8 +268,14 @@ class CompletedSalesArticleForm : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        isBusy= false
+    }
     override fun onPause() {  // 이 화면이 사라지면 발동
         super.onPause()
+
+        if(isBusy) return
 
         FirebaseDatabase.getInstance().reference.child("like_list/$uid")
             .addValueEventListener(object :
@@ -185,9 +311,6 @@ class CompletedSalesArticleForm : AppCompatActivity() {
         this.finish()
 
     }
-
-
-
 }
 
 

@@ -127,9 +127,14 @@ class StartActivity : AppCompatActivity() {
         auth= FirebaseAuth.getInstance()
         findViewById<TextView>(R.id.testText)?.text= auth.currentUser?.email.toString()
 
-//        임의로 만든 책목록 페이지 바로가기
+//        임의로 fragment 화면으로 이동
         findViewById<AppCompatButton>(R.id.shortCutButton).setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        //  임의로 test 화면으로 이동
+        findViewById<AppCompatButton>(R.id.shortCutButton2).setOnClickListener {
+            startActivity(Intent(this, NotePad::class.java))
         }
 
 

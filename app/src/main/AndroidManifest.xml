@@ -4,11 +4,8 @@
     package="com.example.usedbookmarket">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!-- Always include this permission -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- Include only if your app benefits from precise location access. -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Always include this permission -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include only if your app benefits from precise location access. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -22,9 +19,11 @@
         android:theme="@style/Theme.UsedBookMarket"
         tools:targetApi="31">
         <activity
+            android:name=".NotePad2"
+            android:exported="false" />
+        <activity
             android:name=".NotePad"
             android:exported="false" />
-
         <activity
             android:name=".CompletedSalesArticleForm"
             android:exported="false">

@@ -1,103 +1,128 @@
 package com.example.usedbookmarket
 
+import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 
-class NotePad : AppCompatActivity() {
+
+class NotePad: AppCompatActivity() {
+    lateinit var sliderViewPager: ViewPager2
+    lateinit var layoutIndicator: LinearLayout
+
+    private val images = arrayOf(
+        "https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg",
+        "https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_1280.jpg",
+        "https://cdn.pixabay.com/photo/2020/03/08/21/41/landscape-4913841_1280.jpg",
+        "https://cdn.pixabay.com/photo/2020/09/02/18/03/girl-5539094_1280.jpg",
+        "https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg"
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_pad)
 
-    }
-}
-        /*
+        sliderViewPager = findViewById(R.id.sliderViewPager)
+        layoutIndicator = findViewById(R.id.layoutIndicators)
 
-
-        FirebaseDatabase.getInstance().reference.child("like_list/$uid")
-            .addValueEventListener(object :
-                ValueEventListener {
-                override fun onCancelled(error: DatabaseError) { }
-                override fun onDataChange(snapshot: DataSnapshot) {
-
-                        for (data in snapshot.children) { // snapshot 자식들 사용 가능
-                            val item = data.getValue<ArticleForm>()
-                            if (item?.aid.equals(aid)) { // 내가 이미 추가한 값이면
-                                // TODO 삭제
-                                if(!isLiked) // 하트값이 false면
-                                    reference.getReference("like_list/$uid/$aid").removeValue()
-                                continue
-
-                            } else {
-                                if(formModel.liked== false){
-                                    heart.background.setTint(resources.getColor(R.color.red))
-                                    val changedForm = formModel.copy(liked = true)
-
-                                    reference.getReference("like_list/$uid/$aid")
-                                        .setValue(changedForm)
-
-                                    reference.getReference("sell_list")
-                                        .child("$aid").setValue(changedForm)
-                                    Toast.makeText(
-                                        this@CompletedSalesArticleForm,
-                                        "\"좋아요!\" 리스트 추가",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }else{
-                                    heart.background.setTint(resources.getColor(R.color.white))
-
-                                }
-                            }
-
-                        }
-
-                }
-            })
-    }
-}
-         */
-/*
-// friend.clear()
-for(data in snapshot.children){ // snapshot 자식들 사용 가능
-    val item = data.getValue<ArticleForm>()
-    if(item?.aid.equals(formModel.aid)) { // 내가 이미 추가한 값이면
-        continue }else{                 //패스
-
-            reference.getReference("like_list/$uid/aid")
-
-            val changedForm = formModel.copy(liked= isLiked)
-            reference.getReference("like_list/$uid").push().setValue(changedForm)
-            reference.getReference("sell_list").child(changedForm.aid.toString()).setValue(changedForm)
-            Toast.makeText(this@CompletedSalesArticleForm, "\"좋아요!\" 리스트 추가", Toast.LENGTH_SHORT).show()
+        sliderViewPager.offscreenPageLimit = 1
+        sliderViewPager.adapter = ImageSliderAdapter(this, images)
+        sliderViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                setCurrentIndicator(position)
+            }
+        })
+        setupIndicators(images.size)
     }
 
-    //friend.add(item!!)
+    private fun setupIndicators(count: Int) {
+        val indicators: Array<ImageView?> = arrayOfNulls<ImageView>(count)
+        val params = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(16, 8, 16, 8)
+        for (i in indicators.indices) {
+            indicators[i] = ImageView(this)
+            indicators[i]?.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    R.drawable.bg_indicator_inactive
+                )
+            )
+            indicators[i]?.layoutParams = params
+            layoutIndicator.addView(indicators[i])
+        }
+        setCurrentIndicator(0)
+    }
+
+    private fun setCurrentIndicator(position: Int) {
+        val childCount = layoutIndicator.childCount
+        for (i in 0 until childCount) {
+            val imageView: ImageView = layoutIndicator.getChildAt(i) as ImageView
+            if (i == position) {
+                imageView.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.bg_indicator_active
+                    )
+                )
+            } else {
+                imageView.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.bg_indicator_inactive
+                    )
+                )
+            }
+        }
+    }
+
+    inner class ImageSliderAdapter(context: Context, sliderImage: Array<String>) :
+        RecyclerView.Adapter<ImageSliderAdapter.MyViewHolder>() {
+        private val context: Context
+        private val sliderImage: Array<String>
+
+        init {
+            this.context = context
+            this.sliderImage = sliderImage
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+            val view: View = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_slider, parent, false)
+            return MyViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+            holder.bindSliderImage(sliderImage[position])
+        }
+
+        override fun getItemCount(): Int {
+            return sliderImage.size
+        }
+
+        inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            private val mImageView: ImageView
+
+            init {
+                mImageView = itemView.findViewById(R.id.imageSlider)
+            }
+
+            fun bindSliderImage(imageURL: String?) {
+                Glide.with(context)
+                    .load(imageURL)
+                    .into(mImageView)
+            }
+        }
+    }
+
 }
-//notifyDataSetChanged()
-}
-})
 
- */
-/*
-isLiked = if(!isLiked){
-it.background.setTint(Color.RED)
-
-reference.getReference("like_list/$uid/aid")
-
-val changedForm = formModel.copy(isLiked= true)
-reference.getReference("like_list/$uid").push().setValue(changedForm)
-reference.getReference("sell_list").child(changedForm.aid.toString()).setValue(changedForm)
-Toast.makeText(this, "\"좋아요!\" 리스트 추가", Toast.LENGTH_SHORT).show()
-
-true
-}else{
-it.background.setTint(Color.WHITE)
-
-val changedForm = formModel.copy(isLiked= false)
-reference.getReference("like_list/$uid").push().setValue(changedForm)
-reference.getReference("sell_list").child(changedForm.aid.toString()).setValue(changedForm)
-Toast.makeText(this, "\"좋아요!\" 리스트 해제", Toast.LENGTH_SHORT).show()
-
-false
-}
-
-*/
