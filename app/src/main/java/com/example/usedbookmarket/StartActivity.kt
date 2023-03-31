@@ -24,10 +24,15 @@ import com.google.firebase.auth.FirebaseAuth
 class StartActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    companion object {
+        private const val OLD = 1
+        private const val NEW = 2
+    }
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
+
 
         // ----
         // 위치 권한 받기
@@ -134,7 +139,11 @@ class StartActivity : AppCompatActivity() {
 
         //  임의로 test 화면으로 이동
         findViewById<AppCompatButton>(R.id.shortCutButton2).setOnClickListener {
-            startActivity(Intent(this, NotePad::class.java))
+            val intent= Intent(this, NotePad::class.java)
+            setResult(OLD, intent)
+
+            //startActivity(intent)
+            startActivityForResult(intent, OLD)
         }
 
 

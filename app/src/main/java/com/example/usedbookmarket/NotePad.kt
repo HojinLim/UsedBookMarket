@@ -18,6 +18,11 @@ class NotePad: AppCompatActivity() {
     lateinit var sliderViewPager: ViewPager2
     lateinit var layoutIndicator: LinearLayout
 
+    companion object {
+        private const val OLD = 1
+        private const val NEW = 2
+    }
+
     private val images = arrayOf(
         "https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg",
         "https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_1280.jpg",
@@ -25,9 +30,22 @@ class NotePad: AppCompatActivity() {
         "https://cdn.pixabay.com/photo/2020/09/02/18/03/girl-5539094_1280.jpg",
         "https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg"
     )
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_pad)
+
+
+
+//        if (callingActivity != null) {
+//            Toast.makeText(this, callingActivity!!.className, Toast.LENGTH_SHORT).show()
+//            Log.d("TEST",callingActivity!!.className)
+//            //com.example.usedbookmarket.StartActivity
+//        }
+
+
+
 
         sliderViewPager = findViewById(R.id.sliderViewPager)
         layoutIndicator = findViewById(R.id.layoutIndicators)
@@ -35,6 +53,7 @@ class NotePad: AppCompatActivity() {
         sliderViewPager.offscreenPageLimit = 1
         sliderViewPager.adapter = ImageSliderAdapter(this, images)
         sliderViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 setCurrentIndicator(position)
@@ -114,6 +133,7 @@ class NotePad: AppCompatActivity() {
 
             init {
                 mImageView = itemView.findViewById(R.id.imageSlider)
+
             }
 
             fun bindSliderImage(imageURL: String?) {

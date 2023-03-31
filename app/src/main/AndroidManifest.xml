@@ -17,10 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UsedBookMarket"
-        tools:targetApi="31">
-        <activity
-            android:name=".NotePad2"
-            android:exported="false" />
+        tools:targetApi="31"
+        android:windowSoftInputMode ="adjustNothing"
+        >
+
         <activity
             android:name=".NotePad"
             android:exported="false" />
@@ -58,9 +58,11 @@
             android:exported="false" />
         <activity
             android:name=".SalesArticleFormActivity"
+            android:windowSoftInputMode ="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".SalesArticleFormActivity2"
+            android:windowSoftInputMode ="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".BooksYouHaveActivity"

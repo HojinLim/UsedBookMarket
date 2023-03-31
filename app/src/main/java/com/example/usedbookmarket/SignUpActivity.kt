@@ -60,7 +60,8 @@ class SignUpActivity : AppCompatActivity() {
         var profileCheck = false
 
         userProfile.setOnClickListener {
-            val intentImage = Intent(Intent.ACTION_PICK)
+
+            val intentImage = Intent(Intent.ACTION_PICK)    //Intent.ACTION_GET_CONTENT
             intentImage.type = MediaStore.Images.Media.CONTENT_TYPE
             getContent.launch(intentImage)
             //다른 이미지 로드 법 https://gogorchg.tistory.com/entry/Android-ACTIONPICK-%EC%82%AC%EC%9A%A9-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0
@@ -88,10 +89,11 @@ class SignUpActivity : AppCompatActivity() {
                             val userIdSt = userId.toString()
 
                             FirebaseStorage.getInstance()
-                                .reference.child("userImages").child("$userIdSt/photo")
+                                .reference.child("userImages").child("profilePhoto").child("$userIdSt/photo")
                                 .putFile(imageUri!!).addOnSuccessListener {
                                     var userProfile: Uri? = null
                                     FirebaseStorage.getInstance().reference.child("userImages")
+                                        .child("profilePhoto")
                                         .child("$userIdSt/photo").downloadUrl
                                         .addOnSuccessListener {
                                             userProfile = it

@@ -28,6 +28,7 @@ import com.google.firebase.ktx.Firebase
 
 //Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
 class CompletedSalesArticleForm : AppCompatActivity() {
+
     var isLiked = false
     var isBusy = false
     val auth = FirebaseAuth.getInstance()
@@ -37,6 +38,7 @@ class CompletedSalesArticleForm : AppCompatActivity() {
     private lateinit var heart: AppCompatButton
     private lateinit var uid: String
     private lateinit var aid: String
+
 
     lateinit var sliderViewPager: ViewPager2
     lateinit var layoutIndicator: LinearLayout
@@ -98,6 +100,7 @@ class CompletedSalesArticleForm : AppCompatActivity() {
         findViewById<Button>(R.id.article_form_edit_btn).setOnClickListener {
             val intent = Intent(this, SalesArticleFormActivity2::class.java)
             intent.putExtra("formModel", formModel)
+            intent.putExtra("flag","B")
             startActivity(intent)
         }
     }
@@ -173,6 +176,10 @@ class CompletedSalesArticleForm : AppCompatActivity() {
 
             init {
                 mImageView = itemView.findViewById(R.id.imageSlider)
+                mImageView.setOnClickListener {
+                    val intent= Intent(this@CompletedSalesArticleForm, NotePad::class.java)
+                    startActivity(intent)
+                }
             }
 
             fun bindSliderImage(imageURL: String?) {
@@ -192,6 +199,7 @@ class CompletedSalesArticleForm : AppCompatActivity() {
             .with(coverImageView.context)
             .load(formModel?.coverSmallUrl.orEmpty())
             .into(coverImageView)
+
 
         // 이미지 확대
         coverImageView.setOnClickListener {

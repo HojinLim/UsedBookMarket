@@ -49,7 +49,7 @@ class DetailActivity : AppCompatActivity() {
 
 
         binding.detailSaveButton.setOnClickListener {
-            val intent = Intent(this, SalesArticleFormActivity::class.java)
+            val intent = Intent(this, SalesArticleFormActivity2::class.java)
             intent.putExtra("bookModel", bookModel)
             startActivity(intent)
 

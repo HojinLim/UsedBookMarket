@@ -1,55 +1,238 @@
 package com.example.usedbookmarket
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.usedbookmarket.databinding.ActivitiySalesArticleFormBinding
 import com.example.usedbookmarket.model.ArticleForm
+import com.example.usedbookmarket.model.Book
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SalesArticleFormActivity2: AppCompatActivity() {
+
+
+    private lateinit var reference: FirebaseDatabase
     private lateinit var formModel: ArticleForm
     private var database = Firebase.database.reference
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var binding: ActivitiySalesArticleFormBinding
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: RecyclerViewAdapter
+
+
+    private var imageUri: Uri? = null
+
+    private val images = mutableListOf<Uri?>()
+
+
+
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == RESULT_OK) {
+                imageUri = result.data?.data //이미지 경로 원본
+                //binding.articleFormCoverImg2.setImageURI(imageUri) //이미지 뷰를 바꿈
+                images.add(imageUri)
+                Toast.makeText(this, "Completed!", Toast.LENGTH_SHORT).show()
+                adapter.notifyDataSetChanged()
+                Log.d("이미지", "성공")
+            } else {
+                Log.d("이미지", "실패")
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivitiySalesArticleFormBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val reference = Firebase.database
 
+        reference = Firebase.database
+
+//        val intentFrom = callingActivity!!.className
+//        val intentFrom = callingPackage
+
+        //Toast.makeText(this, intentFrom.toString(), Toast.LENGTH_SHORT).show()
+        val intentFrom= intent.getStringExtra("flag")
+        Log.d("TEST", intentFrom.toString())
+
+        if (intentFrom == "A") {
+            // 처음 만드는 글
+            //Toast.makeText(this, intentFrom, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "첨만드는글", Toast.LENGTH_SHORT).show()
+            Log.d("TEST", intentFrom)
+            initNewForm()
+
+        } else if (intentFrom =="B") {
+            // 로드하는 글
+//            Toast.makeText(this, intentFrom, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "된글", Toast.LENGTH_SHORT).show()
+            Log.d("TEST", intentFrom)
+            initOldForm()
+        }
+
+
+
+
+
+        initSame()
+
+
+
+    }
+
+
+
+    private fun initSame() {
+        binding.detailPhotoButton.setOnClickListener {
+            val intentImage = Intent(Intent.ACTION_GET_CONTENT)    //Intent.ACTION_GET_CONTENT
+            intentImage.type = MediaStore.Images.Media.CONTENT_TYPE
+            getContent.launch(intentImage)
+
+        }
+    }
+
+    private fun initNewForm() {
+        val bookModel = intent.getParcelableExtra<Book>("bookModel")
+        bookModel ?: return
+
+        // 파일 생성한 시간
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("MM월 dd일")
+        val curTime = dateFormat.format(Date(time)).toString()
+
+        // 랜덤 키 생성
+        val articleKey = reference.getReference("sell_list").push().key
+
+        binding.articleFormEditBtn.setOnClickListener {
+            val articleModel = ArticleForm(
+                articleKey,
+                auth.currentUser?.uid,
+                bookModel.id,
+                bookModel.title,
+                bookModel.description,
+                bookModel.priceSales,
+                bookModel.coverSmallUrl,
+                binding.articleFormFormTitle.text.toString(),
+                binding.articleFormDescription.text.toString(),
+                binding.articleFormWishPrice.text.toString(),
+                "false",
+                curTime
+            )
+
+            Toast.makeText(this, articleKey, Toast.LENGTH_SHORT).show()
+            reference.getReference("sell_list/$articleKey").setValue(articleModel)
+
+            initSame()
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+
+    private fun initOldForm() {
         // CompletedSaleForm에서 온 인텐트
         formModel = intent.getParcelableExtra("formModel")!!
-        initView()
 
         // 완료 버튼을 누를시
         binding.articleFormEditBtn.setOnClickListener {
 
             val changedFormModel =
                 formModel.copy(formTitle= binding.articleFormFormTitle.text.toString(),
-                wishPrice = binding.articleFormWishPrice.text.toString(),
-                formDescription = binding.articleFormDescription.text.toString())
-
+                    wishPrice = binding.articleFormWishPrice.text.toString(),
+                    formDescription = binding.articleFormDescription.text.toString())
             reference.getReference("sell_list").child(changedFormModel.aid.toString()).setValue(changedFormModel)
-            Toast.makeText(this, "수정 완료하였습니다!", Toast.LENGTH_SHORT).show()
+
+            val user= auth.currentUser
+            val userId = user?.uid
+            val userIdSt = userId.toString()
+            val aid= changedFormModel.aid
+
+            for((num, imageUri) in images.withIndex()) {
+
+                FirebaseStorage.getInstance()
+                    .reference.child("userImages").child("formPhotos").child("$userIdSt/$aid/photo$num")
+                    .putFile(imageUri!!).addOnSuccessListener {
+
+                    }
+            }
+
+            Toast.makeText(this, "수정 완료 하였습니다!", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-    }
 
-    private fun initView() {
+
         binding.articleFormDetailTitle.text= formModel.title
         binding.articleFormFormTitle.setText(formModel.formTitle)
         binding.articleFormWishPrice.setText(formModel.wishPrice)
         binding.articleFormDiscount.text = formModel.priceSales.orEmpty()
         binding.articleFormDescription.setText(formModel.formDescription)
 
+        recyclerView = binding.formRecyclerView
+
+        adapter = RecyclerViewAdapter(images)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        recyclerView.adapter = adapter
+    }
+
+    inner class RecyclerViewAdapter(private val images: MutableList<Uri?>) : RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>() {
+        init{
+
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+
+            return CustomViewHolder(LayoutInflater.from(this@SalesArticleFormActivity2).inflate(R.layout.item_book_photo, parent, false))
+        }
+
+        inner class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val imageView: ImageView = itemView.findViewById(R.id.book_photo_coverImageView)
+            val clearButton : ImageButton = itemView.findViewById(R.id.book_photo_clear_btn)
+
+        }
+
+        override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+
+            holder.imageView.setImageURI(images[position])
+            holder.clearButton.setOnClickListener {
+                deleteItem(position)
+                Toast.makeText(this@SalesArticleFormActivity2, "사진 삭제 완료!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        private fun deleteItem(position: Int){
+            images.removeAt(position)
+            adapter.notifyItemRemoved(position)
+            adapter.notifyItemRangeChanged(position,images.size)
+        }
+        override fun getItemCount(): Int {
+            return images.size
+        }
+    }
+}
+
+
+/*
         // 이미지 삽입
         Glide
             .with(applicationContext)
@@ -62,27 +245,4 @@ class SalesArticleFormActivity2: AppCompatActivity() {
             intent.putExtra("formImage", formModel.coverSmallUrl)
             startActivity(intent)
         }
-    }
-}
-
-/*
-binding.articleFormCompleteBtn.setOnClickListener {
-    val articleModel = ArticleForm(
-        auth.currentUser?.uid,
-        formModel.id,
-        formModel.title,
-        formModel.description,
-        formModel.priceSales,
-        formModel.coverSmallUrl,
-        binding.articleFormFormTitle.text.toString(),
-        binding.articleFormDescription.text.toString(),
-        binding.articleFormWishPrice.text.toString()
-    )
-    reference.getReference("sell_list").push().setValue(articleModel)
-    val intent = Intent(this, MainActivity::class.java)
-    startActivity(intent)
-
-}
-
-
- */
+        */
