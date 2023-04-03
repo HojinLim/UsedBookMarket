@@ -1,17 +1,23 @@
 package com.example.usedbookmarket
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 
 
 class NotePad: AppCompatActivity() {
@@ -23,43 +29,73 @@ class NotePad: AppCompatActivity() {
         private const val NEW = 2
     }
 
-    private val images = arrayOf(
-        "https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg",
-        "https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_1280.jpg",
-        "https://cdn.pixabay.com/photo/2020/03/08/21/41/landscape-4913841_1280.jpg",
-        "https://cdn.pixabay.com/photo/2020/09/02/18/03/girl-5539094_1280.jpg",
-        "https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg"
-    )
+//    private val images = arrayOf(
+//        "https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg",
+//        "https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_1280.jpg",
+//        "https://cdn.pixabay.com/photo/2020/03/08/21/41/landscape-4913841_1280.jpg",
+//        "https://cdn.pixabay.com/photo/2020/09/02/18/03/girl-5539094_1280.jpg",
+//        "https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg"
+//    )
+private lateinit var images: Array<String?>
+
+   // private val image2: Array<String> = TODO()
+
+    lateinit var images1: ArrayList<Uri?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_pad)
 
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        val userIdSt = currentUser?.email
+        var num = 1
 
+        val size= intent.getIntExtra("photos",5)
+        images = arrayOfNulls<String>(size)
 
-//        if (callingActivity != null) {
-//            Toast.makeText(this, callingActivity!!.className, Toast.LENGTH_SHORT).show()
-//            Log.d("TEST",callingActivity!!.className)
-//            //com.example.usedbookmarket.StartActivity
-//        }
+        // 이미지 폴더 경로 참조
+        val listRef = FirebaseStorage.getInstance().reference
+            .child("userImages/formPhotos/$userIdSt/-NRwua_Iq9gvjA-oqZUz")
 
+        // listAll(): 폴더 내의 모든 이미지를 가져오는 함수
+        listRef.listAll()
+            .addOnSuccessListener {list->
 
+                for ((i, item) in list.items.withIndex()) {
+                    // reference의 item(이미지) url 받아오기
+                    item.downloadUrl.addOnSuccessListener {
+                        images[i]= (it.toString())
+                    }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
+                        }
+                }
 
-
-        sliderViewPager = findViewById(R.id.sliderViewPager)
-        layoutIndicator = findViewById(R.id.layoutIndicators)
-
-        sliderViewPager.offscreenPageLimit = 1
-        sliderViewPager.adapter = ImageSliderAdapter(this, images)
-        sliderViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                setCurrentIndicator(position)
             }
-        })
-        setupIndicators(images.size)
+
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            //실행할 코드
+            sliderViewPager = findViewById(R.id.sliderViewPager)
+            layoutIndicator = findViewById(R.id.layoutIndicators)
+
+            sliderViewPager.offscreenPageLimit = 1
+            sliderViewPager.adapter = ImageSliderAdapter(this, images)
+            sliderViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    setCurrentIndicator(position)
+                }
+            })
+            setupIndicators(images.size)
+
+        }, 3000)
+
+
+
     }
 
     private fun setupIndicators(count: Int) {
@@ -104,10 +140,10 @@ class NotePad: AppCompatActivity() {
         }
     }
 
-    inner class ImageSliderAdapter(context: Context, sliderImage: Array<String>) :
+    inner class ImageSliderAdapter(context: Context, sliderImage: Array<String?>) :
         RecyclerView.Adapter<ImageSliderAdapter.MyViewHolder>() {
         private val context: Context
-        private val sliderImage: Array<String>
+        private val sliderImage: Array<String?>
 
         init {
             this.context = context

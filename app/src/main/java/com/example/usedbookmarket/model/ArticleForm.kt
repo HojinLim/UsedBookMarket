@@ -16,11 +16,12 @@ data class ArticleForm(
     val formDescription: String?,
     val wishPrice: String?,
     val liked: String?,
-    val createdAt: String?
+    val createdAt: String?,
+    val email: String?
 ): Parcelable
 {
     constructor(): this("","","","",
-    "","","","","","","", "")
+    "","","","","","","", "","")
 }
 /*
 @SerializedName("isbn") val id: String,

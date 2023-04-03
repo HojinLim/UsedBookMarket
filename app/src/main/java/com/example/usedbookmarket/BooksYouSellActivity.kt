@@ -100,7 +100,7 @@ class BooksYouSellActivity: AppCompatActivity() {
 
                 // 수정하기 버튼
                 binding.itemBooksYouSellEditBtn.setOnClickListener {
-                    val intent = Intent(this@BooksYouSellActivity, SalesArticleFormActivity2::class.java)
+                    val intent = Intent(this@BooksYouSellActivity, SalesArticleFormActivity::class.java)
                     intent.putExtra("formModel", articleModel)
                     startActivity(intent)
                 }

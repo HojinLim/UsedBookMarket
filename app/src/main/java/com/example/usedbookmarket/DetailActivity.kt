@@ -44,16 +44,16 @@ class DetailActivity : AppCompatActivity() {
         binding.detailPrice.text= bookModel?.priceSales.orEmpty()
 
         adapter= BookAdapter {
-
         }
-
-
         binding.detailSaveButton.setOnClickListener {
-            val intent = Intent(this, SalesArticleFormActivity2::class.java)
+            val intent = Intent(this, SalesArticleFormActivity::class.java)
             intent.putExtra("bookModel", bookModel)
+            intent.putExtra("flag","A")
             startActivity(intent)
 
         }
+
+
 
 
 

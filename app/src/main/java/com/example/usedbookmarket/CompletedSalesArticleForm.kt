@@ -3,6 +3,8 @@ package com.example.usedbookmarket
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,13 +26,15 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 
 //Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
 class CompletedSalesArticleForm : AppCompatActivity() {
 
+    private lateinit var images: Array<String?>
     var isLiked = false
-    var isBusy = false
+    private var isBusy = false
     val auth = FirebaseAuth.getInstance()
     private var reference = Firebase.database
     private lateinit var binding: ActivityCompletedSalesArticleFormBinding
@@ -38,17 +42,14 @@ class CompletedSalesArticleForm : AppCompatActivity() {
     private lateinit var heart: AppCompatButton
     private lateinit var uid: String
     private lateinit var aid: String
+    private lateinit var userIdSt: String
 
 
     lateinit var sliderViewPager: ViewPager2
     lateinit var layoutIndicator: LinearLayout
-    private val images = arrayOf(
-        "https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg",
-        "https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_1280.jpg",
-        "https://cdn.pixabay.com/photo/2020/03/08/21/41/landscape-4913841_1280.jpg",
-        "https://cdn.pixabay.com/photo/2020/09/02/18/03/girl-5539094_1280.jpg",
-        "https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg"
-    )
+
+
+    //private var images= arrayListOf<String>()
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -59,18 +60,53 @@ class CompletedSalesArticleForm : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        sliderViewPager = binding.sliderViewPager
-        layoutIndicator = binding.layoutIndicators
+        initView()  // 현재 글 소유권에 따른 뷰 배치
+        //val num =getImages()
 
-        sliderViewPager.offscreenPageLimit = 1
-        sliderViewPager.adapter = ImageSliderAdapter(this, images)
-        sliderViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                setCurrentIndicator(position)
+
+        //images= findImages(num)
+        //justForTest()
+
+        // 이미지 폴더 경로 참조
+        val listRef = FirebaseStorage.getInstance().reference
+            .child("userImages/formPhotos/$userIdSt/$aid")
+
+        // listAll(): 폴더 내의 모든 이미지를 가져오는 함수
+        listRef.listAll()
+            .addOnSuccessListener {list->
+
+                images = arrayOfNulls<String>(list.items.size)
+                for ((i, item) in list.items.withIndex()) {
+                    // reference의 item(이미지) url 받아오기
+                    item.downloadUrl.addOnSuccessListener {
+                        images[i]= (it.toString())
+                    }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
+                        }
+                }
+
             }
-        })
-        setupIndicators(images.size)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            //실행할 코드
+            sliderViewPager = binding.sliderViewPager
+            layoutIndicator = binding.layoutIndicators
+
+            sliderViewPager.offscreenPageLimit = 1
+            sliderViewPager.adapter = ImageSliderAdapter(this, images)
+            sliderViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    setCurrentIndicator(position)
+                }
+            })
+            setupIndicators(images.size)
+
+        }, 2500)
+
+
+
 
 
 
@@ -78,16 +114,6 @@ class CompletedSalesArticleForm : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.books_you_have_backButton).setOnClickListener {
             onBackPressed()
         }
-
-        formModel = intent.getParcelableExtra<ArticleForm>("formModel")!!
-        formModel ?: return
-
-        heart = binding.cSalesArticleLike
-        uid = auth.currentUser?.uid!!   // 현재 유저 uid
-        aid = formModel.aid!!   // 현재 글의 aid
-
-        initView()  // 현재 글 소유권에 따른 뷰 배치
-
 
         // 채팅 버튼 누를 시
         findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).setOnClickListener {
@@ -98,99 +124,20 @@ class CompletedSalesArticleForm : AppCompatActivity() {
 
         // 자신의 글일 시의 수정 버튼
         findViewById<Button>(R.id.article_form_edit_btn).setOnClickListener {
-            val intent = Intent(this, SalesArticleFormActivity2::class.java)
+            val intent = Intent(this, SalesArticleFormActivity::class.java)
             intent.putExtra("formModel", formModel)
             intent.putExtra("flag","B")
             startActivity(intent)
         }
     }
 
-    private fun setupIndicators(count: Int) {
-        val indicators: Array<ImageView?> = arrayOfNulls<ImageView>(count)
-        val params = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        params.setMargins(16, 8, 16, 8)
-        for (i in indicators.indices) {
-            indicators[i] = ImageView(this)
-            indicators[i]?.setImageDrawable(
-                ContextCompat.getDrawable(
-                    this,
-                    R.drawable.bg_indicator_inactive
-                )
-            )
-            indicators[i]?.layoutParams = params
-            layoutIndicator.addView(indicators[i])
-        }
-        setCurrentIndicator(0)
-    }
-
-    private fun setCurrentIndicator(position: Int) {
-        val childCount = layoutIndicator.childCount
-        for (i in 0 until childCount) {
-            val imageView: ImageView = layoutIndicator.getChildAt(i) as ImageView
-            if (i == position) {
-                imageView.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this,
-                        R.drawable.bg_indicator_active
-                    )
-                )
-            } else {
-                imageView.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this,
-                        R.drawable.bg_indicator_inactive
-                    )
-                )
-            }
-        }
-    }
-    // 내부 이미지 슬라이더 어댑터
-    inner class ImageSliderAdapter(context: Context, sliderImage: Array<String>) :
-        RecyclerView.Adapter<ImageSliderAdapter.MyViewHolder>() {
-        private val context: Context
-        private val sliderImage: Array<String>
-
-        init {
-            this.context = context
-            this.sliderImage = sliderImage
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            val view: View = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_slider, parent, false)
-            return MyViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            holder.bindSliderImage(sliderImage[position])
-        }
-
-        override fun getItemCount(): Int {
-            return sliderImage.size
-        }
-
-        inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val mImageView: ImageView
-
-            init {
-                mImageView = itemView.findViewById(R.id.imageSlider)
-                mImageView.setOnClickListener {
-                    val intent= Intent(this@CompletedSalesArticleForm, NotePad::class.java)
-                    startActivity(intent)
-                }
-            }
-
-            fun bindSliderImage(imageURL: String?) {
-                Glide.with(context)
-                    .load(imageURL)
-                    .into(mImageView)
-            }
-        }
-    }
 
     private fun initView() {
+        formModel = intent.getParcelableExtra("formModel")!!
+        userIdSt = formModel.email!!
+        heart = binding.cSalesArticleLike
+        uid = auth.currentUser?.uid!!   // 현재 유저 uid
+        aid = formModel.aid!!
         // 공통 부분
         val coverImageView = findViewById<ImageView>(R.id.c_sales_article_form_coverImg)
         findViewById<TextView>(R.id.c_sales_article_form_detail_title).text =
@@ -223,7 +170,6 @@ class CompletedSalesArticleForm : AppCompatActivity() {
             findViewById<Button>(R.id.article_form_edit_btn).isVisible = false
             findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).isVisible = true
             findViewById<AppCompatButton>(R.id.c_sales_article_like).isVisible = true
-
 
             reference.getReference("like_list/$uid/$aid/liked")
                 .addValueEventListener(object : ValueEventListener {
@@ -291,16 +237,16 @@ class CompletedSalesArticleForm : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) { }
                 override fun onDataChange(snapshot: DataSnapshot) {
 
-                        var formItem: ArticleForm?
-                        for (data in snapshot.children) { // snapshot 자식들 사용 가능
-                            val item = data.getValue<ArticleForm>()
-                            if (item?.aid.equals(aid)) { // 내가 이미 추가한 값이면
-                                Toast.makeText(this@CompletedSalesArticleForm, "추가된값이라 나갈겡~", Toast.LENGTH_SHORT).show()
-                                this@CompletedSalesArticleForm.finish()
-                            }else{
-                                continue
-                            }
-                        }   // formItem -> 현 유저가 만들었던 좋아요 form
+                    var formItem: ArticleForm?
+                    for (data in snapshot.children) { // snapshot 자식들 사용 가능
+                        val item = data.getValue<ArticleForm>()
+                        if (item?.aid.equals(aid)) { // 내가 이미 추가한 값이면
+                            Toast.makeText(this@CompletedSalesArticleForm, "추가된값이라 나갈겡~", Toast.LENGTH_SHORT).show()
+                            this@CompletedSalesArticleForm.finish()
+                        }else{
+                            continue
+                        }
+                    }   // formItem -> 현 유저가 만들었던 좋아요 form
                     val changedForm = formModel.copy(liked = "true")
 
                     if(isLiked){
@@ -319,6 +265,94 @@ class CompletedSalesArticleForm : AppCompatActivity() {
         this.finish()
 
     }
+
+    private fun setupIndicators(count: Int) {
+        val indicators: Array<ImageView?> = arrayOfNulls<ImageView>(count)
+        val params = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(16, 8, 16, 8)
+        for (i in indicators.indices) {
+            indicators[i] = ImageView(this)
+            indicators[i]?.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    R.drawable.bg_indicator_inactive
+                )
+            )
+            indicators[i]?.layoutParams = params
+            layoutIndicator.addView(indicators[i])
+        }
+        setCurrentIndicator(0)
+    }
+
+    private fun setCurrentIndicator(position: Int) {
+        val childCount = layoutIndicator.childCount
+        for (i in 0 until childCount) {
+            val imageView: ImageView = layoutIndicator.getChildAt(i) as ImageView
+            if (i == position) {
+                imageView.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.bg_indicator_active
+                    )
+                )
+            } else {
+                imageView.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.bg_indicator_inactive
+                    )
+                )
+            }
+        }
+    }
+    // 내부 이미지 슬라이더 어댑터
+    inner class ImageSliderAdapter(context: Context, sliderImage: Array<String?>) :
+        RecyclerView.Adapter<ImageSliderAdapter.MyViewHolder>() {
+        private val context: Context
+        private val sliderImage: Array<String?>
+
+        init {
+            this.context = context
+            this.sliderImage = sliderImage
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+            val view: View = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_slider, parent, false)
+            return MyViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+            holder.bindSliderImage(sliderImage[position])
+        }
+
+        override fun getItemCount(): Int {
+            return sliderImage.size
+        }
+
+        inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            private val mImageView: ImageView
+
+            init {
+                mImageView = itemView.findViewById(R.id.imageSlider)
+                mImageView.setOnClickListener {
+                    val intent= Intent(this@CompletedSalesArticleForm, NotePad::class.java)
+                    intent.putExtra("photos", itemCount)
+                    startActivity(intent)
+                }
+            }
+
+            fun bindSliderImage(imageURL: String?) {
+                Glide.with(context)
+                    .load(imageURL)
+                    .into(mImageView)
+            }
+        }
+    }
+
+
 }
 
 

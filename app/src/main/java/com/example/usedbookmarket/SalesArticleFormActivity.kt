@@ -27,7 +27,7 @@ import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SalesArticleFormActivity2: AppCompatActivity() {
+class SalesArticleFormActivity: AppCompatActivity() {
 
 
     private lateinit var reference: FirebaseDatabase
@@ -41,7 +41,7 @@ class SalesArticleFormActivity2: AppCompatActivity() {
 
     private var imageUri: Uri? = null
 
-    private val images = mutableListOf<Uri?>()
+    private val images = arrayListOf<Uri?>()
 
 
 
@@ -67,10 +67,8 @@ class SalesArticleFormActivity2: AppCompatActivity() {
 
         reference = Firebase.database
 
-//        val intentFrom = callingActivity!!.className
-//        val intentFrom = callingPackage
 
-        //Toast.makeText(this, intentFrom.toString(), Toast.LENGTH_SHORT).show()
+
         val intentFrom= intent.getStringExtra("flag")
         Log.d("TEST", intentFrom.toString())
 
@@ -89,25 +87,37 @@ class SalesArticleFormActivity2: AppCompatActivity() {
             initOldForm()
         }
 
-
-
-
-
+        // 공통 부분
         initSame()
-
-
-
     }
-
-
 
     private fun initSame() {
         binding.detailPhotoButton.setOnClickListener {
             val intentImage = Intent(Intent.ACTION_GET_CONTENT)    //Intent.ACTION_GET_CONTENT
             intentImage.type = MediaStore.Images.Media.CONTENT_TYPE
             getContent.launch(intentImage)
-
         }
+
+        val user= auth.currentUser
+        val userId = user?.email
+        val userIdSt = userId.toString()
+        val aid= formModel.aid
+
+        for((num, imageUri) in images.withIndex()) {
+
+            FirebaseStorage.getInstance()
+                .reference.child("userImages").child("formPhotos").child("$userIdSt/$aid/photo$num")
+                .putFile(imageUri!!).addOnSuccessListener {
+
+                }
+        }
+
+        recyclerView = binding.formRecyclerView
+
+        adapter = RecyclerViewAdapter(images)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = adapter
+
     }
 
     private fun initNewForm() {
@@ -122,32 +132,38 @@ class SalesArticleFormActivity2: AppCompatActivity() {
         // 랜덤 키 생성
         val articleKey = reference.getReference("sell_list").push().key
 
+        formModel = ArticleForm(
+            articleKey,
+            auth.currentUser?.uid,
+            bookModel.id,
+            bookModel.title,
+            bookModel.description,
+            bookModel.priceSales,
+            bookModel.coverSmallUrl,
+            binding.articleFormFormTitle.text.toString(),
+            binding.articleFormDescription.text.toString(),
+            binding.articleFormWishPrice.text.toString(),
+            "false",
+            curTime,
+            auth.currentUser?.email
+        )
+        //formModel= articleModel
+
         binding.articleFormEditBtn.setOnClickListener {
-            val articleModel = ArticleForm(
-                articleKey,
-                auth.currentUser?.uid,
-                bookModel.id,
-                bookModel.title,
-                bookModel.description,
-                bookModel.priceSales,
-                bookModel.coverSmallUrl,
-                binding.articleFormFormTitle.text.toString(),
-                binding.articleFormDescription.text.toString(),
-                binding.articleFormWishPrice.text.toString(),
-                "false",
-                curTime
-            )
+
 
             Toast.makeText(this, articleKey, Toast.LENGTH_SHORT).show()
-            reference.getReference("sell_list/$articleKey").setValue(articleModel)
+            reference.getReference("sell_list/$articleKey").setValue(formModel)
 
             initSame()
 
             val intent = Intent(this, MainActivity::class.java)
+//            val images =adapter.getPhotos()
+//
+//            intent.putExtra("photos",images)
             startActivity(intent)
         }
     }
-
 
     private fun initOldForm() {
         // CompletedSaleForm에서 온 인텐트
@@ -162,25 +178,16 @@ class SalesArticleFormActivity2: AppCompatActivity() {
                     formDescription = binding.articleFormDescription.text.toString())
             reference.getReference("sell_list").child(changedFormModel.aid.toString()).setValue(changedFormModel)
 
-            val user= auth.currentUser
-            val userId = user?.uid
-            val userIdSt = userId.toString()
-            val aid= changedFormModel.aid
 
-            for((num, imageUri) in images.withIndex()) {
-
-                FirebaseStorage.getInstance()
-                    .reference.child("userImages").child("formPhotos").child("$userIdSt/$aid/photo$num")
-                    .putFile(imageUri!!).addOnSuccessListener {
-
-                    }
-            }
 
             Toast.makeText(this, "수정 완료 하였습니다!", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
+//            val images =adapter.getPhotos()
+//
+//            intent.putExtra("photos",images)
+
             startActivity(intent)
         }
-
 
         binding.articleFormDetailTitle.text= formModel.title
         binding.articleFormFormTitle.setText(formModel.formTitle)
@@ -188,22 +195,17 @@ class SalesArticleFormActivity2: AppCompatActivity() {
         binding.articleFormDiscount.text = formModel.priceSales.orEmpty()
         binding.articleFormDescription.setText(formModel.formDescription)
 
-        recyclerView = binding.formRecyclerView
 
-        adapter = RecyclerViewAdapter(images)
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-        recyclerView.adapter = adapter
     }
 
-    inner class RecyclerViewAdapter(private val images: MutableList<Uri?>) : RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>() {
+    inner class RecyclerViewAdapter(private val images: ArrayList<Uri?>) : RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>() {
         init{
 
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
 
-            return CustomViewHolder(LayoutInflater.from(this@SalesArticleFormActivity2).inflate(R.layout.item_book_photo, parent, false))
+            return CustomViewHolder(LayoutInflater.from(this@SalesArticleFormActivity).inflate(R.layout.item_book_photo, parent, false))
         }
 
         inner class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -213,11 +215,10 @@ class SalesArticleFormActivity2: AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-
             holder.imageView.setImageURI(images[position])
             holder.clearButton.setOnClickListener {
                 deleteItem(position)
-                Toast.makeText(this@SalesArticleFormActivity2, "사진 삭제 완료!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SalesArticleFormActivity, "사진 삭제 완료!", Toast.LENGTH_SHORT).show()
             }
         }
         private fun deleteItem(position: Int){
@@ -225,9 +226,13 @@ class SalesArticleFormActivity2: AppCompatActivity() {
             adapter.notifyItemRemoved(position)
             adapter.notifyItemRangeChanged(position,images.size)
         }
+//        public fun getPhotos(): ArrayList<Uri?>{
+//            return images
+//        }
         override fun getItemCount(): Int {
             return images.size
         }
+
     }
 }
 

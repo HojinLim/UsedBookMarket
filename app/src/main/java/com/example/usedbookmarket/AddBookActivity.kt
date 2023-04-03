@@ -34,10 +34,8 @@ class AddBookActivity: AppCompatActivity() {
             service = retrofit.create(BookAPI::class.java)
 
             adapter= BookAdapter(clickListener = {
-//                val intent = Intent(this, DetailActivity::class.java)
-                val intent = Intent(this, SalesArticleFormActivity2::class.java)
+                val intent = Intent(this, DetailActivity::class.java)
                 intent.putExtra("bookModel", it)
-                intent.putExtra("flag","A")
                 startActivity(intent)
             })
 

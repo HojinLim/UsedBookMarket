@@ -3,6 +3,7 @@ package com.example.usedbookmarket.fragment
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -52,6 +53,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
     private lateinit var historyAdapter: HistoryAdapter
     private lateinit var db: AppDatabase
+    private lateinit var images: ArrayList<Uri?>
 
     private lateinit var recyclerView: RecyclerView
     private val articleFormList = mutableListOf<ArticleForm>()
@@ -63,6 +65,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
             articleForm ?: return
             articleFormList.add(articleForm)
+
             articleAdapter.submitList(articleFormList)
             articleAdapter.notifyDataSetChanged()
             Log.d("TEST","onChildAdded")
@@ -93,9 +96,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
         override fun onCancelled(error: DatabaseError) {}
     }
-
-    // private lateinit var db: AppDatabase
-
 
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreateView(

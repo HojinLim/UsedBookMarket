@@ -30,38 +30,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MessageActivity: AppCompatActivity() {
-    /*
-    val database= FirebaseDatabase.getInstance()
-    val auth= FirebaseAuth.getInstance()
-    private lateinit var chatListAdapter: ChatAdapter
-    private lateinit var recyclerView: RecyclerView
-    private val chatList= mutableListOf<Chat>()
-
-    private val listener= object: ChildEventListener {
-        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-            val chat: Chat? = snapshot.getValue(Chat::class.java)
-            chat ?: return
-            chatList.add(chat)
-            chatListAdapter.submitList(chatList)
-            chatListAdapter.notifyDataSetChanged()
-        }
-
-        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onChildRemoved(snapshot: DataSnapshot) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onCancelled(error: DatabaseError) { }
-    }
-
-     */
 
     private val fireDatabase = FirebaseDatabase.getInstance().reference
     private var chatRoomUid : String? = null
@@ -91,8 +59,8 @@ class MessageActivity: AppCompatActivity() {
         imageView.setOnClickListener {
             Log.d("클릭 시 dest", "$destinationUid")
             val chatModel = ChatModel()
-            chatModel.users.put(uid.toString(), true)
-            chatModel.users.put(destinationUid!!, true)
+            chatModel.users[uid.toString()] = true
+            chatModel.users[destinationUid!!] = true
 
             val comment = ChatModel.Comment(uid, editText.text.toString(), curTime)
             if(chatRoomUid == null){

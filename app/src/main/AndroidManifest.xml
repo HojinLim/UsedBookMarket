@@ -61,7 +61,7 @@
             android:windowSoftInputMode ="adjustNothing"
             android:exported="false" />
         <activity
-            android:name=".SalesArticleFormActivity2"
+            android:name=".SalesArticleFormActivity"
             android:windowSoftInputMode ="adjustNothing"
             android:exported="false" />
         <activity
