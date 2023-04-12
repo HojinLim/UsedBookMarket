@@ -85,18 +85,12 @@ class CompletedSalesArticleForm : AppCompatActivity() {
                             Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
                         }
                 }
-//                try {
-//                    _status.value = LoadingStatus.DONE
-//                } catch (_: Exception) {
-//                    _status.value = LoadingStatus.ERROR
-//                }
+
             }
 
 
         Handler(Looper.getMainLooper()).postDelayed({
             //실행할 코드
-
-
             sliderViewPager = binding.sliderViewPager
             layoutIndicator = binding.layoutIndicators
 
@@ -146,20 +140,7 @@ class CompletedSalesArticleForm : AppCompatActivity() {
                 statusImageView.visibility = View.GONE
             }
         }
-
-//                statusImageView.visibility = View.GONE
-
-
-
-
-
-//            LoadingStatus.ERROR -> {
-//                statusImageView.visibility = View.VISIBLE
-//                statusImageView.setImageResource(R.drawable.ic_broken_image)
-//
-//            }
-
-        }
+    }
 
 
         private fun initView() {

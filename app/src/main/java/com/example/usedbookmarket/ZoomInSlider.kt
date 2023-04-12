@@ -1,5 +1,6 @@
 package com.example.usedbookmarket
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -25,6 +26,7 @@ class ZoomInSlider: AppCompatActivity() {
 
 private lateinit var images: Array<String?>
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -33,6 +35,8 @@ private lateinit var images: Array<String?>
         val auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         val userIdSt = currentUser?.email
+        val statusImageView= findViewById<ImageView>(R.id.zoom_status_image)
+        bindStatus(statusImageView, "load")
 
         val size= intent.getIntExtra("photos",5)
         images = arrayOfNulls(size)
@@ -73,11 +77,24 @@ private lateinit var images: Array<String?>
                 }
             })
             setupIndicators(images.size)
-
+            bindStatus(statusImageView,"stop")
         }, 1500)
 
 
 
+    }
+    private fun bindStatus(
+        statusImageView: ImageView, status: String
+    ) {
+        when(status){
+            "load"->{
+                statusImageView.visibility = View.VISIBLE
+                statusImageView.setImageResource(R.drawable.loading_animation)
+            }
+            "stop"->{
+                statusImageView.visibility = View.GONE
+            }
+        }
     }
 
     private fun setupIndicators(count: Int) {
