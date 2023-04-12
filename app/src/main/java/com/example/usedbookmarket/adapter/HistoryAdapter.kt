@@ -14,6 +14,9 @@ class HistoryAdapter(val historyDeleteClickListener: (String) -> (Unit)) : ListA
 
         fun bind(historyModel: History) {
             binding.historyKeywordTextView.text = historyModel.keyword
+            binding.historyKeywordTextView.setOnClickListener {
+
+            }
             binding.historyKeywordDeleteButton.setOnClickListener {
                 historyDeleteClickListener(historyModel.keyword.orEmpty())
             }

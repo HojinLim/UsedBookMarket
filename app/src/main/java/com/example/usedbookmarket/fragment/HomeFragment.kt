@@ -8,13 +8,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.example.usedbookmarket.*
 import com.example.usedbookmarket.adapter.ArticleAdapter
 import com.example.usedbookmarket.adapter.HistoryAdapter
 import com.example.usedbookmarket.databinding.FragmentHomeBinding
+import com.example.usedbookmarket.databinding.ItemHistoryBinding
 import com.example.usedbookmarket.model.ArticleForm
 import com.example.usedbookmarket.model.History
 import com.google.firebase.database.ChildEventListener
@@ -31,10 +34,18 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
     private lateinit var binding: FragmentHomeBinding
 
     companion object {
+
         private const val TAG = "HomeFragment"
         private const val BASE_URL = "https://openapi.naver.com/"
         fun newInstance() : HomeFragment {
             return HomeFragment()
+        }
+        val diffUtil = object : DiffUtil.ItemCallback<History>() {
+            override fun areContentsTheSame(oldItem: History, newItem: History) =
+                oldItem == newItem
+
+            override fun areItemsTheSame(oldItem: History, newItem: History) =
+                oldItem.uid == newItem.uid
         }
     }
     // 1. Context를 받아올 변수 선언
@@ -108,8 +119,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             requireContext(),
             AppDatabase::class.java,
             "historyDB"
-        )
-            .build()
+        ).build()
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
@@ -143,22 +153,21 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             deleteSearchKeyword(it)
         })
         binding.searchEditText.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                //search(binding.searchEditText.text.toString())
-
+            val text= binding.searchEditText.text.toString()
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN && text.isNotEmpty()) {
                 saveSearchKeyword(binding.searchEditText.text.toString())
                 showHistoryView()
-                searchBooks(binding.searchEditText.text.toString())
+                searchBooks(text)
                 binding.searchEditText.text= null
                 return@setOnKeyListener true
             }
             //foundKeyword != foundKeyword
             return@setOnKeyListener false
-
         }
         binding.searchEditText.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 showHistoryView()
+                // 돋보기 -> 뒤로가기
                 binding.homeSearchImg.setImageResource(R.drawable.ic_baseline_keyboard_arrow_left_24)
             }
             return@setOnTouchListener false
@@ -172,9 +181,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
                     commit()
                 }
         }
-
-
-
         binding.historyRecyclerView.adapter = historyAdapter
         binding.historyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -219,6 +225,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         }).start()
     }
 
+
     private fun deleteSearchKeyword(keyword: String) {
         Thread(Runnable {
             db.historyDao()
@@ -240,6 +247,36 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         Log.d("TEST", "OnDestroyView")
         articleDB.removeEventListener(listener)
     }
+
+
+    inner class HistoryAdapter(val historyDeleteClickListener: (String) -> (Unit)) : ListAdapter<History, HistoryAdapter.ViewHolder>(diffUtil) {
+
+        inner class ViewHolder(private val binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(historyModel: History) {
+                binding.historyKeywordTextView.text = historyModel.keyword
+                binding.historyKeywordTextView.setOnClickListener {
+                    searchBooks(historyModel.keyword!!)
+                }
+                binding.historyKeywordDeleteButton.setOnClickListener {
+                    historyDeleteClickListener(historyModel.keyword.orEmpty())
+                }
+            }
+
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            return ViewHolder(ItemHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.bind(currentList[position])
+        }
+
+
+
+    }
+
 
 
 

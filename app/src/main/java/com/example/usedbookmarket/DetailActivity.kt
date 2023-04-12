@@ -7,18 +7,12 @@ import com.bumptech.glide.Glide
 import com.example.usedbookmarket.adapter.BookAdapter
 import com.example.usedbookmarket.databinding.ActivityDetailBinding
 import com.example.usedbookmarket.model.Book
-import com.google.firebase.database.FirebaseDatabase
 
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var adapter: BookAdapter
-    private val books: ArrayList<Book> = ArrayList()
-
-    private var articleDB = FirebaseDatabase.getInstance().reference
-    private var myRef = articleDB.child("text")
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -51,11 +45,6 @@ class DetailActivity : AppCompatActivity() {
             intent.putExtra("flag","A")
             startActivity(intent)
 
-        }
-
-
-
-
-
+         }
         }
     }

@@ -32,7 +32,6 @@ class SalesArticleFormActivity: AppCompatActivity() {
 
     private lateinit var reference: FirebaseDatabase
     private lateinit var formModel: ArticleForm
-    private var database = Firebase.database.reference
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var binding: ActivitiySalesArticleFormBinding
     private lateinit var recyclerView: RecyclerView
@@ -49,7 +48,6 @@ class SalesArticleFormActivity: AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == RESULT_OK) {
                 imageUri = result.data?.data //이미지 경로 원본
-                //binding.articleFormCoverImg2.setImageURI(imageUri) //이미지 뷰를 바꿈
                 images.add(imageUri)
                 Toast.makeText(this, "Completed!", Toast.LENGTH_SHORT).show()
                 adapter.notifyDataSetChanged()
@@ -64,10 +62,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-
         reference = Firebase.database
-
-
 
         val intentFrom= intent.getStringExtra("flag")
         Log.d("TEST", intentFrom.toString())
@@ -147,7 +142,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
             curTime,
             auth.currentUser?.email
         )
-        //formModel= articleModel
+
 
         binding.articleFormEditBtn.setOnClickListener {
 
@@ -158,9 +153,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
             initSame()
 
             val intent = Intent(this, MainActivity::class.java)
-//            val images =adapter.getPhotos()
-//
-//            intent.putExtra("photos",images)
+
             startActivity(intent)
         }
     }

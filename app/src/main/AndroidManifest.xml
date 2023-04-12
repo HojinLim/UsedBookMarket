@@ -5,8 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Always include this permission -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include only if your app benefits from precise location access. -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -17,12 +17,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UsedBookMarket"
-        tools:targetApi="31"
-        android:windowSoftInputMode ="adjustNothing"
-        >
-
+        android:windowSoftInputMode="adjustNothing"
+        tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCGwf_aK8IqGWhqt1r0SrWkr7dWJytM-qE" />
         <activity
             android:name=".NotePad"
+            android:exported="false" />
+        <activity
+            android:name=".ZoomInSlider"
             android:exported="false" />
         <activity
             android:name=".CompletedSalesArticleForm"
@@ -58,12 +62,8 @@
             android:exported="false" />
         <activity
             android:name=".SalesArticleFormActivity"
-            android:windowSoftInputMode ="adjustNothing"
-            android:exported="false" />
-        <activity
-            android:name=".SalesArticleFormActivity"
-            android:windowSoftInputMode ="adjustNothing"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".BooksYouHaveActivity"
             android:exported="false" />

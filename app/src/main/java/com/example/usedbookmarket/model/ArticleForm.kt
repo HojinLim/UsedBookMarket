@@ -23,11 +23,4 @@ data class ArticleForm(
     constructor(): this("","","","",
     "","","","","","","", "","")
 }
-/*
-@SerializedName("isbn") val id: String,
-       @SerializedName("title") val title: String,
-       @SerializedName("description") val description: String,
-       @SerializedName("discount") val priceSales: String?,
-       @SerializedName("image") val coverSmallUrl: String,
-       @SerializedName("link") val mobileLink: String?
- */
+

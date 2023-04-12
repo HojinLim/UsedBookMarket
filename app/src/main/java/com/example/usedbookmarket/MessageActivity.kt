@@ -1,6 +1,7 @@
 package com.example.usedbookmarket
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -35,6 +36,7 @@ class MessageActivity: AppCompatActivity() {
     private var chatRoomUid : String? = null
     private var destinationUid : String? = null
     private var uid : String? = null
+    private var email : String? = null
     private var recyclerView : RecyclerView? = null
 
     private var database = Firebase.database
@@ -52,8 +54,11 @@ class MessageActivity: AppCompatActivity() {
         val dateFormat = SimpleDateFormat("MM월dd일 hh:mm")
         val curTime = dateFormat.format(Date(time)).toString()
 
+        //var chat : Chat
+
         destinationUid = intent.getStringExtra("destinationUid")
         uid = Firebase.auth.currentUser?.uid.toString()
+        email = Firebase.auth.currentUser?.email
         recyclerView = binding.msgHistoryRecyclerView
 
         imageView.setOnClickListener {
@@ -73,6 +78,18 @@ class MessageActivity: AppCompatActivity() {
                         println(chatRoomUid)
                         fireDatabase.child("chatrooms").child(chatRoomUid.toString()).child("comments").push().setValue(comment)
                         binding.chatMsg.text = null
+
+                        // 알림 푸시 보내기
+//                        val chat= Chat(email, editText.toString())
+//                        val intent= Intent(this, NotificationActivity::class.java)
+//                        intent.putExtra("chat", chat)
+                        val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return@postDelayed
+                        with (sharedPref.edit()) {
+                            putString("email",email)
+                            putString("chat",editText.toString())
+                            apply()
+                        }
+
                     }, 1000L)
                     Log.d("chatUidNull dest", "$destinationUid")
                 }

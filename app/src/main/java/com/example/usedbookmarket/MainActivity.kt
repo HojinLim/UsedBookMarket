@@ -1,12 +1,19 @@
 package com.example.usedbookmarket
 
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.content.pm.Signature
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.usedbookmarket.fragment.AccountFragment
 import com.example.usedbookmarket.fragment.ChatFragment
 import com.example.usedbookmarket.fragment.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 private lateinit var homeFragment: HomeFragment
 private lateinit var chatFragment: ChatFragment
@@ -21,7 +28,28 @@ class MainActivity : AppCompatActivity() {
 
         initFragments()
 
+        getHashKey()
+    }
 
+
+
+    fun getHashKey() {
+        var packageInfo: PackageInfo = PackageInfo()
+        try {
+            packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+
+        for (signature: Signature in packageInfo.signatures) {
+            try {
+                var md: MessageDigest = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                Log.e("KEY_HASH", Base64.encodeToString(md.digest(), Base64.DEFAULT))
+            } catch (e: NoSuchAlgorithmException) {
+                Log.e("KEY_HASH", "Unable to get MessageDigest. signature = " + signature, e)
+            }
+        }
     }
 
     // 각 프래그먼트 대입 및 초기값, 메뉴 클릭에 따른 변경

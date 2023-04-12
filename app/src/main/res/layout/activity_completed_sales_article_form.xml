@@ -68,6 +68,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/sliderViewPager"
         />
+    <ImageView
+        android:id="@+id/status_image"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sliderViewPager"
+        app:layout_constraintLeft_toLeftOf="@+id/sliderViewPager"
+        app:layout_constraintRight_toRightOf="@+id/sliderViewPager"
+        app:layout_constraintTop_toTopOf="@+id/sliderViewPager"
+        />
 
     <View
         android:id="@+id/viewFadingEdge"

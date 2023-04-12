@@ -30,7 +30,6 @@ class AddBookActivity: AppCompatActivity() {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-
             service = retrofit.create(BookAPI::class.java)
 
             adapter= BookAdapter(clickListener = {
@@ -42,7 +41,7 @@ class AddBookActivity: AppCompatActivity() {
             binding.addBookRecyclerView.layoutManager = LinearLayoutManager(this)
             binding.addBookRecyclerView.adapter = adapter
 
-            binding.addBookSearchEditText.setOnKeyListener { v, keyCode, event ->
+            binding.addBookSearchEditText.setOnKeyListener { _, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                     search(binding.addBookSearchEditText.text.toString())
                     return@setOnKeyListener true
@@ -81,7 +80,6 @@ class AddBookActivity: AppCompatActivity() {
 
 
         companion object {
-            private const val TAG = "HomeFragment"
             private const val BASE_URL = "https://openapi.naver.com/"
         }
     }
