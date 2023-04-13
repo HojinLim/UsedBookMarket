@@ -15,8 +15,11 @@
         android:textColor="@color/white"
         android:textSize="30dp"
         android:layout_margin="15dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/background_empty_stroke_radius_8"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/account_logout_btn"
@@ -93,7 +96,7 @@
                 android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="소지 중인 책"
+                android:text="판매한 책"
                 android:layout_gravity="center"
                 />
         </LinearLayout>

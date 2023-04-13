@@ -1,6 +1,7 @@
 package com.example.usedbookmarket.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -34,6 +35,9 @@ import com.google.firebase.storage.FirebaseStorage
 
 
 class AccountFragment : Fragment(R.layout.fragment_account) {
+
+
+
     companion object{
         private var imageUri : Uri? = null
         private val fireStorage = FirebaseStorage.getInstance().reference
@@ -47,6 +51,12 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         }
 
     }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext= context
+    }
+
+    private var mContext: Context? = null
     private val getContent =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if(result.resultCode == AppCompatActivity.RESULT_OK) {
@@ -71,12 +81,20 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             }
         }
 
+    @Synchronized
+    fun getInstance(): Context? {
+        return mContext
+    }
+
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
+        if(mContext!= null) mContext= requireContext()
+
+
         val auth= FirebaseAuth.getInstance()
         val v: View = inflater.inflate(R.layout.fragment_account,container,false)
         v.findViewById<TextView>(R.id.account_userEmail).text= auth.currentUser?.email
@@ -95,7 +113,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userProfile = snapshot.getValue<Friend>()
                 println(userProfile)
-                Glide.with(requireContext()).load(userProfile?.profileImageUrl)
+                Glide.with(mContext!!).load(userProfile?.profileImageUrl)
                     .apply(RequestOptions().circleCrop())
                     .into(photo!!)
                 email?.text = userProfile?.email
@@ -121,11 +139,12 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         // 로그아웃 버튼 클릭
         v.findViewById<AppCompatButton>(R.id.account_logout_btn).setOnClickListener {
             if(auth.currentUser != null) auth.signOut()
-                Toast.makeText(requireContext(), "로그아웃 완료",Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "로그아웃 완료",Toast.LENGTH_SHORT).show()
                 Toast.makeText(requireContext(), auth.currentUser?.uid.toString(),Toast.LENGTH_SHORT).show()
                 val intent= Intent(requireContext(), StartActivity::class.java)
                 startActivity(intent)
         }
+
 
 /*
 //TODO 계정 삭제
@@ -156,6 +175,9 @@ if (user != null) {
 
 return v
 }
+
+
+
     private fun initIntentActivity(v: View){
         v.findViewById<AppCompatButton>(R.id.account_list_books_you_have_btn).setOnClickListener {
             startActivity(Intent(requireContext(), BooksYouHaveActivity::class.java))

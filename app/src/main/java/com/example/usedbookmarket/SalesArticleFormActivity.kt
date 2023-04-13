@@ -140,7 +140,8 @@ class SalesArticleFormActivity: AppCompatActivity() {
             binding.articleFormWishPrice.text.toString(),
             "false",
             curTime,
-            auth.currentUser?.email
+            auth.currentUser?.email,
+            "sale"
         )
 
 

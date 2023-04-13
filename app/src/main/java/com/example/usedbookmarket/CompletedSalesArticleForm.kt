@@ -30,7 +30,7 @@ import com.google.firebase.storage.FirebaseStorage
 
 
 //Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
-class CompletedSalesArticleForm : AppCompatActivity() {
+class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
     private lateinit var images: Array<String?>
@@ -65,11 +65,16 @@ class CompletedSalesArticleForm : AppCompatActivity() {
         initView()  // 현재 글 소유권에 따른 뷰 배치
         bindStatus(binding.statusImage,"load")
 
+        setSpinner()
+        val spinner: Spinner = findViewById(R.id.book_status_spinner)
+        spinner.onItemSelectedListener = this
+
         // 이미지 폴더 경로 참조
         val listRef = FirebaseStorage.getInstance().reference
             .child("userImages/formPhotos/$userIdSt/$aid")
 
         // listAll(): 폴더 내의 모든 이미지를 가져오는 함수
+
         listRef.listAll()
             .addOnSuccessListener { list ->
                 images = arrayOfNulls<String>(list.items.size)
@@ -85,7 +90,6 @@ class CompletedSalesArticleForm : AppCompatActivity() {
                             Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
                         }
                 }
-
             }
 
 
@@ -105,7 +109,7 @@ class CompletedSalesArticleForm : AppCompatActivity() {
             })
             setupIndicators(images.size)
             bindStatus(binding.statusImage,"stop")
-        }, 1500)
+        }, 2000)
 
         // 뒤로가기 버튼
         findViewById<AppCompatButton>(R.id.books_you_have_backButton).setOnClickListener {
@@ -126,6 +130,29 @@ class CompletedSalesArticleForm : AppCompatActivity() {
             intent.putExtra("flag", "B")
             startActivity(intent)
         }
+    }
+    private fun setSpinner() {
+        val spinner: Spinner = binding.bookStatusSpinner
+    // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.book_status_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+        parent.getItemAtPosition(pos)
+
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
+        TODO("Not yet implemented")
     }
 
     private fun bindStatus(
@@ -183,6 +210,7 @@ class CompletedSalesArticleForm : AppCompatActivity() {
                 findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).isVisible = true
                 findViewById<AppCompatButton>(R.id.c_sales_article_like).isVisible = true
 
+
                 reference.getReference("like_list/$uid/$aid/liked")
                     .addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -230,6 +258,7 @@ class CompletedSalesArticleForm : AppCompatActivity() {
                 findViewById<Button>(R.id.article_form_edit_btn).isVisible = true
                 findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).isVisible = false
                 findViewById<AppCompatButton>(R.id.c_sales_article_like).isVisible = false
+                binding.bookStatusSpinner.isVisible = true
             }
         }
 

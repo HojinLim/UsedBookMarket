@@ -19,9 +19,7 @@
         android:theme="@style/Theme.UsedBookMarket"
         android:windowSoftInputMode="adjustNothing"
         tools:targetApi="31">
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCGwf_aK8IqGWhqt1r0SrWkr7dWJytM-qE" />
+
         <activity
             android:name=".NotePad"
             android:exported="false" />

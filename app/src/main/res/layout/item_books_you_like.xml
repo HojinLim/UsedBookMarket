@@ -55,12 +55,24 @@
         app:layout_constraintStart_toEndOf="@id/item_article_priceTextView"
         app:layout_constraintTop_toTopOf="@id/item_article_priceTextView"
         />
+    <View
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/background_light_gray_ellipse"
+        android:id="@+id/heart_back"
+        />
+
+
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/ic_baseline_favorite_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/heart_back"
+        app:layout_constraintTop_toTopOf="@+id/heart_back"
+        app:layout_constraintEnd_toEndOf="@+id/heart_back"
+        app:layout_constraintBottom_toBottomOf="@+id/heart_back"
         android:id="@+id/books_you_like_interest_btn"
         />
 
