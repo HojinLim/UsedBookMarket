@@ -130,7 +130,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/article_form_detail_titleText"
         android:id="@+id/book_status_text2"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:text="거래완료"
         android:textSize="20sp"
         android:textStyle="bold"

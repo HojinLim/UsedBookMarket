@@ -3,7 +3,6 @@ package com.example.usedbookmarket.fragment
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -49,13 +48,21 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         }
     }
     // 1. Context를 받아올 변수 선언
-    lateinit var mainActivity: MainActivity
+    private lateinit var mainActivity: MainActivity
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.d("TEST", "OnAttach")
         // 2. Context를 Activity로 형변환하여 할당
         mainActivity = context as MainActivity
+
+        articleAdapter = ArticleAdapter(clickListener = {
+            val intent = Intent(requireContext(), CompletedSalesArticleForm::class.java)
+            intent.putExtra("formModel", it)
+            startActivity(intent)
+        })
+
+
     }
 
 
@@ -64,7 +71,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
     private lateinit var historyAdapter: HistoryAdapter
     private lateinit var db: AppDatabase
-    private lateinit var images: ArrayList<Uri?>
 
     private lateinit var recyclerView: RecyclerView
     private val articleFormList = mutableListOf<ArticleForm>()
@@ -86,10 +92,16 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
             articleForm ?: return
-            articleFormList.add(articleForm)
-            articleAdapter.submitList(articleFormList)
-            articleAdapter.notifyDataSetChanged()
+
+
+//            articleFormList.add(articleForm)
+
+            articleAdapter.run {
+                submitList(articleFormList)
+                notifyDataSetChanged()
+            }
             Log.d("TEST","onChildChanged")
+            Log.d("TEST",articleForm.toString())
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
@@ -123,10 +135,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        // 왜 해주는건지 잘 몰겠다
-        //articleFormList.clear()
-
-
         binding.homeFloatBtn.setOnClickListener {
             startActivity(Intent(requireContext(), AddBookActivity::class.java))
         }
@@ -135,13 +143,9 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         }
         recyclerView = binding.homeBookRecyclerView
 
-
         articleDB = Firebase.database.reference.child("sell_list")
-        articleAdapter = ArticleAdapter(clickListener = {
-            val intent = Intent(requireContext(), CompletedSalesArticleForm::class.java)
-            intent.putExtra("formModel", it)
-            startActivity(intent)
-        })
+
+
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = articleAdapter
@@ -198,7 +202,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
                 .run {
                     mainActivity.runOnUiThread {
                         historyAdapter.submitList(this)
-                        Log.d("TAG", this.toString())
+//                        Log.d("TAG", this.toString())
                     }
                 }
         }).start()
@@ -234,9 +238,10 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         }).start()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "OnResume$articleFormList")
+        Log.d("TEST", "OnResume")
         articleAdapter.notifyDataSetChanged()
 
 

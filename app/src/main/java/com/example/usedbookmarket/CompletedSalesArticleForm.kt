@@ -44,7 +44,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
     private lateinit var uid: String
     private lateinit var aid: String
     private lateinit var userIdSt: String
-
+    private lateinit var bookStatus: String
 
     lateinit var sliderViewPager: ViewPager2
     lateinit var layoutIndicator: LinearLayout
@@ -62,12 +62,17 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+
+
         initView()  // 현재 글 소유권에 따른 뷰 배치
         bindStatus(binding.statusImage,"load")
+
+
 
         setSpinner()
         val spinner: Spinner = findViewById(R.id.book_status_spinner)
         spinner.onItemSelectedListener = this
+
 
         // 이미지 폴더 경로 참조
         val listRef = FirebaseStorage.getInstance().reference
@@ -144,15 +149,30 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             // Apply the adapter to the spinner
             spinner.adapter = adapter
         }
+
+        when(formModel.status){
+            "sale"-> spinner.setSelection(0)
+            "reserve"-> spinner.setSelection(1)
+            "sold" -> spinner.setSelection(2)
+        }
+
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-        parent.getItemAtPosition(pos)
+
+        when(parent.getItemAtPosition(pos).toString()){
+            "판매중"-> initBookStatus("sale")
+            "예약중"-> initBookStatus("reserve")
+            "판매완료"-> initBookStatus("sold")
+
+        }
 
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
-        TODO("Not yet implemented")
+
+
+
     }
 
     private fun bindStatus(
@@ -195,13 +215,15 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             }
 
             findViewById<TextView>(R.id.article_form_discount).text =
-                formModel?.priceSales.orEmpty()
+                formModel.priceSales.orEmpty()
             findViewById<TextView>(R.id.c_sales_article_form_title).text =
-                formModel?.formTitle.orEmpty()
+                formModel.formTitle.orEmpty()
             findViewById<TextView>(R.id.c_sales_article_form_description).text =
-                formModel?.formDescription.orEmpty()
+                formModel.formDescription.orEmpty()
             findViewById<TextView>(R.id.c_sales_article_form_wish_price).text =
-                formModel?.wishPrice.orEmpty()
+                formModel.wishPrice.orEmpty()
+            initBookStatus(formModel.status)
+
 
             // 자신이 작성한 글일 시 수정, 채팅, 관심 버튼 사라짐
             // 상대방 글
@@ -262,7 +284,30 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             }
         }
 
-        override fun onResume() {
+    private fun initBookStatus(status: String?) {
+        when(status){
+            "sale"->{
+                binding.bookStatusText.isVisible= false
+                binding.bookStatusText2.isVisible= false
+            }
+            "reserve"->{
+                binding.bookStatusText.isVisible= true
+                binding.bookStatusText2.isVisible= false
+            }
+            "sold"->{
+                binding.bookStatusText.isVisible= false
+                binding.bookStatusText2.isVisible= true
+            }
+
+        }
+        val cformModel= formModel.copy(status="$status")
+        FirebaseDatabase.getInstance().reference
+            .child("sell_list/$aid/")
+            .setValue(cformModel)
+
+    }
+
+    override fun onResume() {
             super.onResume()
             isBusy = false
         }

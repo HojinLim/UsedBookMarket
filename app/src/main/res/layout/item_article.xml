@@ -73,6 +73,7 @@
         android:background="@drawable/background_status_stroke_radius_8"
         android:text="예약중"
         android:padding="5dp"
+        android:id="@+id/item_status"
         />
 
     <TextView
@@ -86,6 +87,7 @@
         android:textStyle="italic"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/item_article_coverImageView"
-        app:layout_constraintStart_toStartOf="@id/item_article_time" />
+        app:layout_constraintStart_toStartOf="@id/item_article_time"
+        android:id="@+id/item_status2"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

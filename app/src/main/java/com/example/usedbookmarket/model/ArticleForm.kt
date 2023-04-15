@@ -19,8 +19,7 @@ data class ArticleForm(
     val createdAt: String?,
     val email: String?,
     val status: String? //sale, reserve, sold
-): Parcelable
-{
+): Parcelable {
     constructor(): this("","","","",
     "","","","","","","", "","", "sale")
 }
