@@ -43,6 +43,7 @@ android {
     packagingOptions{
         exclude 'paste'
     }
+    namespace 'com.example.usedbookmarket'
 
 }
 

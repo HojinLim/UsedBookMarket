@@ -17,7 +17,7 @@
 
             android:id="@+id/books_you_have_backButton"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:background="@drawable/ic_baseline_keyboard_arrow_left_24"
 
             />

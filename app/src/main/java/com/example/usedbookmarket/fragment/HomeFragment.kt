@@ -1,12 +1,17 @@
 package com.example.usedbookmarket.fragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -23,6 +28,8 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -31,7 +38,6 @@ import com.google.firebase.ktx.Firebase
 class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
     private lateinit var binding: FragmentHomeBinding
-
     companion object {
 
         private const val TAG = "HomeFragment"
@@ -39,6 +45,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         fun newInstance() : HomeFragment {
             return HomeFragment()
         }
+
         val diffUtil = object : DiffUtil.ItemCallback<History>() {
             override fun areContentsTheSame(oldItem: History, newItem: History) =
                 oldItem == newItem
@@ -75,6 +82,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
     private lateinit var recyclerView: RecyclerView
     private val articleFormList = mutableListOf<ArticleForm>()
     private val searchedArticleFormList = mutableListOf<ArticleForm>()
+    private val fireDatabase = FirebaseDatabase.getInstance().reference
 
     private val listener = object : ChildEventListener {
         @SuppressLint("NotifyDataSetChanged")
@@ -94,7 +102,8 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             articleForm ?: return
 
 
-//            articleFormList.add(articleForm)
+
+            refreshFragment()
 
             articleAdapter.run {
                 submitList(articleFormList)
@@ -119,6 +128,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
         override fun onCancelled(error: DatabaseError) {}
     }
+
 
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -191,7 +201,21 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         return binding.root
     }
 
+    fun refreshFragment() {
+//        val fragmentManager: FragmentManager? = null
 
+        mainActivity.supportFragmentManager.beginTransaction()
+            .apply{
+                replace(R.id.fragmentContainer, newInstance())
+                commitAllowingStateLoss()
+            }
+//        refreshFragment(fragment)
+//        requireFragmentManager()
+//            .beginTransaction()
+//            .add(fragment, fragment.tag)
+//            .commitAllowingStateLoss()
+
+    }
 
     private fun showHistoryView() {
         binding.historyRecyclerView.isVisible = true

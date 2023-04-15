@@ -61,6 +61,11 @@ class MessageActivity: AppCompatActivity() {
         email = Firebase.auth.currentUser?.email
         recyclerView = binding.msgHistoryRecyclerView
 
+        // 뒤로가기
+        binding.booksYouHaveBackButton.setOnClickListener {
+            onBackPressed()
+        }
+
         imageView.setOnClickListener {
             Log.d("클릭 시 dest", "$destinationUid")
             val chatModel = ChatModel()
