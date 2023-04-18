@@ -1,17 +1,12 @@
 package com.example.usedbookmarket.fragment
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -29,7 +24,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -100,8 +94,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
             articleForm ?: return
-
-
 
             refreshFragment()
 
@@ -202,18 +194,11 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
     }
 
     fun refreshFragment() {
-//        val fragmentManager: FragmentManager? = null
-
         mainActivity.supportFragmentManager.beginTransaction()
             .apply{
                 replace(R.id.fragmentContainer, newInstance())
                 commitAllowingStateLoss()
             }
-//        refreshFragment(fragment)
-//        requireFragmentManager()
-//            .beginTransaction()
-//            .add(fragment, fragment.tag)
-//            .commitAllowingStateLoss()
 
     }
 

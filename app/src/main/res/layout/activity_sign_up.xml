@@ -4,132 +4,136 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpActivity"
-    android:background="@color/basic_background">
+    android:background="@color/basic_background"
+    tools:context=".SignUpActivity">
 
     <TextView
-        android:layout_margin="15dp"
-        android:textStyle="bold"
+        android:id="@+id/signUpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:fontFamily="@font/gan_pan_font"
         android:text="Create User"
-        android:textSize="50dp"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="50dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/signUpText"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <View
+        android:id="@+id/signup_bar"
         android:layout_width="0dp"
         android:layout_height="2dp"
-        android:background="@color/black"
-        android:id="@+id/signup_bar"
-        app:layout_constraintTop_toBottomOf="@id/signUpText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="10dp"
-        />
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signUpText" />
 
     <ImageView
-        android:padding="5dp"
-        android:background="@color/gray"
-        app:layout_constraintHorizontal_bias="0.1"
+        android:id="@+id/nameImageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:background="@color/gray"
+        android:padding="5dp"
         android:src="@drawable/nickname"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/nameImageView"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/inputNameEditText"
-        android:background="@color/white"
-        android:padding="15dp"
-        android:hint="Enter NickName"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@id/nameImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/nameImageView"
-        app:layout_constraintBottom_toBottomOf="@id/nameImageView"
         android:layout_marginEnd="15dp"
-        />
+        android:background="@color/white"
+        android:fontFamily="@font/gan_pan_font"
+        android:hint="Enter NickName"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/nameImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/nameImageView"
+        app:layout_constraintTop_toTopOf="@id/nameImageView" />
+
     <ImageView
-        android:background="@color/gray"
-        app:layout_constraintHorizontal_bias="0.1"
+        android:id="@+id/userImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
+        android:background="@color/gray"
+        android:fontFamily="@font/gan_pan_font"
         android:src="@drawable/ic_baseline_account_box_24"
-        app:layout_constraintTop_toBottomOf="@+id/nameImageView"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/userImage"
-        />
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameImageView" />
+
     <EditText
         android:id="@+id/inputEmailEditText"
-        android:background="@color/white"
-        android:padding="15dp"
-        android:hint="Enter email"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@id/userImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/userImage"
-        app:layout_constraintBottom_toBottomOf="@id/userImage"
         android:layout_marginEnd="15dp"
-        />
+        android:background="@color/white"
+        android:hint="Enter email"
+        android:fontFamily="@font/gan_pan_font"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/userImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/userImage"
+        app:layout_constraintTop_toTopOf="@id/userImage" />
+
     <ImageView
-        android:background="@color/gray"
-        android:layout_marginTop="10dp"
-        app:layout_constraintHorizontal_bias="0.1"
+        android:id="@+id/passwordImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray"
         android:src="@drawable/ic_baseline_vpn_key_24"
-        app:layout_constraintTop_toBottomOf="@id/userImage"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/passwordImage"
-        />
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userImage" />
+
     <EditText
         android:id="@+id/inputPasswordEditText"
-        android:background="@color/white"
-        android:padding="15dp"
-        android:inputType="numberPassword"
-        android:hint="Enter password"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@id/passwordImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/passwordImage"
-        app:layout_constraintBottom_toBottomOf="@id/passwordImage"
         android:layout_marginEnd="15dp"
-        />
+        android:background="@color/white"
+        android:hint="Enter password"
+        android:inputType="numberPassword"
+        android:padding="15dp"
+        android:fontFamily="@font/gan_pan_font"
+        app:layout_constraintBottom_toBottomOf="@id/passwordImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/passwordImage"
+        app:layout_constraintTop_toTopOf="@id/passwordImage" />
+
     <androidx.appcompat.widget.AppCompatButton
-        android:textColor="@color/white"
         android:id="@+id/signUpButton"
-        android:text="Sign Up"
-        android:textSize="20dp"
-        android:background="@color/carrot"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/background_button_carrot_rectangle"
+        android:text="Sign Up"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:fontFamily="@font/gan_pan_font"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/signup_profile"
-        android:src="@drawable/adduser"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="50dp"
+        android:src="@drawable/adduser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_bar"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/signup_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,7 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:fontFamily="@font/gan_pan_font"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/book_coverImageView"
         tools:text="안드로이드 마스터하기" />
@@ -36,6 +37,7 @@
         android:layout_marginStart="15dp"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:fontFamily="@font/gan_pan_font"
         app:layout_constraintStart_toEndOf="@id/book_bookNameTextView"
         tools:text="5000"
         app:layout_constraintTop_toTopOf="@id/book_bookNameTextView"
@@ -44,6 +46,7 @@
     <TextView
         android:textColor="@color/black"
         android:layout_marginStart="5dp"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="원"
@@ -56,6 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
+        android:fontFamily="@font/gan_pan_font"
         android:ellipsize="end"
         android:maxLines="3"
         app:layout_constraintTop_toBottomOf="@id/book_bookNameTextView"

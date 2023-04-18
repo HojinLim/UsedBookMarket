@@ -29,6 +29,7 @@
             android:gravity="bottom"
             android:padding="5dp"
             android:text="알림"
+            android:fontFamily="@font/gan_pan_font"
             android:textColor="@color/white"
             android:textSize="25dp" />
 

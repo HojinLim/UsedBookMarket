@@ -17,9 +17,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+
         tools:src="@drawable/logo"/>
 
     <TextView
+        android:fontFamily="@font/gan_pan_font"
         android:id="@+id/item_article_articleTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,12 +45,14 @@
         tools:text="5000"
         app:layout_constraintTop_toBottomOf="@id/item_article_articleTitleTextView"
         android:id="@+id/item_article_priceTextView"
+        android:fontFamily="@font/gan_pan_font"
         />
     <TextView
         android:textColor="@color/black"
         android:layout_marginStart="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/gan_pan_font"
         android:text="원"
         app:layout_constraintStart_toEndOf="@id/item_article_priceTextView"
         app:layout_constraintTop_toTopOf="@id/item_article_priceTextView"
@@ -57,6 +61,7 @@
         android:id="@+id/item_article_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/gan_pan_font"
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constraintTop_toBottomOf="@id/item_article_priceTextView"
@@ -67,6 +72,7 @@
         android:textStyle="italic"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/item_article_coverImageView"
         app:layout_constraintStart_toStartOf="@id/item_article_time"

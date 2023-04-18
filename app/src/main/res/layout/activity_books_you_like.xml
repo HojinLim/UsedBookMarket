@@ -6,14 +6,16 @@
     android:background="@color/basic_background" >
 
     <TextView
+        android:background="@drawable/background_empty_stroke_radius_8"
         android:padding="15dp"
         android:id="@+id/interest_title"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:text="관심목록"
+        android:fontFamily="@font/gan_pan_font"
         android:textSize="30dp"
 
         android:textColor="@color/white"/>

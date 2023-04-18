@@ -17,6 +17,7 @@
         android:padding="10dp"
         android:background="@drawable/background_light_gray_ellipse"
         android:backgroundTint="@color/carrot"
+        android:fontFamily="@font/gan_pan_font"
         android:textColor="@color/white"
         />
 

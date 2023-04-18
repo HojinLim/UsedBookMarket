@@ -27,6 +27,7 @@
         android:lines="1"
         android:textColor="@color/black"
         android:textSize="16sp"
+        android:fontFamily="@font/gan_pan_font"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_books_you_like_coverImageView"
@@ -42,6 +43,7 @@
         app:layout_constraintStart_toStartOf="@id/item_books_you_like_articleTitleTextView"
         android:text="5000"
         android:textSize="20sp"
+        android:fontFamily="@font/gan_pan_font"
         app:layout_constraintTop_toBottomOf="@id/item_books_you_like_articleTitleTextView"
         android:id="@+id/item_article_priceTextView"
         />
@@ -51,6 +53,7 @@
         android:layout_marginStart="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/gan_pan_font"
         android:text="원"
         app:layout_constraintStart_toEndOf="@id/item_article_priceTextView"
         app:layout_constraintTop_toTopOf="@id/item_article_priceTextView"

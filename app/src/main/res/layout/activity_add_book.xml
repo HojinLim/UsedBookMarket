@@ -14,7 +14,7 @@
         android:id="@+id/chatlist_titleLayout">
 
         <androidx.appcompat.widget.AppCompatButton
-
+        android:layout_margin="5dp"
             android:id="@+id/books_you_have_backButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -28,8 +28,11 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/gan_pan_font"
+            android:textSize="23sp"
+            android:layout_margin="13dp"
             android:id="@+id/add_book_complete_btn"
-            android:background="@color/carrot"
+            android:background="@drawable/background_button_carrot_rectangle"
             android:textColor="@color/white"
             android:text="완료"/>
     </LinearLayout>
@@ -44,6 +47,7 @@
     <TextView
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/chatlist_topBar"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,20 +67,22 @@
         app:layout_constraintTop_toBottomOf="@+id/add_book_titleTextView"
         app:layout_constraintStart_toStartOf="parent"
         />
+
+    <!--android:privateImeOptions="defaultInputmode=korean"-->
     <EditText
-        android:hint="찾고 싶은 책을 검색하세요."
         android:id="@+id/add_book_searchEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/background_light_gray_ellipse"
+        android:hint="찾고 싶은 책을 검색하세요."
         android:inputType="text"
+        android:fontFamily="@font/gan_pan_font"
         android:lines="1"
         android:padding="10dp"
-        app:layout_constraintStart_toEndOf="@+id/add_book_searchImg"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/add_book_searchImg"
-        android:background="@drawable/background_light_gray_ellipse"
-        />
-    <!--android:privateImeOptions="defaultInputmode=korean"-->
+        app:layout_constraintStart_toEndOf="@+id/add_book_searchImg" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/add_book_recyclerView"
         android:layout_margin="10dp"

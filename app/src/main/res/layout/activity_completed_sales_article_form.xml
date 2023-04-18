@@ -34,13 +34,13 @@
         <Button
             android:id="@+id/article_form_edit_btn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_marginTop="2dp"
-            android:background="@color/carrot"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/background_button_carrot_rectangle"
             android:padding="5dp"
             android:text="수정하기"
             android:textColor="@color/white"
+            android:fontFamily="@font/gan_pan_font"
             android:textSize="20sp" />
     </LinearLayout>
     <View
@@ -149,7 +149,7 @@
         android:text="책 제목:"
         android:layout_margin="10dp"
         android:textSize="20dp"
-
+        android:fontFamily="@font/gan_pan_font"
         />
     <TextView
         android:id="@+id/c_sales_article_form_detail_title"
@@ -162,6 +162,7 @@
         android:lines="1"
         android:textSize="20dp"
         tools:text="해리포터"
+        android:fontFamily="@font/gan_pan_font"
         />
     <TextView
         app:layout_constraintHorizontal_weight="1"
@@ -172,6 +173,7 @@
         app:layout_constraintTop_toBottomOf="@id/article_form_detail_titleText"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="20sp"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_margin="10dp"/>
     <TextView
         android:gravity="center_vertical"
@@ -179,6 +181,7 @@
         android:layout_height="50dp"
         android:hint="제목을 입력하시오."
         android:textSize="20sp"
+        android:fontFamily="@font/gan_pan_font"
         app:layout_constraintTop_toBottomOf="@id/article_form_detail_titleText"
         app:layout_constraintStart_toEndOf="@id/article_form_formTitleText"
         android:layout_marginStart="5dp"
@@ -193,6 +196,7 @@
         tools:text="3000"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:fontFamily="@font/gan_pan_font"
         app:layout_constraintTop_toBottomOf="@id/article_form_formTitleText"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="20sp"
@@ -207,6 +211,7 @@
         app:layout_constraintStart_toEndOf="@id/c_sales_article_form_wish_price"
         android:textSize="20sp"
         android:layout_marginVertical="10dp"
+        android:fontFamily="@font/gan_pan_font"
         />
     <TextView
         android:gravity="end|bottom"
@@ -218,6 +223,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"
         android:id="@+id/article_form_discount"
+        android:fontFamily="@font/gan_pan_font"
         />
 
     <TextView
@@ -230,6 +236,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/c_sales_article_form_description"
+        android:fontFamily="@font/gan_pan_font"
         />
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
@@ -239,8 +246,10 @@
         android:layout_margin="10dp"
         android:text="채팅하기"
         android:id="@+id/c_sales_article_chat_btn"
-        android:background="@color/carrot"
+        android:background="@drawable/background_button_carrot_rectangle"
         android:textColor="@color/white"
+        android:fontFamily="@font/gan_pan_font"
+
         />
 
     <androidx.appcompat.widget.AppCompatButton

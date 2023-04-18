@@ -3,9 +3,11 @@ package com.example.usedbookmarket
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -18,8 +20,10 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+
 
 class BooksYouSellActivity: AppCompatActivity() {
     private lateinit var articleDB: DatabaseReference
@@ -43,9 +47,8 @@ class BooksYouSellActivity: AppCompatActivity() {
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
             articleForm ?: return
-            if(articleForm.uid == auth.currentUser?.uid){
-                articleFormList.add(articleForm)
-            }
+
+
             adapter.submitList(articleFormList)
             adapter.notifyDataSetChanged()
         }
@@ -84,8 +87,8 @@ class BooksYouSellActivity: AppCompatActivity() {
     }
     inner class BooksYouSellListAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<ArticleForm, BooksYouSellListAdapter.BooksYouSellItemViewHolder>(diffUtil) {
         inner class BooksYouSellItemViewHolder(private val binding: ItemBooksYouSellBinding): RecyclerView.ViewHolder(binding.root){
-            fun bind(articleModel: ArticleForm){
 
+            fun bind(articleModel: ArticleForm){
 
                 Glide
                     .with(binding.itemBooksYouSellCoverImg.context)
@@ -96,6 +99,22 @@ class BooksYouSellActivity: AppCompatActivity() {
 
                 binding.root.setOnClickListener {
                     clickListener(articleModel)
+                }
+               // initBookStatus(articleModel.status, articleModel)
+
+//
+
+                // 거래 예약 버튼
+                binding.itemBookReserveBtn.setOnClickListener {
+                    initBookStatus("reserve", articleModel)
+                }
+                // 거래 완료 버튼
+                binding.itemBookSoldBtn.setOnClickListener {
+                    initBookStatus("sold", articleModel)
+                }
+                // 거래중 버튼
+                binding.itemBookSellBtn.setOnClickListener {
+                    initBookStatus("sale", articleModel)
                 }
 
                 // 수정하기 버튼
@@ -110,6 +129,37 @@ class BooksYouSellActivity: AppCompatActivity() {
                     intent.putExtra("formImage", articleModel.coverSmallUrl)
                     startActivity(intent)
                 }
+            }
+
+            private fun initBookStatus(status: String?, articleModel: ArticleForm) {
+
+                when(status){
+                    "sale"->{
+                        binding.itemBookStatus.isVisible= false
+                        binding.itemBookStatus2.isVisible= false
+                    }
+                    "reserve"->{
+                        binding.itemBookStatus.isVisible= true
+                        binding.itemBookStatus2.isVisible= false
+                    }
+                    "sold"->{
+                        binding.itemBookStatus.isVisible= false
+                        binding.itemBookStatus2.isVisible= true
+                    }
+
+                }
+                val aid= articleModel.aid
+                val cformModel= articleModel.copy(status="$status")
+                FirebaseDatabase.getInstance().reference
+                    .child("sell_list/$aid/")
+                    .setValue(cformModel)
+                //adapter.notifyDataSetChanged()
+
+                val handler = Handler()
+
+                val r = Runnable { adapter.notifyDataSetChanged() }
+
+                handler.post(r)
             }
         }
 

@@ -13,6 +13,7 @@
         android:padding="15dp"
         android:text="나의 정보"
         android:textColor="@color/white"
+        android:fontFamily="@font/gan_pan_font"
         android:textSize="30dp"
         android:layout_margin="15dp"
         android:textStyle="bold"
@@ -27,8 +28,9 @@
         android:layout_height="wrap_content"
         android:text="로그아웃"
         android:textColor="@color/white"
-        android:background="@color/carrot"
+        android:background="@drawable/background_button_carrot_rectangle"
         android:padding="15dp"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_margin="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,6 +59,7 @@
         android:id="@+id/account_userEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/gan_pan_font"
         app:layout_constraintStart_toEndOf="@id/account_profile_pic"
         app:layout_constraintTop_toTopOf="@id/account_profile_pic"
         android:text="User_Email"
@@ -70,6 +73,7 @@
         app:layout_constraintTop_toBottomOf="@id/account_userEmail"
         app:layout_constraintStart_toStartOf="@id/account_userEmail"
         android:text="매너온도 : 36.5"
+        android:fontFamily="@font/gan_pan_font"
         android:textColor="@color/carrot"
         android:textSize="18dp"/>
     <LinearLayout
@@ -97,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="판매한 책"
+                android:fontFamily="@font/gan_pan_font"
                 android:layout_gravity="center"
                 />
         </LinearLayout>
@@ -111,14 +116,15 @@
                 android:layout_height="70dp"
                 android:background="@drawable/ic_baseline_local_grocery_store_24"
                 android:id="@+id/account_list_books_you_sell_btn"/>
+
             <TextView
-                android:textColor="@color/white"
-                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="판매내역"
                 android:layout_gravity="center"
-                />
+                android:layout_margin="5dp"
+                android:text="판매내역"
+                android:fontFamily="@font/gan_pan_font"
+                android:textColor="@color/white" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -137,6 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="관심목록"
+                android:fontFamily="@font/gan_pan_font"
                 android:layout_gravity="center"
                 />
         </LinearLayout>
@@ -151,9 +158,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="회원탈퇴"
-        android:background="@color/carrot"
+        android:background="@drawable/background_button_carrot_rectangle"
         android:textSize="22sp"
         android:textColor="@color/white"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="15dp"
         android:id="@+id/account_del_user"
@@ -167,6 +175,7 @@
         app:layout_constraintTop_toBottomOf="@+id/account_profile_pic"
         app:layout_constraintStart_toStartOf="@+id/account_profile_pic"
         android:id="@+id/account_UserName"
+        android:fontFamily="@font/gan_pan_font"
         />
     <Button
         android:id="@+id/account_changeName_btn"
@@ -174,6 +183,7 @@
         android:backgroundTint="#823CFE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@+id/account_UserName"
         app:layout_constraintTop_toTopOf="@+id/account_UserName"

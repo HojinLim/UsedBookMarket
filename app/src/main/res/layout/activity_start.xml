@@ -19,6 +19,7 @@
         android:id="@+id/shortCutButton"
         android:textColor="@color/white"
         android:text="책 목록 바로가기"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/carrot"
@@ -33,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/carrot"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_margin="15dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/shortCutButton"
@@ -60,7 +62,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="당신 근처의 도서마켓"
+        android:fontFamily="@font/gan_pan_font"
+        android:text="당신만의 도서마켓"
         />
     <TextView
         android:layout_marginTop="30dp"
@@ -69,13 +72,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="내 동네를 설정하고 \n도서마켓을 시작해보세요."
+        android:text="먼지 쌓인 책들 \n도서마켓에 팔아보세요."
         />
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/goSignUpButton"
-        android:background="@color/carrot"
+        android:background="@drawable/background_button_carrot_rectangle"
         android:text="시작하기"
         android:textStyle="bold"
         android:textSize="20dp"
@@ -83,6 +87,7 @@
         android:textColor="@color/white"
         android:layout_marginHorizontal="20dp"
         android:layout_width="0dp"
+        android:fontFamily="@font/gan_pan_font"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/askAccountTextView"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +101,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/gray"
         android:text="이미 계정이 있나요?"
+        android:fontFamily="@font/gan_pan_font"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/goLoginButton"
@@ -109,28 +115,15 @@
         android:background="#00000000"
         android:textColor="@color/carrot"
         android:id="@+id/goLoginButton"
+        android:fontFamily="@font/gan_pan_font"
         android:text="로그인"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/askAccountTextView"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/goSignUpButton"
-        app:layout_constraintStart_toStartOf="parent"
-        />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/button"
-        app:layout_constraintBottom_toBottomOf="@+id/button"
-         />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

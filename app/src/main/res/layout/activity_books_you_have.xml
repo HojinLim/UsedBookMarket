@@ -23,6 +23,7 @@
             />
 
         <TextView
+            android:fontFamily="@font/gan_pan_font"
             android:id="@+id/books_you_have_titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

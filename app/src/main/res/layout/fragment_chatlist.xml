@@ -20,6 +20,7 @@
             android:id="@+id/item_chatList_nickName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/gan_pan_font"
             android:gravity="bottom"
             android:padding="5dp"
             android:textStyle="bold"

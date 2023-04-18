@@ -29,6 +29,7 @@
             android:layout_height="match_parent"
             android:gravity="bottom"
             android:padding="5dp"
+            android:fontFamily="@font/gan_pan_font"
             tools:text="해리포터 불사조의 기사단"
             android:textColor="@color/white"
             android:textSize="25dp"
@@ -76,6 +77,7 @@
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/gan_pan_font"
                 android:ellipsize="end"
                 app:layout_constraintTop_toBottomOf="@+id/detail_coverImageView"
                 tools:text="우리 시대에 가장 사랑받는 21세기의 고전 《해리포터》를 고전답게 재해석하다! 선과 악의 대립 속에서 평범한 어린 소년이 한 사람의 영웅으로 성장해나가는 보편적인 테마를 바탕으로 빈틈없는 소설적 구성과 생생하게 살아"
@@ -95,6 +97,8 @@
         android:textColor="@color/yellow"
         android:layout_marginStart="15dp"
         android:id="@+id/detail_alarm_price"
+        android:fontFamily="@font/gan_pan_font"
+
         android:textStyle="bold"
         />
     <TextView
@@ -105,7 +109,9 @@
         tools:text="5,000"
         android:textColor="@color/white"
         android:layout_marginStart="15dp"
+        android:fontFamily="@font/gan_pan_font"
         android:id="@+id/detail_price"
+        android:layout_margin="10dp"
         />
     <TextView
         android:textColor="@color/white"
@@ -113,16 +119,19 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/detail_price"
         app:layout_constraintTop_toTopOf="@id/detail_price"
+        android:fontFamily="@font/gan_pan_font"
         android:text="원"
         />
     <androidx.appcompat.widget.AppCompatButton
         android:textColor="@color/white"
-        android:background="@color/carrot"
+        android:background="@drawable/background_button_carrot_rectangle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/detail_price"
         android:text="저장하기"
+        android:layout_marginHorizontal="5dp"
+        android:fontFamily="@font/gan_pan_font"
         android:id="@+id/detail_saveButton"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

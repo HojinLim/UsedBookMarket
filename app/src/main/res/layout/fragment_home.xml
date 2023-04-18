@@ -18,6 +18,7 @@
         />
     <EditText
         android:hint="찾고 싶은 책을 검색하세요."
+        android:fontFamily="@font/gan_pan_font"
         android:id="@+id/searchEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
