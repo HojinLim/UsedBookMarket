@@ -117,6 +117,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
 
     }
 
+    // 글 새로 작성
     private fun initNewForm() {
         val bookModel = intent.getParcelableExtra<Book>("bookModel")
         bookModel ?: return
@@ -128,6 +129,9 @@ class SalesArticleFormActivity: AppCompatActivity() {
 
         // 랜덤 키 생성
         val articleKey = reference.getReference("sell_list").push().key
+
+        // 책 제목 불러오기
+        binding.articleFormDetailTitle.text= bookModel.title
 
         formModel = ArticleForm(
             articleKey,
@@ -146,7 +150,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
             "sale"
         )
 
-
+        // 글쓰기 완료 버튼
         binding.articleFormEditBtn.setOnClickListener {
 
 
