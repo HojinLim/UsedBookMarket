@@ -8,7 +8,14 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
@@ -44,13 +51,10 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
     private lateinit var uid: String
     private lateinit var aid: String
     private lateinit var userIdSt: String
-    private lateinit var bookStatus: String
+
 
     lateinit var sliderViewPager: ViewPager2
     lateinit var layoutIndicator: LinearLayout
-
-
-
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -62,12 +66,8 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-
-
         initView()  // 현재 글 소유권에 따른 뷰 배치
         bindStatus(binding.statusImage,"load")
-
-
 
         setSpinner()
         val spinner: Spinner = findViewById(R.id.book_status_spinner)
@@ -214,8 +214,12 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                 startActivity(intent)
             }
 
-            findViewById<TextView>(R.id.article_form_discount).text =
-                formModel.priceSales.orEmpty()
+
+
+            val price= formModel.priceSales+"원"
+            if(formModel.priceSales?.isEmpty() == true) findViewById<TextView>(R.id.article_form_discount).text= "정보 없음"
+            findViewById<TextView>(R.id.article_form_discount).text = price
+
             findViewById<TextView>(R.id.c_sales_article_form_title).text =
                 formModel.formTitle.orEmpty()
             findViewById<TextView>(R.id.c_sales_article_form_description).text =
@@ -424,11 +428,10 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
 
             inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 private val mImageView: ImageView
-//                private val sImageView: ImageView
+
 
                 init {
-//                    sImageView= itemView.findViewById(R.id.status_image)
-//                    bindStatus(sImageView)
+
 
                     mImageView = itemView.findViewById(R.id.imageSlider)
                     mImageView.setOnClickListener {

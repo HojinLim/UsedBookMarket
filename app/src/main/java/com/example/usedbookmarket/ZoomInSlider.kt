@@ -61,7 +61,6 @@ private lateinit var images: Array<String?>
 
             }
 
-
         Handler(Looper.getMainLooper()).postDelayed({
             //실행할 코드
             sliderViewPager = findViewById(R.id.sliderViewPager)
@@ -79,9 +78,6 @@ private lateinit var images: Array<String?>
             setupIndicators(images.size)
             bindStatus(statusImageView,"stop")
         }, 1500)
-
-
-
     }
     private fun bindStatus(
         statusImageView: ImageView, status: String

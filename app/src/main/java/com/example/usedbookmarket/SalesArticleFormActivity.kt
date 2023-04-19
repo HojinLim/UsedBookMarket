@@ -25,7 +25,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 class SalesArticleFormActivity: AppCompatActivity() {
 
@@ -69,7 +69,6 @@ class SalesArticleFormActivity: AppCompatActivity() {
 
         if (intentFrom == "A") {
             // 처음 만드는 글
-            //Toast.makeText(this, intentFrom, Toast.LENGTH_SHORT).show()
             Toast.makeText(this, "첨만드는글", Toast.LENGTH_SHORT).show()
             Log.d("TEST", intentFrom)
             initNewForm()
@@ -91,6 +90,9 @@ class SalesArticleFormActivity: AppCompatActivity() {
             val intentImage = Intent(Intent.ACTION_GET_CONTENT)    //Intent.ACTION_GET_CONTENT
             intentImage.type = MediaStore.Images.Media.CONTENT_TYPE
             getContent.launch(intentImage)
+        }
+        binding.booksYouHaveBackButton.setOnClickListener {
+            onBackPressed()
         }
 
         val user= auth.currentUser
@@ -176,9 +178,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
 
             Toast.makeText(this, "수정 완료 하였습니다!", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
-//            val images =adapter.getPhotos()
-//
-//            intent.putExtra("photos",images)
+
 
             startActivity(intent)
         }

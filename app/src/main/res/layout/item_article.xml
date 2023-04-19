@@ -91,6 +91,7 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:textStyle="italic"
+        android:fontFamily="@font/gan_pan_font"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/item_article_coverImageView"
         app:layout_constraintStart_toStartOf="@id/item_article_time"

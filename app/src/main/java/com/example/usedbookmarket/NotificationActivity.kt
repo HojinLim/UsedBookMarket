@@ -19,22 +19,6 @@ class NotificationActivity : AppCompatActivity() {
         val email = sharedPref.getString("email","")
         val msg = sharedPref.getString("msg","")
 
-//        // Create an explicit intent for an Activity in your app
-//        val intent = Intent(this, AlertDetails::class.java).apply {
-//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//        }
-//        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-//
-//        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-//            .setSmallIcon(R.drawable.notification_icon)
-//            .setContentTitle("My notification")
-//            .setContentText("Hello World!")
-//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//            // Set the intent that will fire when the user taps the notification
-//            .setContentIntent(pendingIntent)
-//            .setAutoCancel(true)
-
-
         var builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.logo)
             .setContentTitle(email)

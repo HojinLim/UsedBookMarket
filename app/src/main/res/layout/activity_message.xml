@@ -65,7 +65,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/chat_msg"/>
     <EditText
-        android:padding="5dp"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="5dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="메시지 보내기"

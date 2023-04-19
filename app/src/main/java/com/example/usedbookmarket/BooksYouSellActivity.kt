@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,6 +83,10 @@ class BooksYouSellActivity: AppCompatActivity() {
 
         adapter.submitList(articleFormList)
 
+        // 뒤로가기 버튼
+        findViewById<AppCompatButton>(R.id.books_you_have_backButton).setOnClickListener {
+            onBackPressed()
+        }
 
 
     }
@@ -100,9 +105,6 @@ class BooksYouSellActivity: AppCompatActivity() {
                 binding.root.setOnClickListener {
                     clickListener(articleModel)
                 }
-               // initBookStatus(articleModel.status, articleModel)
-
-//
 
                 // 거래 예약 버튼
                 binding.itemBookReserveBtn.setOnClickListener {

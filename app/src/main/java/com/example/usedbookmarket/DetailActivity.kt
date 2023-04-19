@@ -35,10 +35,18 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.detailDescriptionTextView.text = bookModel?.description.orEmpty()
-        binding.detailPrice.text= bookModel?.priceSales.orEmpty()
+
+        val price= bookModel?.priceSales+"원"
+        if(bookModel?.priceSales?.equals("0")!!) binding.detailPrice.text= "정보 없음"
+        else{
+            binding.detailPrice.text= price
+        }
+
+
 
         adapter= BookAdapter {
         }
+        // 저장하기 버튼
         binding.detailSaveButton.setOnClickListener {
             val intent = Intent(this, SalesArticleFormActivity::class.java)
             intent.putExtra("bookModel", bookModel)

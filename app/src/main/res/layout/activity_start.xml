@@ -75,7 +75,8 @@
         android:fontFamily="@font/gan_pan_font"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="먼지 쌓인 책들 \n도서마켓에 팔아보세요."
+        android:textColor="#5B5C5C"
+        android:text="먼지 쌓인 책들 \n도서마켓에서 팔아보세요."
         />
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/goSignUpButton"
