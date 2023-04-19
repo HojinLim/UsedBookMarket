@@ -154,6 +154,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="20sp"
         android:layout_margin="10dp"
+        android:inputType="numberDecimal"
         />
     <TextView
         android:gravity="center_vertical"

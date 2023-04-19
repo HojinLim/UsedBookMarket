@@ -153,6 +153,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
         // 글쓰기 완료 버튼
         binding.articleFormEditBtn.setOnClickListener {
 
+            if(!isNotEmpty()) return@setOnClickListener
 
             Toast.makeText(this, articleKey, Toast.LENGTH_SHORT).show()
             reference.getReference("sell_list/$articleKey").setValue(formModel)
@@ -162,6 +163,24 @@ class SalesArticleFormActivity: AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
 
             startActivity(intent)
+        }
+    }
+    // 글 쓰기 폼 예외 선별 함수
+    private fun isNotEmpty(): Boolean {
+        return if(images.isEmpty()){
+            Toast.makeText(this, "사진을 등록해 주세요.",Toast.LENGTH_SHORT).show()
+            false
+        }else if(binding.articleFormFormTitle.text.isEmpty()) {
+            Toast.makeText(this, "글 제목을 입력해 주세요.",Toast.LENGTH_SHORT).show()
+            false
+        }else if(binding.articleFormDescription.text.isEmpty()){
+            Toast.makeText(this, "내용을 입력해 주세요.",Toast.LENGTH_SHORT).show()
+            false
+        }else if(binding.articleFormWishPrice.text.isEmpty()){
+            Toast.makeText(this, "가격을 입력해 주세요.",Toast.LENGTH_SHORT).show()
+            false
+        }else {
+            true
         }
     }
 
