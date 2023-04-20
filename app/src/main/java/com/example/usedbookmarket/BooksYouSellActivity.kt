@@ -123,6 +123,7 @@ class BooksYouSellActivity: AppCompatActivity() {
                 binding.itemBooksYouSellEditBtn.setOnClickListener {
                     val intent = Intent(this@BooksYouSellActivity, SalesArticleFormActivity::class.java)
                     intent.putExtra("formModel", articleModel)
+                    intent.putExtra("flag", "B")
                     startActivity(intent)
                 }
 

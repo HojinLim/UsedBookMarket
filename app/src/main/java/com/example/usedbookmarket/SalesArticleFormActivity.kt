@@ -205,14 +205,11 @@ class SalesArticleFormActivity: AppCompatActivity() {
 
             startActivity(intent)
         }
-
         binding.articleFormDetailTitle.text= formModel.title
         binding.articleFormFormTitle.setText(formModel.formTitle)
         binding.articleFormWishPrice.setText(formModel.wishPrice)
         binding.articleFormDiscount.text = formModel.priceSales.orEmpty()
         binding.articleFormDescription.setText(formModel.formDescription)
-
-
     }
 
     inner class RecyclerViewAdapter(private val images: ArrayList<Uri?>) : RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>() {

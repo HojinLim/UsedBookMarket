@@ -62,8 +62,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             intent.putExtra("formModel", it)
             startActivity(intent)
         })
-
-
     }
 
 
