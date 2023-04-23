@@ -26,4 +26,5 @@
     <string name="book_sold">판매완료</string>
     <string name="book_reservation">예약중</string>
     <string name="book_sales">판매중</string>
+    <string name="nickname">닉네임</string>
 </resources>

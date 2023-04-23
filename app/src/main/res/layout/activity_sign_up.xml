@@ -49,14 +49,19 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="15dp"
+        android:autofillHints="닉네임"
         android:background="@color/white"
+        android:backgroundTint="@color/white"
         android:fontFamily="@font/gan_pan_font"
         android:hint="닉네임"
         android:padding="15dp"
+        android:textColorHint="@color/gray"
         app:layout_constraintBottom_toBottomOf="@id/nameImageView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/nameImageView"
-        app:layout_constraintTop_toTopOf="@id/nameImageView" />
+        app:layout_constraintTop_toTopOf="@id/nameImageView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/userImage"
@@ -78,6 +83,7 @@
         android:layout_marginEnd="15dp"
         android:background="@color/white"
         android:hint="이메일"
+        android:textColorHint="@color/gray"
         android:fontFamily="@font/gan_pan_font"
         android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="@id/userImage"
@@ -104,6 +110,7 @@
         android:layout_marginEnd="15dp"
         android:background="@color/white"
         android:hint="패스워드"
+        android:textColorHint="@color/gray"
         android:inputType="numberPassword"
         android:padding="15dp"
         android:fontFamily="@font/gan_pan_font"
