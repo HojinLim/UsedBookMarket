@@ -29,7 +29,6 @@ import java.util.Date
 
 class SalesArticleFormActivity: AppCompatActivity() {
 
-
     private lateinit var reference: FirebaseDatabase
     private lateinit var formModel: ArticleForm
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -41,8 +40,6 @@ class SalesArticleFormActivity: AppCompatActivity() {
     private var imageUri: Uri? = null
 
     private val images = arrayListOf<Uri?>()
-
-
 
     private val getContent =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -64,8 +61,8 @@ class SalesArticleFormActivity: AppCompatActivity() {
 
         reference = Firebase.database
 
+        // 어디서 intent 된지 flag
         val intentFrom= intent.getStringExtra("flag")
-        Log.d("TEST", intentFrom.toString())
 
         if (intentFrom == "A") {
             // 처음 만드는 글
@@ -150,10 +147,29 @@ class SalesArticleFormActivity: AppCompatActivity() {
             "sale"
         )
 
+
         // 글쓰기 완료 버튼
         binding.articleFormEditBtn.setOnClickListener {
 
             if(!isNotEmpty()) return@setOnClickListener
+
+            formModel = ArticleForm(
+                articleKey,
+                auth.currentUser?.uid,
+                bookModel.id,
+                bookModel.title,
+                bookModel.description,
+                bookModel.priceSales,
+                bookModel.coverSmallUrl,
+                binding.articleFormFormTitle.text.toString(),
+                binding.articleFormDescription.text.toString(),
+                binding.articleFormWishPrice.text.toString(),
+                "false",
+                curTime,
+                auth.currentUser?.email,
+                "sale"
+            )
+
 
             Toast.makeText(this, articleKey, Toast.LENGTH_SHORT).show()
             reference.getReference("sell_list/$articleKey").setValue(formModel)
