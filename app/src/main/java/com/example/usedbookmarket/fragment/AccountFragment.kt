@@ -1,21 +1,26 @@
 package com.example.usedbookmarket.fragment
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
@@ -23,6 +28,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.usedbookmarket.*
 import com.example.usedbookmarket.model.Friend
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -146,31 +152,77 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         }
 
 
-/*
-//TODO 계정 삭제
-val auth= FirebaseAuth.getInstance()
-val user: FirebaseUser = auth.currentUser!!
+        //TODO 계정 삭제
+        v.findViewById<AppCompatButton>(R.id.account_del_user).setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            val input = EditText(requireContext())
+            input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+
+            builder.setTitle("계정 삭제하기")
+                .setMessage("계정 확인을 위해 비밀번호를 입력해주시오.")
+                .setView(input)
+                .setPositiveButton("입력완료",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        val user = FirebaseAuth.getInstance().currentUser
+                        val credential = EmailAuthProvider.getCredential("${user?.email}", "${input.text}")
+                        user?.reauthenticate(credential)
+                            ?.addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    // 사용자 인증이 성공하면 사용자 계정을 삭제합니다.
+                                    user.delete()
+                                        .addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                auth.signOut() // 로그아웃
+                                                val intent= Intent(requireContext(), StartActivity::class.java)
+                                                startActivity(intent)
+                                                Toast.makeText(requireContext(), "삭제 완료!", Toast.LENGTH_SHORT).show()
+                                                Log.d(TAG, "User account deleted.")
+                                            } else {
+                                                Log.e(TAG, "Failed to delete user account.", task.exception)
+                                                Toast.makeText(requireContext(), "삭제 실패!", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                } else {
+                                    Log.e(TAG, "Failed to reauthenticate user.", task.exception)
+                                }
+                            }
+
+                        Toast.makeText(requireContext(), "삭제되었습니다", Toast.LENGTH_SHORT).show()
+                    })
+                .setNegativeButton("취소",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        //                                resultText.text = "취소 클릭"
+                        return@OnClickListener
+                    })
+            // 다이얼로그를 띄워주기
+            builder.show()
+        }
+
+        /*
+        val auth= FirebaseAuth.getInstance()
+        val user: FirebaseUser = auth.currentUser!!
 
 
-val credential = EmailAuthProvider
-   .getCredential(user.email!!, user.)
-user.reauthenticate(credential)
-   .addOnCompleteListener { Log.d("tag", "User re-authenticated.") }
+        val credential = EmailAuthProvider
+           .getCredential(user.email!!, user.)
+        user.reauthenticate(credential)
+           .addOnCompleteListener { Log.d("tag", "User re-authenticated.") }
 
 
-if (user != null) {
-   v.findViewById<AppCompatButton>(R.id.account_del_user).setOnClickListener {
-       user.delete().addOnCompleteListener(requireActivity()) { task->
-           if(task.isSuccessful){
-               Toast.makeText(requireContext(), "삭제 완료", Toast.LENGTH_SHORT).show()
-               requireActivity().finish()
-           }else{
-               Toast.makeText(requireContext(), "실패", Toast.LENGTH_SHORT).show()
+        if (user != null) {
+           v.findViewById<AppCompatButton>(R.id.account_del_user).setOnClickListener {
+               user.delete().addOnCompleteListener(requireActivity()) { task->
+                   if(task.isSuccessful){
+                       Toast.makeText(requireContext(), "삭제 완료", Toast.LENGTH_SHORT).show()
+                       requireActivity().finish()
+                   }else{
+                       Toast.makeText(requireContext(), "실패", Toast.LENGTH_SHORT).show()
+                   }
+               }
            }
-       }
-   }
-}
- */
+        }
+         */
+
 
 
 return v

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.usedbookmarket.databinding.ActivityMessageBinding
+import com.example.usedbookmarket.model.ArticleForm
 import com.example.usedbookmarket.model.ChatModel
 import com.example.usedbookmarket.model.Friend
 import com.google.firebase.auth.ktx.auth
@@ -39,6 +40,8 @@ class MessageActivity: AppCompatActivity() {
     private var email : String? = null
     private var recyclerView : RecyclerView? = null
 
+    private lateinit var bookName: String
+
 
     private lateinit var binding: ActivityMessageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +57,8 @@ class MessageActivity: AppCompatActivity() {
         val curTime = dateFormat.format(Date(time)).toString()
 
         // 상대방 정보
-//        val formModel: ArticleForm = intent.getParcelableExtra("formModel")!!
+        val formModel: ArticleForm = intent.getParcelableExtra("formModel")!!
+        bookName= formModel.title!!
         destinationUid = intent.getStringExtra("destinationUid")
 
         // 나의 정보
@@ -87,16 +91,17 @@ class MessageActivity: AppCompatActivity() {
             chatModel.users[uid.toString()] = true
             chatModel.users[destinationUid!!] = true
 
+
             val comment = ChatModel.Comment(uid, editText.text.toString(), curTime)
             if(chatRoomUid == null){
                 imageView.isEnabled = false
-                fireDatabase.child("chatrooms/").push().setValue(chatModel).addOnSuccessListener {
+                fireDatabase.child("chatrooms/$bookName").push().setValue(chatModel).addOnSuccessListener {
                     //채팅방 생성
                     checkChatRoom()
                     //메세지 보내기
                     Handler().postDelayed({
                         println(chatRoomUid)
-                        fireDatabase.child("chatrooms/").child(chatRoomUid.toString()).child("comments").push().setValue(comment)
+                        fireDatabase.child("chatrooms/$bookName").child(chatRoomUid.toString()).child("comments").push().setValue(comment)
                         binding.chatMsg.text = null
 
                         // 알림 푸시 보내기
@@ -114,7 +119,7 @@ class MessageActivity: AppCompatActivity() {
                     Log.d("chatUidNull dest", "$destinationUid")
                 }
             }else{
-                fireDatabase.child("chatrooms/").child(chatRoomUid.toString()).child("comments").push().setValue(comment)
+                fireDatabase.child("chatrooms/$bookName").child(chatRoomUid.toString()).child("comments").push().setValue(comment)
                 binding.chatMsg.text = null
                 Log.d("chatUidNotNull dest", "$destinationUid")
             }
@@ -123,7 +128,7 @@ class MessageActivity: AppCompatActivity() {
         checkChatRoom()
         }
     private fun checkChatRoom(){
-        fireDatabase.child("chatrooms").orderByChild("users/$uid").equalTo(true)
+        fireDatabase.child("chatrooms/$bookName").orderByChild("users/$uid").equalTo(true)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                 }
@@ -162,7 +167,7 @@ class MessageActivity: AppCompatActivity() {
         }
 
         fun getMessageList() {
-            fireDatabase.child("chatrooms").child(chatRoomUid.toString()).child("comments")
+            fireDatabase.child("chatrooms/$bookName").child(chatRoomUid.toString()).child("comments")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
                     }

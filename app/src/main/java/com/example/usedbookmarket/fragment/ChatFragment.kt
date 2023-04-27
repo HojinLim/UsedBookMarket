@@ -69,7 +69,6 @@ class ChatFragment : Fragment(R.layout.fragment_chatlist) {
             uid = Firebase.auth.currentUser?.uid.toString()
             println(uid)
 
-
             fireDatabase.child("chatrooms").orderByChild("users/$uid").equalTo(true).addListenerForSingleValueEvent(object :
                 ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {

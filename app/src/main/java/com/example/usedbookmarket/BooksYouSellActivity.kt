@@ -136,6 +136,7 @@ class BooksYouSellActivity: AppCompatActivity() {
                 binding.itemDeleteBtn.setOnClickListener {
                     // 다이얼로그를 생성하기 위해 Builder 클래스 생성자를 이용해 줍니다.
                     val builder = AlertDialog.Builder(this@BooksYouSellActivity)
+
                     builder.setTitle("책 삭제")
                         .setMessage("삭제 하시겠습니까?")
                         .setPositiveButton("확인",
