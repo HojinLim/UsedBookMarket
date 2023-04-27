@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.usedbookmarket.model.ArticleForm
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 
@@ -32,33 +33,39 @@ private lateinit var images: Array<String?>
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_zoom_in_slider)
 
+        val formModel: ArticleForm = intent.getParcelableExtra("formModel")!!
+
         val auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         val userIdSt = currentUser?.email
         val statusImageView= findViewById<ImageView>(R.id.zoom_status_image)
         bindStatus(statusImageView, "load")
+        val aid= formModel.aid
 
         val size= intent.getIntExtra("photos",5)
         images = arrayOfNulls(size)
 
         // 이미지 폴더 경로 참조
         val listRef = FirebaseStorage.getInstance().reference
-            .child("userImages/formPhotos/$userIdSt/-NRwua_Iq9gvjA-oqZUz")
+            .child("userImages/formPhotos/$userIdSt/$aid")
 
         // listAll(): 폴더 내의 모든 이미지를 가져오는 함수
-        listRef.listAll()
-            .addOnSuccessListener {list->
 
+        listRef.listAll()
+            .addOnSuccessListener { list ->
+                images = arrayOfNulls<String>(list.items.size)
                 for ((i, item) in list.items.withIndex()) {
+
                     // reference의 item(이미지) url 받아오기
                     item.downloadUrl.addOnSuccessListener {
-                        images[i]= (it.toString())
+                        images[i] = (it.toString())
+
+
                     }
                         .addOnFailureListener {
                             Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
                         }
                 }
-
             }
 
         Handler(Looper.getMainLooper()).postDelayed({

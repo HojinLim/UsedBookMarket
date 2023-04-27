@@ -23,7 +23,6 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -74,7 +73,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
     private lateinit var recyclerView: RecyclerView
     private val articleFormList = mutableListOf<ArticleForm>()
     private val searchedArticleFormList = mutableListOf<ArticleForm>()
-    private val fireDatabase = FirebaseDatabase.getInstance().reference
 
     private val listener = object : ChildEventListener {
         @SuppressLint("NotifyDataSetChanged")
@@ -145,8 +143,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
 
         articleDB = Firebase.database.reference.child("sell_list")
 
-
-
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = articleAdapter
 
@@ -197,7 +193,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
                 replace(R.id.fragmentContainer, newInstance())
                 commitAllowingStateLoss()
             }
-
     }
 
     private fun showHistoryView() {
@@ -274,7 +269,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
                     historyDeleteClickListener(historyModel.keyword.orEmpty())
                 }
             }
-
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

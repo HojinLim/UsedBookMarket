@@ -40,6 +40,8 @@ class SalesArticleFormActivity: AppCompatActivity() {
     private var imageUri: Uri? = null
 
     private val images = arrayListOf<Uri?>()
+    private val images2 = arrayListOf<Uri?>()
+
 
     private val getContent =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -102,15 +104,18 @@ class SalesArticleFormActivity: AppCompatActivity() {
             FirebaseStorage.getInstance()
                 .reference.child("userImages").child("formPhotos").child("$userIdSt/$aid/photo$num")
                 .putFile(imageUri!!).addOnSuccessListener {
-
+//                    images.add(num, it)
                 }
         }
+
 
         recyclerView = binding.formRecyclerView
 
         adapter = RecyclerViewAdapter(images)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = adapter
+
+
 
     }
 
@@ -127,8 +132,9 @@ class SalesArticleFormActivity: AppCompatActivity() {
         // 랜덤 키 생성
         val articleKey = reference.getReference("sell_list").push().key
 
-        // 책 제목 불러오기
+        // 책 제목 및 가격 불러오기
         binding.articleFormDetailTitle.text= bookModel.title
+        binding.articleFormDiscount.text= bookModel.priceSales
 
         formModel = ArticleForm(
             articleKey,
@@ -204,6 +210,22 @@ class SalesArticleFormActivity: AppCompatActivity() {
         // CompletedSaleForm에서 온 인텐트
         formModel = intent.getParcelableExtra("formModel")!!
 
+        val images= intent.getStringArrayListExtra("photo")
+
+        recyclerView = binding.formRecyclerView
+
+
+        if (images != null) {
+            for(i in images){
+                images2.add(Uri.parse(i))
+            }
+        }
+        Toast.makeText(this, images2.toString(),Toast.LENGTH_SHORT).show()
+        adapter = RecyclerViewAdapter(images2)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = adapter
+        adapter.notifyDataSetChanged()
+
         // 완료 버튼을 누를시
         binding.articleFormEditBtn.setOnClickListener {
 
@@ -243,6 +265,8 @@ class SalesArticleFormActivity: AppCompatActivity() {
             val clearButton : ImageButton = itemView.findViewById(R.id.book_photo_clear_btn)
 
         }
+
+
 
         override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
             holder.imageView.setImageURI(images[position])

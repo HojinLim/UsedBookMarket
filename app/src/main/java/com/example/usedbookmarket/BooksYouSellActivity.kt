@@ -1,11 +1,14 @@
 package com.example.usedbookmarket
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.isVisible
@@ -33,6 +36,7 @@ class BooksYouSellActivity: AppCompatActivity() {
     private val articleFormList= mutableListOf<ArticleForm>()
     private var auth= Firebase.auth
 
+
     @SuppressLint("MissingInflatedId")
     private val listener= object: ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -49,13 +53,22 @@ class BooksYouSellActivity: AppCompatActivity() {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
             articleForm ?: return
 
+            if(articleForm.uid == auth.currentUser?.uid){
+
+            }
 
             adapter.submitList(articleFormList)
             adapter.notifyDataSetChanged()
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
-            TODO("Not yet implemented")
+            val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
+            articleForm ?: return
+            if(articleForm.uid == auth.currentUser?.uid){
+                articleFormList.remove(articleForm)
+            }
+            adapter.submitList(articleFormList)
+            adapter.notifyDataSetChanged()
         }
 
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
@@ -64,11 +77,11 @@ class BooksYouSellActivity: AppCompatActivity() {
 
         override fun onCancelled(error: DatabaseError) { }
     }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_books_you_sell)
-
-        //TODO 해당 계정 내에 소지 중인 책 데이터 가져오기
 
         recyclerView = findViewById(R.id.books_you_sell_recyclerView)
 
@@ -90,6 +103,7 @@ class BooksYouSellActivity: AppCompatActivity() {
 
 
     }
+
     inner class BooksYouSellListAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<ArticleForm, BooksYouSellListAdapter.BooksYouSellItemViewHolder>(diffUtil) {
         inner class BooksYouSellItemViewHolder(private val binding: ItemBooksYouSellBinding): RecyclerView.ViewHolder(binding.root){
 
@@ -117,6 +131,31 @@ class BooksYouSellActivity: AppCompatActivity() {
                 // 거래중 버튼
                 binding.itemBookSellBtn.setOnClickListener {
                     initBookStatus("sale", articleModel)
+                }
+                // 삭제하기 버튼
+                binding.itemDeleteBtn.setOnClickListener {
+                    // 다이얼로그를 생성하기 위해 Builder 클래스 생성자를 이용해 줍니다.
+                    val builder = AlertDialog.Builder(this@BooksYouSellActivity)
+                    builder.setTitle("책 삭제")
+                        .setMessage("삭제 하시겠습니까?")
+                        .setPositiveButton("확인",
+                            DialogInterface.OnClickListener { dialog, id ->
+//                                resultText.text = "확인 클릭"
+
+                                val aid= articleModel.aid
+
+                                FirebaseDatabase.getInstance().reference
+                                    .child("sell_list/$aid/")
+                                    .removeValue()
+                                Toast.makeText(this@BooksYouSellActivity,"삭제되었습니다", Toast.LENGTH_SHORT).show()
+                            })
+                        .setNegativeButton("취소",
+                            DialogInterface.OnClickListener { dialog, id ->
+//                                resultText.text = "취소 클릭"
+                                return@OnClickListener
+                            })
+                    // 다이얼로그를 띄워주기
+                    builder.show()
                 }
 
                 // 수정하기 버튼

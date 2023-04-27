@@ -90,6 +90,20 @@
         android:visibility="invisible"
         />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/item_delete_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/red"
+        android:fontFamily="@font/gan_pan_font"
+        android:text="삭제하기"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/item_chatList_topBar"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <View
         android:id="@+id/item_chatList_topBar"
         android:layout_width="match_parent"

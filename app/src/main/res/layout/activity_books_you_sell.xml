@@ -44,6 +44,7 @@
         android:layout_marginTop="10dp"
         android:id="@+id/chatlist_topBar"
         />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/books_you_sell_recyclerView"
         android:layout_margin="10dp"

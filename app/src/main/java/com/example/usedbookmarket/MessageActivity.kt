@@ -2,6 +2,7 @@ package com.example.usedbookmarket
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -18,13 +19,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.usedbookmarket.databinding.ActivityMessageBinding
 import com.example.usedbookmarket.model.ChatModel
 import com.example.usedbookmarket.model.Friend
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
@@ -35,12 +34,12 @@ class MessageActivity: AppCompatActivity() {
     private val fireDatabase = FirebaseDatabase.getInstance().reference
     private var chatRoomUid : String? = null
     private var destinationUid : String? = null
+
     private var uid : String? = null
     private var email : String? = null
     private var recyclerView : RecyclerView? = null
 
-    private var database = Firebase.database
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+
     private lateinit var binding: ActivityMessageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,11 +54,24 @@ class MessageActivity: AppCompatActivity() {
         val curTime = dateFormat.format(Date(time)).toString()
 
         //var chat : Chat
-
+//        val formModel: ArticleForm = intent.getParcelableExtra("formModel")!!
         destinationUid = intent.getStringExtra("destinationUid")
         uid = Firebase.auth.currentUser?.uid.toString()
         email = Firebase.auth.currentUser?.email
         recyclerView = binding.msgHistoryRecyclerView
+
+        // 거래 이미지 적용
+//        Glide.with(this)
+//            .load(formModel.coverSmallUrl)
+//            .apply(RequestOptions().circleCrop())
+//            .into(binding.messageImage)
+
+        // 거래책 이미지 클릭시
+        binding.messageImage.setOnClickListener {
+            val intent = Intent(this, CompletedSalesArticleForm::class.java)
+            //intent.putExtra("formModel", formModel)
+            startActivity(intent)
+        }
 
         // 뒤로가기
         binding.booksYouHaveBackButton.setOnClickListener {
@@ -172,7 +184,6 @@ class MessageActivity: AppCompatActivity() {
 
             return MessageViewHolder(view)
         }
-
         @SuppressLint("RtlHardcoded")
         override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
             holder.textView_message.textSize = 20F
@@ -204,6 +215,7 @@ class MessageActivity: AppCompatActivity() {
                 view.findViewById(R.id.messageItem_layout_destination)
             val layout_main: LinearLayout = view.findViewById(R.id.messageItem_linearlayout_main)
             val textView_time: TextView = view.findViewById(R.id.messageItem_textView_time)
+
         }
 
         override fun getItemCount(): Int {

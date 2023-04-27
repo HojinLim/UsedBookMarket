@@ -40,7 +40,7 @@ import com.google.firebase.storage.FirebaseStorage
 class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
-    private lateinit var images: Array<String?>
+    private lateinit var images: ArrayList<String?>
     var isLiked = false
     private var isBusy = false
     val auth = FirebaseAuth.getInstance()
@@ -82,7 +82,11 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
 
         listRef.listAll()
             .addOnSuccessListener { list ->
-                images = arrayOfNulls<String>(list.items.size)
+
+//                images = arrayOfNulls<String>(list.items.size)
+                images = arrayListOf("")
+
+
                 for ((i, item) in list.items.withIndex()) {
 
                     // reference의 item(이미지) url 받아오기
@@ -95,6 +99,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                             Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
                         }
                 }
+
             }
 
 
@@ -125,6 +130,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
         findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).setOnClickListener {
             val intent = Intent(this, MessageActivity::class.java)
             intent.putExtra("destinationUid", formModel.uid)
+            intent.putExtra("formModel",formModel)
             this.startActivity(intent)
         }
 
@@ -133,6 +139,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             val intent = Intent(this, SalesArticleFormActivity::class.java)
             intent.putExtra("formModel", formModel)
             intent.putExtra("flag", "B")
+            intent.putExtra("photo", images)
             startActivity(intent)
         }
     }
@@ -189,7 +196,6 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
         }
     }
 
-
         private fun initView() {
             formModel = intent.getParcelableExtra("formModel")!!
             userIdSt = formModel.email!!
@@ -236,9 +242,9 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                 findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).isVisible = true
                 findViewById<AppCompatButton>(R.id.c_sales_article_like).isVisible = true
 
-
                 reference.getReference("like_list/$uid/$aid/liked")
                     .addValueEventListener(object : ValueEventListener {
+
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             val value = dataSnapshot.getValue(String::class.java)
                             if (value == "true") {
@@ -258,6 +264,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
 
                                 heart.background.setTint(resources.getColor(R.color.white))
                             }
+                            Toast.makeText(this@CompletedSalesArticleForm, isLiked.toString(), Toast.LENGTH_SHORT).show()
 
                         }
 
@@ -401,10 +408,10 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
         }
 
         // 내부 이미지 슬라이더 어댑터
-        inner class ImageSliderAdapter(context: Context, sliderImage: Array<String?>) :
+        inner class ImageSliderAdapter(context: Context, sliderImage: ArrayList<String?>) :
             RecyclerView.Adapter<ImageSliderAdapter.MyViewHolder>() {
             private val context: Context
-            private val sliderImage: Array<String?>
+            private val sliderImage: ArrayList<String?>
 
             init {
                 this.context = context
@@ -437,6 +444,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                     mImageView.setOnClickListener {
                         val intent =
                             Intent(this@CompletedSalesArticleForm, ZoomInSlider::class.java)
+                        intent.putExtra("formModel", formModel)
                         intent.putExtra("photos", itemCount)
                         startActivity(intent)
                     }
