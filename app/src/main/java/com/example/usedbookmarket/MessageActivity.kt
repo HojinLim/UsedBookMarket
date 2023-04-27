@@ -53,9 +53,11 @@ class MessageActivity: AppCompatActivity() {
         val dateFormat = SimpleDateFormat("MM월dd일 hh:mm")
         val curTime = dateFormat.format(Date(time)).toString()
 
-        //var chat : Chat
+        // 상대방 정보
 //        val formModel: ArticleForm = intent.getParcelableExtra("formModel")!!
         destinationUid = intent.getStringExtra("destinationUid")
+
+        // 나의 정보
         uid = Firebase.auth.currentUser?.uid.toString()
         email = Firebase.auth.currentUser?.email
         recyclerView = binding.msgHistoryRecyclerView
@@ -66,7 +68,7 @@ class MessageActivity: AppCompatActivity() {
 //            .apply(RequestOptions().circleCrop())
 //            .into(binding.messageImage)
 
-        // 거래책 이미지 클릭시
+        // 거래책 글 이미지 클릭시
         binding.messageImage.setOnClickListener {
             val intent = Intent(this, CompletedSalesArticleForm::class.java)
             //intent.putExtra("formModel", formModel)
@@ -78,6 +80,7 @@ class MessageActivity: AppCompatActivity() {
             onBackPressed()
         }
 
+        // 채팅하기 버튼 클릭
         imageView.setOnClickListener {
             Log.d("클릭 시 dest", "$destinationUid")
             val chatModel = ChatModel()
@@ -87,13 +90,13 @@ class MessageActivity: AppCompatActivity() {
             val comment = ChatModel.Comment(uid, editText.text.toString(), curTime)
             if(chatRoomUid == null){
                 imageView.isEnabled = false
-                fireDatabase.child("chatrooms").push().setValue(chatModel).addOnSuccessListener {
+                fireDatabase.child("chatrooms/").push().setValue(chatModel).addOnSuccessListener {
                     //채팅방 생성
                     checkChatRoom()
                     //메세지 보내기
                     Handler().postDelayed({
                         println(chatRoomUid)
-                        fireDatabase.child("chatrooms").child(chatRoomUid.toString()).child("comments").push().setValue(comment)
+                        fireDatabase.child("chatrooms/").child(chatRoomUid.toString()).child("comments").push().setValue(comment)
                         binding.chatMsg.text = null
 
                         // 알림 푸시 보내기
@@ -111,7 +114,7 @@ class MessageActivity: AppCompatActivity() {
                     Log.d("chatUidNull dest", "$destinationUid")
                 }
             }else{
-                fireDatabase.child("chatrooms").child(chatRoomUid.toString()).child("comments").push().setValue(comment)
+                fireDatabase.child("chatrooms/").child(chatRoomUid.toString()).child("comments").push().setValue(comment)
                 binding.chatMsg.text = null
                 Log.d("chatUidNotNull dest", "$destinationUid")
             }

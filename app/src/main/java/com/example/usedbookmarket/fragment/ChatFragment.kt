@@ -24,7 +24,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import java.util.*
+import java.util.Collections
+import java.util.TreeMap
 
 class ChatFragment : Fragment(R.layout.fragment_chatlist) {
 
@@ -67,6 +68,7 @@ class ChatFragment : Fragment(R.layout.fragment_chatlist) {
         init {
             uid = Firebase.auth.currentUser?.uid.toString()
             println(uid)
+
 
             fireDatabase.child("chatrooms").orderByChild("users/$uid").equalTo(true).addListenerForSingleValueEvent(object :
                 ValueEventListener {
