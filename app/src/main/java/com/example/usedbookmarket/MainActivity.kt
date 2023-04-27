@@ -1,12 +1,17 @@
 package com.example.usedbookmarket
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.Signature
+import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.example.usedbookmarket.fragment.AccountFragment
 import com.example.usedbookmarket.fragment.ChatFragment
@@ -29,11 +34,13 @@ class MainActivity : AppCompatActivity() {
         initFragments()
 
         getHashKey()
+
+
     }
 
 
 
-    fun getHashKey() {
+    private fun getHashKey() {
         var packageInfo: PackageInfo = PackageInfo()
         try {
             packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)

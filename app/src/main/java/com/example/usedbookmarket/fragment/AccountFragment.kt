@@ -1,6 +1,7 @@
 package com.example.usedbookmarket.fragment
 
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
@@ -23,6 +24,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -157,6 +159,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             val builder = AlertDialog.Builder(requireContext())
             val input = EditText(requireContext())
             input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            builder.setView(input)
 
             builder.setTitle("계정 삭제하기")
                 .setMessage("계정 확인을 위해 비밀번호를 입력해주시오.")
@@ -227,6 +230,10 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
 return v
 }
+    // Notification을 보내는 함수
+
+
+
 
 
 

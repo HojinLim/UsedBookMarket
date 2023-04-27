@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Always include this permission -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +19,9 @@
         android:theme="@style/Theme.UsedBookMarket"
         android:windowSoftInputMode="adjustNothing"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ReviewActivity"
+            android:exported="false" />
         <activity
             android:name=".NotePad"
             android:exported="false" />

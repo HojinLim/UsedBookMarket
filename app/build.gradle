@@ -70,6 +70,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
+    // Firebase Messaging
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
 
 //    implementation "androidx.room:room-runtime:2.2.6"
 //    implementation "androidx.room:room-compiler:2.2.6"

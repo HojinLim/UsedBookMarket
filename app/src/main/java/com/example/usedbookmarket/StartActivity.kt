@@ -28,15 +28,10 @@ class StartActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        //  임의로 test 화면으로 이동
+        // test 버튼
         findViewById<AppCompatButton>(R.id.shortCutButton2).setOnClickListener {
-            val intent= Intent(this, NotePad::class.java)
-            intent.putExtra("title", "say my name")
-            intent.putExtra("content", "Super Hojin?")
 
-            startActivity(intent)
         }
-
 
 
         // 회원가입 화면으로 이동
@@ -48,5 +43,12 @@ class StartActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.goLoginButton).setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
+
+
+
+
     }
+
+
+
 }
