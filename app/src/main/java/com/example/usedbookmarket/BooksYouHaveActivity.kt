@@ -47,7 +47,7 @@ class BooksYouHaveActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_books_you_have)
+        setContentView(R.layout.activity_books_you_trade)
 
         findViewById<FloatingActionButton>(R.id.books_you_have_floatBtn).setOnClickListener {
             val intent = Intent(this, AddBookActivity::class.java)

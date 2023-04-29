@@ -51,6 +51,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
     private lateinit var uid: String
     private lateinit var aid: String
     private lateinit var userIdSt: String
+    private lateinit var email: String
 
 
     lateinit var sliderViewPager: ViewPager2
@@ -202,6 +203,8 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             heart = binding.cSalesArticleLike
             uid = auth.currentUser?.uid!!   // 현재 유저 uid
             aid = formModel.aid!!
+            email= auth.currentUser?.email!!
+
             // 공통 부분
             val coverImageView = findViewById<ImageView>(R.id.c_sales_article_form_coverImg)
             findViewById<TextView>(R.id.c_sales_article_form_detail_title).text =
@@ -220,11 +223,9 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                 startActivity(intent)
             }
 
+            // 0 원이라 나오면 ==> "정보 없음"
+            if(formModel.priceSales == "0") findViewById<TextView>(R.id.article_form_discount).text= "정보없음"
 
-
-            val price= formModel.priceSales+"원"
-            if(formModel.priceSales?.isEmpty() == true) findViewById<TextView>(R.id.article_form_discount).text= "정보 없음"
-            findViewById<TextView>(R.id.article_form_discount).text = price
 
             findViewById<TextView>(R.id.c_sales_article_form_title).text =
                 formModel.formTitle.orEmpty()
@@ -248,14 +249,12 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             val value = dataSnapshot.getValue(String::class.java)
                             if (value == "true") {
-                                //Toast.makeText(this@CompletedSalesArticleForm, "hello there", Toast.LENGTH_SHORT).show()
                                 isLiked = true
 
                             } else if (value == "false") {
 
                                 isLiked = false
                             }
-
 
                             if (isLiked) {
                                 heart.background.setTint(resources.getColor(R.color.red))
@@ -270,7 +269,6 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
 
 
                         override fun onCancelled(databaseError: DatabaseError) {
-                            //Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
                         }
                     })
 
@@ -352,8 +350,6 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                                 "좋아요 추가",
                                 Toast.LENGTH_SHORT
                             ).show()
-
-
                         } else {
                             reference.getReference("like_list/$uid/$aid")
                                 .removeValue()

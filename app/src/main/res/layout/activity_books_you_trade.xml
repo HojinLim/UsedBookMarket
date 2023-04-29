@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:gravity="bottom"
             android:padding="5dp"
-            android:text="보유한 책 목록"
+            android:text="거래한 책 목록"
             android:textColor="@color/white"
             android:textSize="25dp" />
 

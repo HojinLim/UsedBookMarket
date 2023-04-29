@@ -1,7 +1,6 @@
 package com.example.usedbookmarket.fragment
 
 import android.annotation.SuppressLint
-import android.app.NotificationManager
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
@@ -24,7 +23,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -201,41 +199,8 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             builder.show()
         }
 
-        /*
-        val auth= FirebaseAuth.getInstance()
-        val user: FirebaseUser = auth.currentUser!!
-
-
-        val credential = EmailAuthProvider
-           .getCredential(user.email!!, user.)
-        user.reauthenticate(credential)
-           .addOnCompleteListener { Log.d("tag", "User re-authenticated.") }
-
-
-        if (user != null) {
-           v.findViewById<AppCompatButton>(R.id.account_del_user).setOnClickListener {
-               user.delete().addOnCompleteListener(requireActivity()) { task->
-                   if(task.isSuccessful){
-                       Toast.makeText(requireContext(), "삭제 완료", Toast.LENGTH_SHORT).show()
-                       requireActivity().finish()
-                   }else{
-                       Toast.makeText(requireContext(), "실패", Toast.LENGTH_SHORT).show()
-                   }
-               }
-           }
-        }
-         */
-
-
-
 return v
 }
-    // Notification을 보내는 함수
-
-
-
-
-
 
     private fun initIntentActivity(v: View){
         v.findViewById<AppCompatButton>(R.id.account_list_books_you_have_btn).setOnClickListener {

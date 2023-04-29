@@ -41,14 +41,6 @@ class BooksYouLikeActivity: AppCompatActivity() {
 
         recyclerView = findViewById(R.id.books_you_like_recyclerView)
 
-        /*
-        adapter = RecyclerViewAdapter(clickListener = {
-            val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("bookModel", it)
-            startActivity(intent)
-        })
-
-         */
         adapter = RecyclerViewAdapter()
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -59,11 +51,13 @@ class BooksYouLikeActivity: AppCompatActivity() {
 
 
         private lateinit var uid: String
-        private lateinit var aid: String
+        private lateinit var email: String
         val auth = FirebaseAuth.getInstance()
 
         init{
             uid = auth.currentUser?.uid!!   // 현재 유저 uid
+            email = auth.currentUser?.email!! // 현재 유저 email
+
 
             FirebaseDatabase.getInstance().reference.child("like_list/$uid").addValueEventListener(object :
                 ValueEventListener {
@@ -73,7 +67,7 @@ class BooksYouLikeActivity: AppCompatActivity() {
                     likeList.clear()
                     for(data in snapshot.children){ // snapshot 자식들 사용 가능
                         val item = data.getValue<ArticleForm>()
-                        // if(item?.uid.equals(myUid)) { continue } // 본인은 친구창에서 제외
+
                         likeList.add(item!!)
                     }
                     notifyDataSetChanged()
@@ -121,41 +115,7 @@ class BooksYouLikeActivity: AppCompatActivity() {
                 startActivity(intent)
             }
 
-            /*
-            var destinationUid: String? = null
-            //채팅방에 있는 유저 모두 체크
-            for (user in chatModel[position].users.keys) {
-                if (!user.equals(uid)) {
-                    destinationUid = user
-                    destinationUsers.add(destinationUid)
-                }
-            }
-            fireDatabase.child("users").child("$destinationUid").addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                }
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val friend = snapshot.getValue<Friend>()
-                    Glide.with(holder.itemView.context).load(friend?.profileImageUrl)
-                        .apply(RequestOptions().circleCrop())
-                        .into(holder.imageView)
-                    holder.textView_title.text = friend?.name
-                }
-            })
-            //메세지 내림차순 정렬 후 마지막 메세지의 키값을 가져옴
-            val commentMap = TreeMap<String, ChatModel.Comment>(Collections.reverseOrder())
-            commentMap.putAll(chatModel[position].comments)
-            val lastMessageKey = commentMap.keys.toTypedArray()[0]
-            holder.textView_lastMessage.text = chatModel[position].comments[lastMessageKey]?.message
 
-            //채팅창 선택 시 이동
-            holder.itemView.setOnClickListener {
-                val intent = Intent(context, MessageActivity::class.java)
-                intent.putExtra("destinationUid", destinationUsers[position])
-                context?.startActivity(intent)
-            }
-
-             */
         }
         override fun getItemCount(): Int {
             return likeList.size

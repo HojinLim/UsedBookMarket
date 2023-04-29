@@ -16,7 +16,7 @@ class ArticleAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<Arti
         fun bind(articleForm: ArticleForm){
             binding.itemArticleArticleTitleTextView.text= articleForm.title
             binding.itemArticleTime.text= articleForm.description
-            binding.itemArticlePriceTextView.text= articleForm.priceSales
+            binding.itemArticlePriceTextView.text= articleForm.wishPrice
 
             Glide
                 .with(binding.itemArticleCoverImageView.context)

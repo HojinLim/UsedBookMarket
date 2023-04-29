@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -42,6 +41,8 @@ class BooksYouSellActivity: AppCompatActivity() {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
             articleForm ?: return
+
+            articleFormList.clear()
             if(articleForm.uid == auth.currentUser?.uid){
                 articleFormList.add(articleForm)
             }
@@ -49,16 +50,21 @@ class BooksYouSellActivity: AppCompatActivity() {
             adapter.notifyDataSetChanged()
         }
 
+
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
             articleForm ?: return
 
-            if(articleForm.uid == auth.currentUser?.uid){
+            articleFormList.clear()
 
+            if(articleForm.uid == auth.currentUser?.uid){
+                articleFormList.remove(articleForm)
+                articleFormList.add(articleForm)
             }
 
             adapter.submitList(articleFormList)
             adapter.notifyDataSetChanged()
+
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
@@ -72,11 +78,12 @@ class BooksYouSellActivity: AppCompatActivity() {
         }
 
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-            TODO("Not yet implemented")
+
         }
 
         override fun onCancelled(error: DatabaseError) { }
     }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,6 +102,8 @@ class BooksYouSellActivity: AppCompatActivity() {
         articleDB.addChildEventListener(listener)
 
         adapter.submitList(articleFormList)
+
+
 
         // 뒤로가기 버튼
         findViewById<AppCompatButton>(R.id.books_you_have_backButton).setOnClickListener {
@@ -116,9 +125,12 @@ class BooksYouSellActivity: AppCompatActivity() {
 
                 binding.itemBooksYouSellBookTitle.text= articleModel.title
 
+
                 binding.root.setOnClickListener {
                     clickListener(articleModel)
                 }
+
+                initBookStatus(articleModel.status,articleModel)
 
                 // 거래 예약 버튼
                 binding.itemBookReserveBtn.setOnClickListener {
@@ -158,7 +170,7 @@ class BooksYouSellActivity: AppCompatActivity() {
                     // 다이얼로그를 띄워주기
                     builder.show()
                 }
-
+            
                 // 수정하기 버튼
                 binding.itemBooksYouSellEditBtn.setOnClickListener {
                     val intent = Intent(this@BooksYouSellActivity, SalesArticleFormActivity::class.java)
@@ -198,11 +210,11 @@ class BooksYouSellActivity: AppCompatActivity() {
                     .setValue(cformModel)
                 //adapter.notifyDataSetChanged()
 
-                val handler = Handler()
-
-                val r = Runnable { adapter.notifyDataSetChanged() }
-
-                handler.post(r)
+//                val handler = Handler()
+//
+//                val r = Runnable { adapter.notifyDataSetChanged() }
+//
+//                handler.post(r)
             }
         }
 
