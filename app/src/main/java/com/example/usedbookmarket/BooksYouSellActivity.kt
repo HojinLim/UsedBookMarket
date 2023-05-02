@@ -208,13 +208,7 @@ class BooksYouSellActivity: AppCompatActivity() {
                 FirebaseDatabase.getInstance().reference
                     .child("sell_list/$aid/")
                     .setValue(cformModel)
-                //adapter.notifyDataSetChanged()
 
-//                val handler = Handler()
-//
-//                val r = Runnable { adapter.notifyDataSetChanged() }
-//
-//                handler.post(r)
             }
         }
 

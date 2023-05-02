@@ -1,7 +1,6 @@
 package com.example.usedbookmarket
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -65,11 +64,7 @@ class MessageActivity: AppCompatActivity() {
         email = Firebase.auth.currentUser?.email
         recyclerView = binding.msgHistoryRecyclerView
 
-        // 거래 이미지 적용
-//        Glide.with(this)
-//            .load(formModel.coverSmallUrl)
-//            .apply(RequestOptions().circleCrop())
-//            .into(binding.messageImage)
+
 
         // 거래책 글 이미지 클릭시
         binding.messageImage.setOnClickListener {
@@ -107,12 +102,12 @@ class MessageActivity: AppCompatActivity() {
 //                        val chat= Chat(email, editText.toString())
 //                        val intent= Intent(this, NotificationActivity::class.java)
 //                        intent.putExtra("chat", chat)
-                        val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return@postDelayed
-                        with (sharedPref.edit()) {
-                            putString("email",email)
-                            putString("chat",editText.toString())
-                            apply()
-                        }
+//                        val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return@postDelayed
+//                        with (sharedPref.edit()) {
+//                            putString("email",email)
+//                            putString("chat",editText.toString())
+//                            apply()
+//                        }
 
                     }, 1000L)
                     Log.d("chatUidNull dest", "$destinationUid")

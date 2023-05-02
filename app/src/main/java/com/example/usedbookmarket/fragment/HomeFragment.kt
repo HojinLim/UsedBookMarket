@@ -19,6 +19,7 @@ import com.example.usedbookmarket.databinding.FragmentHomeBinding
 import com.example.usedbookmarket.databinding.ItemHistoryBinding
 import com.example.usedbookmarket.model.ArticleForm
 import com.example.usedbookmarket.model.History
+import com.example.usedbookmarket.model.WhoLike
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -61,6 +62,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             intent.putExtra("formModel", it)
             startActivity(intent)
         })
+
     }
 
 
@@ -78,17 +80,21 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         @SuppressLint("NotifyDataSetChanged")
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
+            val whoLike: WhoLike?= snapshot.getValue(WhoLike::class.java)
+
             articleForm ?: return
             articleFormList.add(articleForm)
 
             articleAdapter.submitList(articleFormList)
             articleAdapter.notifyDataSetChanged()
             Log.d("TEST","onChildAdded")
+
         }
 
         @SuppressLint("NotifyDataSetChanged")
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
+
             articleForm ?: return
 
             refreshFragment()
@@ -98,7 +104,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
                 notifyDataSetChanged()
             }
             Log.d("TEST","onChildChanged")
-            Log.d("TEST",articleForm.toString())
+//            Log.d("TEST",articleForm.toString())
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
@@ -221,7 +227,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         }
         hideHistoryView()
         articleAdapter.submitList(searchedArticleFormList)
-        //articleAdapter.notifyDataSetChanged()
+
     }
 
     private fun saveSearchKeyword(keyword: String) {

@@ -150,7 +150,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
             "false",
             curTime,
             auth.currentUser?.email,
-            "sale"
+            0
         )
 
 
@@ -173,7 +173,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
                 "false",
                 curTime,
                 auth.currentUser?.email,
-                "sale"
+                0
             )
 
 

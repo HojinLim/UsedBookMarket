@@ -28,9 +28,15 @@ class ArticleAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<Arti
             }
             binding.itemArticleTime.text= articleForm.createdAt
 
-
             initBookStatus(articleForm.status)
+
+            // 좋아요 개수 바인딩
+            if(articleForm.likeCount== 0) binding.itemArticleLikeImg.isVisible= false
+            else binding.itemArticleLikeText.text= articleForm.likeCount.toString()
+
         }
+
+
         private fun initBookStatus(status: String?) {
             when (status) {
                 "sale" -> {
@@ -49,6 +55,7 @@ class ArticleAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<Arti
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleItemViewHolder {
         return ArticleItemViewHolder(

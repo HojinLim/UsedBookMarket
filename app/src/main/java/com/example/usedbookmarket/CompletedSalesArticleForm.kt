@@ -1,5 +1,6 @@
 package com.example.usedbookmarket
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -29,9 +30,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 
@@ -70,6 +71,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
         initView()  // 현재 글 소유권에 따른 뷰 배치
         bindStatus(binding.statusImage,"load")
 
+        // 책 상태툴바
         setSpinner()
         val spinner: Spinner = findViewById(R.id.book_status_spinner)
         spinner.onItemSelectedListener = this
@@ -83,8 +85,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
 
         listRef.listAll()
             .addOnSuccessListener { list ->
-
-//                images = arrayOfNulls<String>(list.items.size)
+                
                 images = arrayListOf("")
 
 
@@ -134,7 +135,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             intent.putExtra("formModel",formModel)
             this.startActivity(intent)
         }
-
+        
         // 자신의 글일 시의 수정 버튼
         findViewById<Button>(R.id.article_form_edit_btn).setOnClickListener {
             val intent = Intent(this, SalesArticleFormActivity::class.java)
@@ -163,7 +164,6 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             "reserve"-> spinner.setSelection(1)
             "sold" -> spinner.setSelection(2)
         }
-
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
@@ -174,12 +174,8 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             "판매완료"-> initBookStatus("sold")
 
         }
-
     }
-
     override fun onNothingSelected(parent: AdapterView<*>) {
-
-
 
     }
 
@@ -201,7 +197,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             formModel = intent.getParcelableExtra("formModel")!!
             userIdSt = formModel.email!!
             heart = binding.cSalesArticleLike
-            uid = auth.currentUser?.uid!!   // 현재 유저 uid
+
             aid = formModel.aid!!
             email= auth.currentUser?.email!!
 
@@ -213,7 +209,6 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                 .with(coverImageView.context)
                 .load(formModel?.coverSmallUrl.orEmpty())
                 .into(coverImageView)
-
 
             // 이미지 확대
             coverImageView.setOnClickListener {
@@ -238,51 +233,46 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
 
             // 자신이 작성한 글일 시 수정, 채팅, 관심 버튼 사라짐
             // 상대방 글
+            uid = auth.currentUser?.uid!!   // 현재 유저 uid
+
             if (formModel.uid != uid) {
+                // UI 업데이트
                 findViewById<Button>(R.id.article_form_edit_btn).isVisible = false
                 findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).isVisible = true
                 findViewById<AppCompatButton>(R.id.c_sales_article_like).isVisible = true
 
-                reference.getReference("like_list/$uid/$aid/liked")
-                    .addValueEventListener(object : ValueEventListener {
 
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            val value = dataSnapshot.getValue(String::class.java)
-                            if (value == "true") {
-                                isLiked = true
+                // whoLike - arrayList<String>
+                // likeCount - int
+                // whoLike에 저장 되있는 list들 중에 자기 uid를 포함한게 있는지 확인
 
-                            } else if (value == "false") {
 
-                                isLiked = false
+                // 초기화 과정(init)
+                val formRef= reference.getReference("sell_list/$aid/")
+                val heart= binding.cSalesArticleLike
+            heart.setOnClickListener {
+                formRef.child("whoLike").child(uid).addListenerForSingleValueEvent(
+                    object : ValueEventListener {
+                        @SuppressLint("NewApi")
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val isLiked = snapshot.value as? Boolean
+                            if (isLiked == true) {
+                                //likeRef.child(uid).removeValue()
+
+                                formRef.child("whoLike/$uid").setValue(null)
+                                heart.background.setTint(getColor(R.color.white))
+                                formRef.child("likeCount").setValue(ServerValue.increment(-1))
+                            } else {
+                                formRef.child("whoLike/$uid").setValue(true)
+                                heart.background.setTint(getColor(R.color.red))
+                                formRef.child("likeCount").setValue(ServerValue.increment(1))
                             }
-
-                            if (isLiked) {
-                                heart.background.setTint(resources.getColor(R.color.red))
-
-                            } else {    // 좋아요 값이 false이거나 좋아요 리스트 저장 안했을 시
-
-                                heart.background.setTint(resources.getColor(R.color.white))
-                            }
-                            Toast.makeText(this@CompletedSalesArticleForm, isLiked.toString(), Toast.LENGTH_SHORT).show()
-
                         }
 
-
-                        override fun onCancelled(databaseError: DatabaseError) {
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
                         }
                     })
-
-
-                binding.cSalesArticleLike.let { it ->
-                    it.setOnClickListener {  // 하트 색 제어
-                        isLiked = if (!isLiked) {
-                            it.background.setTint(resources.getColor(R.color.red))
-                            true
-                        } else {
-                            it.background.setTint(resources.getColor(R.color.white))
-                            false
-                        }
-                    }
                 }
             } else {
                 // 자신의 글
@@ -319,46 +309,6 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
     override fun onResume() {
             super.onResume()
             isBusy = false
-        }
-
-        override fun onPause() {  // 이 화면이 사라지면 발동
-            super.onPause()
-
-            if (isBusy) return
-
-            FirebaseDatabase.getInstance().reference.child("like_list/$uid")
-                .addValueEventListener(object :
-                    ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {}
-                    override fun onDataChange(snapshot: DataSnapshot) {
-
-                        for (data in snapshot.children) { // snapshot 자식들 사용 가능
-                            val item = data.getValue<ArticleForm>()
-                            if (item?.aid.equals(aid)) { // 내가 이미 추가한 값이면
-                                this@CompletedSalesArticleForm.finish()
-                            } else {
-                                continue
-                            }
-                        }   // formItem -> 현 유저가 만들었던 좋아요 form
-                        val changedForm = formModel.copy(liked = "true")
-
-                        if (isLiked) {
-                            reference.getReference("like_list/$uid/$aid")
-                                .setValue(changedForm)
-                            Toast.makeText(
-                                this@CompletedSalesArticleForm,
-                                "좋아요 추가",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            reference.getReference("like_list/$uid/$aid")
-                                .removeValue()
-                        }
-
-                    }
-                })
-            this.finish()
-
         }
 
         private fun setupIndicators(count: Int) {
@@ -431,11 +381,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
 
             inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 private val mImageView: ImageView
-
-
                 init {
-
-
                     mImageView = itemView.findViewById(R.id.imageSlider)
                     mImageView.setOnClickListener {
                         val intent =

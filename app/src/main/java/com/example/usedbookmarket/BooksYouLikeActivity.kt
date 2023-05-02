@@ -102,11 +102,14 @@ class BooksYouLikeActivity: AppCompatActivity() {
 
             holder.articleTitle.text= likeList[position].formTitle
             holder.bookPrice.text= likeList[position].wishPrice
+           /*
             if(likeList[position].liked== "true"){
                 holder.isLiked.background.setTint(resources.getColor(R.color.red))
             }else{
                 holder.isLiked.background.setTint(resources.getColor(R.color.white))
             }
+
+            */
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(this@BooksYouLikeActivity, CompletedSalesArticleForm::class.java)

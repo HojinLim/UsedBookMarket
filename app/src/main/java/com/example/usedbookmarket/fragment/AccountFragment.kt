@@ -152,7 +152,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         }
 
 
-        //TODO 계정 삭제
+        // 계정 삭제
         v.findViewById<AppCompatButton>(R.id.account_del_user).setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
             val input = EditText(requireContext())
