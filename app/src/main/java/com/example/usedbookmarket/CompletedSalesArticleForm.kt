@@ -53,6 +53,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
     private lateinit var aid: String
     private lateinit var userIdSt: String
     private lateinit var email: String
+    private lateinit var initRef: ValueEventListener
 
 
     lateinit var sliderViewPager: ViewPager2
@@ -241,15 +242,27 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                 findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).isVisible = true
                 findViewById<AppCompatButton>(R.id.c_sales_article_like).isVisible = true
 
-
-                // whoLike - arrayList<String>
-                // likeCount - int
-                // whoLike에 저장 되있는 list들 중에 자기 uid를 포함한게 있는지 확인
-
-
                 // 초기화 과정(init)
-                val formRef= reference.getReference("sell_list/$aid/")
+                val formRef= reference.getReference("like_list/$aid/")
                 val heart= binding.cSalesArticleLike
+
+                initRef = formRef.child("whoLike").child(uid).addValueEventListener(object: ValueEventListener{
+                    @SuppressLint("NewApi")
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        when(snapshot.value as? Boolean){
+                            true-> heart.background.setTint(getColor(R.color.red))
+                            false-> heart.background.setTint(getColor(R.color.white))
+                            else -> return
+                        }
+                        formRef.removeEventListener(initRef)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
+
+
             heart.setOnClickListener {
                 formRef.child("whoLike").child(uid).addListenerForSingleValueEvent(
                     object : ValueEventListener {
