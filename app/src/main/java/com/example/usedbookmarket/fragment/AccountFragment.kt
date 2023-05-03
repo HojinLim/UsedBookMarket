@@ -1,6 +1,5 @@
 package com.example.usedbookmarket.fragment
 
-import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
@@ -13,21 +12,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.usedbookmarket.*
+import com.example.usedbookmarket.BooksYouHaveActivity
+import com.example.usedbookmarket.BooksYouLikeActivity
+import com.example.usedbookmarket.BooksYouSellActivity
+import com.example.usedbookmarket.R
+import com.example.usedbookmarket.StartActivity
+import com.example.usedbookmarket.databinding.FragmentAccountBinding
 import com.example.usedbookmarket.model.Friend
+import com.example.usedbookmarket.uid
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -41,16 +43,13 @@ import com.google.firebase.storage.FirebaseStorage
 
 
 class AccountFragment : Fragment(R.layout.fragment_account) {
-
-
-
+    private lateinit var binding: FragmentAccountBinding
+    private lateinit var user: FirebaseAuth
     companion object{
         private var imageUri : Uri? = null
         private val fireStorage = FirebaseStorage.getInstance().reference
         private val fireDatabase = FirebaseDatabase.getInstance().reference
         private val user = Firebase.auth.currentUser
-        private val uid = user?.uid.toString()
-
 
         fun newInstance() : AccountFragment {
             return AccountFragment()
@@ -91,25 +90,30 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
     fun getInstance(): Context? {
         return mContext
     }
+    init {
+        uid = Firebase.auth.currentUser?.uid.toString()
 
-    @SuppressLint("SuspiciousIndentation")
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
+        binding = FragmentAccountBinding.inflate(inflater, container, false)
+
         if(mContext!= null) mContext= requireContext()
 
 
         val auth= FirebaseAuth.getInstance()
-        val v: View = inflater.inflate(R.layout.fragment_account,container,false)
-        v.findViewById<TextView>(R.id.account_userEmail).text= auth.currentUser?.email
 
-        val photo = v?.findViewById<ImageView>(R.id.account_profile_pic)
 
-        val email = v?.findViewById<TextView>(R.id.account_userEmail)
-        val name = v?.findViewById<TextView>(R.id.account_UserName)
-        val button = v?.findViewById<Button>(R.id.account_changeName_btn)
+        binding.accountUserEmail.text= auth.currentUser?.email
+
+        val photo = binding.accountProfilePic
+
+        val email = binding.accountUserEmail
+        val name = binding.accountUserName
+        val button = binding.accountChangeNameBtn
 
         //프로필 구현
         fireDatabase.child("users").child(uid).addListenerForSingleValueEvent(object :
@@ -121,18 +125,18 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                 println(userProfile)
                 Glide.with(mContext!!).load(userProfile?.profileImageUrl)
                     .apply(RequestOptions().circleCrop())
-                    .into(photo!!)
-                email?.text = userProfile?.email
-                name?.text = userProfile?.name
+                    .into(photo)
+                email.text = userProfile?.email
+                name.setText(userProfile?.name)
             }
         })
         //프로필사진 바꾸기
-        photo?.setOnClickListener{
+        photo.setOnClickListener{
             val intentImage = Intent(Intent.ACTION_PICK)
             intentImage.type = MediaStore.Images.Media.CONTENT_TYPE
             getContent.launch(intentImage)
         }
-        button?.setOnClickListener{
+        button.setOnClickListener{
             if(name?.text!!.isNotEmpty()) {
                 fireDatabase.child("users/$uid/name").setValue(name.text.toString())
                 name.clearFocus()
@@ -140,10 +144,10 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             }
         }
 
-        initIntentActivity(v)
+        initIntentActivity()
 
         // 로그아웃 버튼 클릭
-        v.findViewById<AppCompatButton>(R.id.account_logout_btn).setOnClickListener {
+        binding.accountLogoutBtn.setOnClickListener {
             if(auth.currentUser != null) auth.signOut()
                 Toast.makeText(mContext, "로그아웃 완료",Toast.LENGTH_SHORT).show()
                 Toast.makeText(requireContext(), auth.currentUser?.uid.toString(),Toast.LENGTH_SHORT).show()
@@ -153,7 +157,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
 
         // 계정 삭제
-        v.findViewById<AppCompatButton>(R.id.account_del_user).setOnClickListener {
+        binding.accountDelUser.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
             val input = EditText(requireContext())
             input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
@@ -199,17 +203,17 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             builder.show()
         }
 
-return v
+        return binding.root
 }
 
-    private fun initIntentActivity(v: View){
-        v.findViewById<AppCompatButton>(R.id.account_list_books_you_have_btn).setOnClickListener {
+    private fun initIntentActivity(){
+        binding.accountListBooksYouHaveBtn.setOnClickListener {
             startActivity(Intent(requireContext(), BooksYouHaveActivity::class.java))
         }
-        v.findViewById<AppCompatButton>(R.id.account_list_books_you_sell_btn).setOnClickListener {
+        binding.accountListBooksYouSellBtn.setOnClickListener {
             startActivity(Intent(requireContext(), BooksYouSellActivity::class.java))
         }
-        v.findViewById<AppCompatButton>(R.id.account_list_books_you_like_btn).setOnClickListener {
+        binding.accountListBooksYouLikeBtn.setOnClickListener {
             startActivity(Intent(requireContext(), BooksYouLikeActivity::class.java))
         }
     }

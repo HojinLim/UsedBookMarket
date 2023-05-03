@@ -64,6 +64,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
     }
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityCompletedSalesArticleFormBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -246,15 +247,18 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                 val formRef= reference.getReference("like_list/$aid/")
                 val heart= binding.cSalesArticleLike
 
+
                 initRef = formRef.child("whoLike").child(uid).addValueEventListener(object: ValueEventListener{
                     @SuppressLint("NewApi")
                     override fun onDataChange(snapshot: DataSnapshot) {
+
                         when(snapshot.value as? Boolean){
                             true-> heart.background.setTint(getColor(R.color.red))
                             false-> heart.background.setTint(getColor(R.color.white))
-                            else -> return
+                            else -> heart.background.setTint(getColor(R.color.white))
                         }
                         formRef.removeEventListener(initRef)
+                        Toast.makeText(this@CompletedSalesArticleForm,"초기화",Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -264,6 +268,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
 
 
             heart.setOnClickListener {
+                Toast.makeText(this@CompletedSalesArticleForm,"클릭",Toast.LENGTH_SHORT).show()
                 formRef.child("whoLike").child(uid).addListenerForSingleValueEvent(
                     object : ValueEventListener {
                         @SuppressLint("NewApi")
@@ -272,7 +277,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                             if (isLiked == true) {
                                 //likeRef.child(uid).removeValue()
 
-                                formRef.child("whoLike/$uid").setValue(null)
+                                formRef.child("whoLike/$uid").setValue("")
                                 heart.background.setTint(getColor(R.color.white))
                                 formRef.child("likeCount").setValue(ServerValue.increment(-1))
                             } else {
@@ -280,6 +285,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                                 heart.background.setTint(getColor(R.color.red))
                                 formRef.child("likeCount").setValue(ServerValue.increment(1))
                             }
+//                            val hi=getSharedPreferences("likeValue", MODE_PRIVATE).edit().putBoolean(isLiked)
                         }
 
                         override fun onCancelled(error: DatabaseError) {

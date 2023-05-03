@@ -19,7 +19,6 @@ import com.example.usedbookmarket.databinding.FragmentHomeBinding
 import com.example.usedbookmarket.databinding.ItemHistoryBinding
 import com.example.usedbookmarket.model.ArticleForm
 import com.example.usedbookmarket.model.History
-import com.example.usedbookmarket.model.WhoLike
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -78,7 +77,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         @SuppressLint("NotifyDataSetChanged")
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
-            val whoLike: WhoLike?= snapshot.getValue(WhoLike::class.java)
 
             //Toast.makeText(requireContext(), whoLike.toString(), Toast.LENGTH_SHORT).show()
 

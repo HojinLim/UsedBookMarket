@@ -31,8 +31,9 @@ class ArticleAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<Arti
             initBookStatus(articleForm.status)
 
             // 좋아요 개수 바인딩
-            if(articleForm.likeCount== 0) binding.itemArticleLikeImg.isVisible= false
-            else binding.itemArticleLikeText.text= articleForm.likeCount.toString()
+//            if(articleForm.likeCount== 0) binding.itemArticleLikeImg.isVisible= false
+//            else
+            binding.itemArticleLikeText.text= articleForm.likeCount.toString()
 
         }
 
