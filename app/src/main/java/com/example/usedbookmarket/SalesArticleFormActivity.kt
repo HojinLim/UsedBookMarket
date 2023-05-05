@@ -147,9 +147,9 @@ class SalesArticleFormActivity: AppCompatActivity() {
             binding.articleFormFormTitle.text.toString(),
             binding.articleFormDescription.text.toString(),
             binding.articleFormWishPrice.text.toString(),
-            "false",
             curTime,
             auth.currentUser?.email,
+            "sale",
             0
         )
 
@@ -170,9 +170,9 @@ class SalesArticleFormActivity: AppCompatActivity() {
                 binding.articleFormFormTitle.text.toString(),
                 binding.articleFormDescription.text.toString(),
                 binding.articleFormWishPrice.text.toString(),
-                "false",
                 curTime,
                 auth.currentUser?.email,
+                "sale",
                 0
             )
 

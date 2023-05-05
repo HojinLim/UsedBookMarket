@@ -78,7 +78,6 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
             val articleForm: ArticleForm? = snapshot.getValue(ArticleForm::class.java)
 
-            //Toast.makeText(requireContext(), whoLike.toString(), Toast.LENGTH_SHORT).show()
 
             articleForm ?: return
             articleFormList.add(articleForm)

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.usedbookmarket.databinding.ActivityMessageBinding
+import com.example.usedbookmarket.model.ArticleForm
 import com.example.usedbookmarket.model.ChatModel
 import com.example.usedbookmarket.model.Friend
 import com.google.firebase.auth.ktx.auth
@@ -55,8 +56,8 @@ class MessageActivity: AppCompatActivity() {
         val curTime = dateFormat.format(Date(time)).toString()
 
         // 상대방 정보
-//        val formModel: ArticleForm = intent.getParcelableExtra("formModel")!!
-//        bookName= formModel.title!!
+        val formModel: ArticleForm = intent.getParcelableExtra("formModel")!!
+
         destinationUid = intent.getStringExtra("destinationUid")
 
         // 나의 정보
@@ -64,12 +65,16 @@ class MessageActivity: AppCompatActivity() {
         email = Firebase.auth.currentUser?.email
         recyclerView = binding.msgHistoryRecyclerView
 
-
+        // 거래책 이미지 적용
+        Glide.with(this)
+            .load(formModel.coverSmallUrl)
+            .apply(RequestOptions().circleCrop())
+            .into(binding.messageImage)
 
         // 거래책 글 이미지 클릭시
         binding.messageImage.setOnClickListener {
             val intent = Intent(this, CompletedSalesArticleForm::class.java)
-            //intent.putExtra("formModel", formModel)
+            intent.putExtra("formModel", formModel)
             startActivity(intent)
         }
 
@@ -82,8 +87,12 @@ class MessageActivity: AppCompatActivity() {
         imageView.setOnClickListener {
             Log.d("클릭 시 dest", "$destinationUid")
             val chatModel = ChatModel()
+
+
             chatModel.users[uid.toString()] = true
             chatModel.users[destinationUid!!] = true
+
+            chatModel.aid= formModel.aid
 
 
             val comment = ChatModel.Comment(uid, editText.text.toString(), curTime)

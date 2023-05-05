@@ -54,6 +54,7 @@
             android:layout_weight="1"
             />
         <ImageView
+            android:id="@+id/item_chat_coverImage"
             android:layout_margin="15dp"
             android:layout_width="50dp"
             android:layout_height="50dp"

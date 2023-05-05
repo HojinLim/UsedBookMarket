@@ -77,6 +77,7 @@
         app:layout_constraintEnd_toEndOf="@+id/heart_back"
         app:layout_constraintBottom_toBottomOf="@+id/heart_back"
         android:id="@+id/books_you_like_interest_btn"
+        android:backgroundTint="@color/red"
         />
 
 

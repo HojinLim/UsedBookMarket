@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.usedbookmarket.MessageActivity
 import com.example.usedbookmarket.R
+import com.example.usedbookmarket.ZoomImageActivity
+import com.example.usedbookmarket.model.ArticleForm
 import com.example.usedbookmarket.model.ChatModel
 import com.example.usedbookmarket.model.Friend
 import com.google.firebase.auth.ktx.auth
@@ -28,13 +30,15 @@ import java.util.Collections
 import java.util.TreeMap
 
 class ChatFragment : Fragment(R.layout.fragment_chatlist) {
+    private val articleFormList= ArrayList<ArticleForm>()
+    private val aidStringList= ArrayList<String>()
 
     companion object{
         fun newInstance() : ChatFragment {
             return ChatFragment()
         } // 프래그먼트 재생성(화면 회전과 같은)시 빈생성자가 있어야 한다?
     }
-    private val fireDatabase = FirebaseDatabase.getInstance().reference
+
 
     //메모리에 올라갔을 때
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,24 +69,54 @@ class ChatFragment : Fragment(R.layout.fragment_chatlist) {
         private var uid : String? = null
         private val destinationUsers : ArrayList<String> = arrayListOf()
 
+
+
+
         init {
+            val ref= FirebaseDatabase.getInstance().reference
+
             uid = Firebase.auth.currentUser?.uid.toString()
             println(uid)
 
-            fireDatabase.child("chatrooms").orderByChild("users/$uid").equalTo(true).addListenerForSingleValueEvent(object :
+            ref.child("chatrooms").orderByChild("users/$uid").equalTo(true).addListenerForSingleValueEvent(object :
                 ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                 }
+
                 override fun onDataChange(snapshot: DataSnapshot) {
                     chatModel.clear()
-                    for(data in snapshot.children){
-                        chatModel.add(data.getValue<ChatModel>()!!)
+                    for (data in snapshot.children) {
+                        val cm = data.getValue<ChatModel>()!!
+                        chatModel.add(cm)
                         println(data)
+
+                        // article model을 가져온다
+                        val aid = cm.aid.toString()
+                        aidStringList.add(aid)
+
+                        ref.child("sell_list/$aid")
+                            .addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    val articleForm: ArticleForm =
+                                        snapshot.getValue(ArticleForm::class.java)!!
+                                    articleFormList.add(articleForm)
+
+                                    notifyDataSetChanged()
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    TODO("Not yet implemented")
+                                }
+                            })
                     }
-                    notifyDataSetChanged()
+
+
+
                 }
             })
         }
+
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
 
             return CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false))
@@ -90,20 +124,36 @@ class ChatFragment : Fragment(R.layout.fragment_chatlist) {
 
         inner class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val imageView: ImageView = itemView.findViewById(R.id.chat_item_imageview)
+            val coverImageView: ImageView = itemView.findViewById(R.id.item_chat_coverImage)
             val textView_title : TextView = itemView.findViewById(R.id.chat_textview_title)
             val textView_lastMessage : TextView = itemView.findViewById(R.id.chat_item_textview_lastmessage)
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+            Glide.with(holder.itemView.context).load(articleFormList[position].coverSmallUrl)
+                .apply(RequestOptions().centerCrop())
+                .into(holder.coverImageView)
+
+            holder.coverImageView.setOnClickListener {// 이미지 확대
+                val intent= Intent(requireContext(), ZoomImageActivity::class.java)
+                intent.putExtra("formImage", articleFormList[position].coverSmallUrl)
+                startActivity(intent)
+            }
+
+
+
             var destinationUid: String? = null
+
             //채팅방에 있는 유저 모두 체크
             for (user in chatModel[position].users.keys) {
-                if (!user.equals(uid)) {
+                if (user != uid) {
                     destinationUid = user
                     destinationUsers.add(destinationUid)
                 }
             }
-            fireDatabase.child("users").child("$destinationUid").addListenerForSingleValueEvent(object :
+            val ref= FirebaseDatabase.getInstance().reference
+
+            ref.child("users").child("$destinationUid").addListenerForSingleValueEvent(object :
                 ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                 }
@@ -125,6 +175,9 @@ class ChatFragment : Fragment(R.layout.fragment_chatlist) {
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, MessageActivity::class.java)
                 intent.putExtra("destinationUid", destinationUsers[position])
+
+                val likeForm: ArticleForm= articleFormList[position]
+                intent.putExtra("formModel", likeForm)
                 context?.startActivity(intent)
             }
         }

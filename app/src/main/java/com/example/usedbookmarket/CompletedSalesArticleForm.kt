@@ -134,7 +134,34 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
         findViewById<AppCompatButton>(R.id.c_sales_article_chat_btn).setOnClickListener {
             val intent = Intent(this, MessageActivity::class.java)
             intent.putExtra("destinationUid", formModel.uid)
-            intent.putExtra("formModel",formModel)
+            intent.putExtra("formModel", formModel)
+
+            val db= FirebaseDatabase.getInstance().reference
+            val aid= formModel.aid
+            val sellUid= formModel.uid
+            db.child("chat_form/$aid")
+                .child(uid).setValue(sellUid)
+
+//
+//
+//            db.child("chat_form").addValueEventListener(object: ValueEventListener{
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    for(item in snapshot.children){
+//                        val hash= HashMap<String, String>()
+//                        hash[uid]= formModel.aid.toString()
+//                        if(!item.equals(hash)){
+//
+//                        }
+//                    }
+//                }
+//
+//                override fun onCancelled(error: DatabaseError) {
+//                    TODO("Not yet implemented")
+//                }
+//            })
+
+
+
             this.startActivity(intent)
         }
         
@@ -258,7 +285,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                             else -> heart.background.setTint(getColor(R.color.white))
                         }
                         formRef.removeEventListener(initRef)
-                        Toast.makeText(this@CompletedSalesArticleForm,"초기화",Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this@CompletedSalesArticleForm,"초기화",Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -280,12 +307,23 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                                 formRef.child("whoLike/$uid").setValue("")
                                 heart.background.setTint(getColor(R.color.white))
                                 formRef.child("likeCount").setValue(ServerValue.increment(-1))
+
+
+                                FirebaseDatabase.getInstance().reference
+                                    .child("sell_list/$aid/likeCount")
+                                    .setValue(ServerValue.increment(-1))
                             } else {
                                 formRef.child("whoLike/$uid").setValue(true)
                                 heart.background.setTint(getColor(R.color.red))
-                                formRef.child("likeCount").setValue(ServerValue.increment(1))
+
+                                FirebaseDatabase.getInstance().reference
+                                    .child("sell_list/$aid/likeCount")
+                                    .setValue(ServerValue.increment(1))
+
+
                             }
-//                            val hi=getSharedPreferences("likeValue", MODE_PRIVATE).edit().putBoolean(isLiked)
+
+//
                         }
 
                         override fun onCancelled(error: DatabaseError) {
