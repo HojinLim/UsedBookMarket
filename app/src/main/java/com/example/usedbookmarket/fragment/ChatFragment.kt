@@ -32,6 +32,7 @@ import java.util.TreeMap
 class ChatFragment : Fragment(R.layout.fragment_chatlist) {
     private val articleFormList= ArrayList<ArticleForm>()
     private val aidStringList= ArrayList<String>()
+    private lateinit var adapter: RecyclerViewAdapter
 
     companion object{
         fun newInstance() : ChatFragment {
@@ -48,6 +49,7 @@ class ChatFragment : Fragment(R.layout.fragment_chatlist) {
     //프레그먼트를 포함하고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
         super.onAttach(context)
+//        adapter.notifyDataSetChanged()
     }
 
     //뷰가 생성되었을 때
@@ -68,9 +70,6 @@ class ChatFragment : Fragment(R.layout.fragment_chatlist) {
         private val chatModel = ArrayList<ChatModel>()
         private var uid : String? = null
         private val destinationUsers : ArrayList<String> = arrayListOf()
-
-
-
 
         init {
             val ref= FirebaseDatabase.getInstance().reference

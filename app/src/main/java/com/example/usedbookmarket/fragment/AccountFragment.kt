@@ -1,5 +1,6 @@
 package com.example.usedbookmarket.fragment
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
@@ -94,6 +95,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         uid = Firebase.auth.currentUser?.uid.toString()
 
     }
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

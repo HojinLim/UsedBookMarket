@@ -142,23 +142,6 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             db.child("chat_form/$aid")
                 .child(uid).setValue(sellUid)
 
-//
-//
-//            db.child("chat_form").addValueEventListener(object: ValueEventListener{
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    for(item in snapshot.children){
-//                        val hash= HashMap<String, String>()
-//                        hash[uid]= formModel.aid.toString()
-//                        if(!item.equals(hash)){
-//
-//                        }
-//                    }
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {
-//                    TODO("Not yet implemented")
-//                }
-//            })
 
 
 

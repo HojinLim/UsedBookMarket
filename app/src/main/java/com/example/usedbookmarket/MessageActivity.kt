@@ -83,6 +83,14 @@ class MessageActivity: AppCompatActivity() {
             onBackPressed()
         }
 
+        // 거래 완료 버튼
+        binding.messageCompleteBtn.setOnClickListener {
+            val intent = Intent(this, ReviewActivity::class.java)
+            intent.putExtra("formModel", formModel)
+            intent.putExtra("destinationUid", destinationUid)
+            startActivity(intent)
+        }
+
         // 채팅하기 버튼 클릭
         imageView.setOnClickListener {
             Log.d("클릭 시 dest", "$destinationUid")
@@ -107,16 +115,6 @@ class MessageActivity: AppCompatActivity() {
                         fireDatabase.child("chatrooms/").child(chatRoomUid.toString()).child("comments").push().setValue(comment)
                         binding.chatMsg.text = null
 
-                        // 알림 푸시 보내기
-//                        val chat= Chat(email, editText.toString())
-//                        val intent= Intent(this, NotificationActivity::class.java)
-//                        intent.putExtra("chat", chat)
-//                        val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return@postDelayed
-//                        with (sharedPref.edit()) {
-//                            putString("email",email)
-//                            putString("chat",editText.toString())
-//                            apply()
-//                        }
 
                     }, 1000L)
                     Log.d("chatUidNull dest", "$destinationUid")
@@ -127,6 +125,8 @@ class MessageActivity: AppCompatActivity() {
                 Log.d("chatUidNotNull dest", "$destinationUid")
             }
         }
+
+
 
         checkChatRoom()
         }
