@@ -1,8 +1,11 @@
 package com.example.usedbookmarket
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,19 +25,49 @@ import com.google.firebase.ktx.Firebase
 
 class ReviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReviewBinding
+    private lateinit var currentState: State
+    private lateinit var list1: List<String>
+    private lateinit var list2: List<String>
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var desNickName: String
+
+    enum class State {
+        IDLE,
+        BAD,
+        GOOD
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        currentState = State.IDLE
+        recyclerView = binding.reviewRecyclerView
+
         // form 정보 가져오기
         val formModel: ArticleForm = intent.getParcelableExtra("formModel")!!
+
+        // 좋았던 이유 리뷰 리스트
+        list1 = listOf(
+            "●  가격이 저렴해요.", "●  답장이 빨라요.", "●  매너가 좋아요.", "●  책 상태가 좋아요."
+        )
+
+        // 별로였던 이유 리뷰 리스트
+        list2 = listOf(
+            "●  시간약속을 안 지켜요.",
+            "●  원하지 않는 가격을 계속 요구해요.",
+            "●  거래 시간과 장소를 정한 후 거래 직전 취소했어요.",
+            "●  약속 장소에 나타나지 않았어요.",
+            "●  반말을 사용해요.",
+            "●  불친절해요."
+        )
 
         initView(formModel)
 
     }
 
-    private fun initView(formModel: ArticleForm) {
+    private fun initView( formModel: ArticleForm) {
         // 책 이미지 적용
         Glide.with(this)
             .load(formModel.coverSmallUrl)
@@ -42,21 +75,22 @@ class ReviewActivity : AppCompatActivity() {
             .into(binding.reviewImage)
 
         // 책 제목 적용
-        binding.reviewTitle.text= formModel.title
+        binding.reviewTitle.text = formModel.title
 
         // 자신과 상대방 이름 적용
         val uid = Firebase.auth.currentUser?.uid!!
         val destinationUid = intent.getStringExtra("destinationUid")
-        val ref= FirebaseDatabase.getInstance().reference
+        val ref = FirebaseDatabase.getInstance().reference
 
         ref.child("users").child(uid).addListenerForSingleValueEvent(object :
             ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
+
             override fun onDataChange(snapshot: DataSnapshot) {
                 // 자신의 이름
                 val userProfile = snapshot.getValue<Friend>()
-                binding.reviewUidView.text= userProfile?.name+"님"
+                binding.reviewUidView.text = userProfile?.name + "님"
             }
         })
 
@@ -64,47 +98,84 @@ class ReviewActivity : AppCompatActivity() {
             ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
+
             override fun onDataChange(snapshot: DataSnapshot) {
                 // 상대방의 이름
                 val desProfile = snapshot.getValue<Friend>()
-                binding.reviewDestinationIdView.text = desProfile?.name+"님"
+                desNickName= desProfile?.name!!
+                binding.reviewDestinationIdView.text = desNickName+ "님"
             }
         })
         // 리뷰 버튼 초기화
-        val btn1= binding.reviewBadBtn
-        val btn2= binding.reviewGoodBtn
-        val btn3= binding.reviewVeryGoodBtn
+        val btn1 = binding.reviewBadBtn
+        val btn2 = binding.reviewGoodBtn
+        val btn3 = binding.reviewVeryGoodBtn
 
-        btn1.setOnClickListener{
-            btn1.alpha= 1f
-            btn2.alpha= 0.5f
-            btn3.alpha= 0.5f
+        btn1.setOnClickListener {
+            btn1.alpha = 1f
+            btn2.alpha = 0.5f
+            btn3.alpha = 0.5f
+            currentState = State.BAD
+            changeListAdapter(list2)
+
         }
         btn2.setOnClickListener {
-            btn1.alpha= 0.5f
-            btn2.alpha= 1f
-            btn3.alpha= 0.5f
+            btn1.alpha = 0.5f
+            btn2.alpha = 1f
+            btn3.alpha = 0.5f
+            currentState = State.GOOD
+            changeListAdapter(list1)
         }
         btn3.setOnClickListener {
-            btn1.alpha= 0.5f
-            btn2.alpha= 0.5f
-            btn3.alpha= 1f
+            btn1.alpha = 0.5f
+            btn2.alpha = 0.5f
+            btn3.alpha = 1f
+            currentState = State.GOOD
+            changeListAdapter(list1)
         }
+
+        // 완료 버튼
+        binding.reviewCompleteBtn.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+
+            builder.setTitle("보내기")
+                .setMessage("\"$desNickName\"님에게 후기를 보냅니다.")
+                .setPositiveButton("입력완료",
+                    DialogInterface.OnClickListener { dialog, id ->
+
+                        Toast.makeText(this, "보내기 완료!", Toast.LENGTH_SHORT).show()
+                    })
+                .setNegativeButton("취소",
+                    DialogInterface.OnClickListener { dialog, id ->
+                    })
+            // 다이얼로그를 띄워주기
+            builder.show()
+        }
+
+    }
+
+    private fun changeListAdapter(list: List<String>) {
+
         // 상세 리뷰 적용
-        val recyclerView = binding.reviewRecyclerView
-        val adapter = MyAdapter(
-            listOf
-                ("●  가격이 저렴해요."
-                , "●  답장이 빨라요."
-                , "●  매너가 좋아요."
-                , "●  책 상태가 좋아요."))
+        val adapter = MyAdapter(list)
+        adapter.notifyDataSetChanged()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
     }
-    class MyAdapter(private val itemList: List<String>) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+
+    inner class MyAdapter(private val itemList: List<String>) :
+        RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(ItemReviewTextBtnBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            return ViewHolder(
+                ItemReviewTextBtnBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -114,11 +185,26 @@ class ReviewActivity : AppCompatActivity() {
 
         override fun getItemCount() = itemList.size
 
-        inner class ViewHolder(private val binding: ItemReviewTextBtnBinding) : RecyclerView.ViewHolder(binding.root) {
+        inner class ViewHolder(private val binding: ItemReviewTextBtnBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+
             fun bind(item: String) {
-                binding.itemViewBtn.text= item
+                val btn = binding.itemViewBtn
+                btn.text = item
+
+                var isClicked = false // 클릭 여부를 저장할 변수
+
+                binding.itemViewBtn.setOnClickListener {
+                    isClicked = !isClicked // 클릭 여부를 반전시킴
+
+                    if (isClicked) {
+                        btn.setTextColor(getColor(R.color.gold)) // 빨간색으로 설정
+                    } else {
+                        btn.setTextColor(getColor(R.color.white)) // 원래 색으로 설정
+                    }
+                }
             }
         }
-    }
 
+    }
 }

@@ -16,6 +16,20 @@
         android:id="@+id/review_back_btn"
         />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:background="@drawable/background_button_carrot_rectangle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="완료"
+        android:textSize="20sp"
+        android:fontFamily="@font/gan_pan_font"
+        android:id="@+id/review_complete_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white"
+        android:layout_margin="8dp"
+        />
+
 
     <View
         android:layout_width="match_parent"
@@ -235,7 +249,6 @@
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-
         >
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="wrap_content"

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gan_pan_font"
-        android:text="●  가격이 저렴해요."
+        tools:text="●  가격이 저렴해요."
         android:textColor="@color/white"
         android:textSize="25sp"
         android:backgroundTint="#00FFFFFF"
         android:id="@+id/item_view_btn"
+        android:gravity="start"
+
         />
 
 </LinearLayout>
