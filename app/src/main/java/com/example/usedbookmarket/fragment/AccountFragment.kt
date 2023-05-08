@@ -23,10 +23,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.usedbookmarket.BooksYouHaveActivity
 import com.example.usedbookmarket.BooksYouLikeActivity
 import com.example.usedbookmarket.BooksYouSellActivity
 import com.example.usedbookmarket.R
+import com.example.usedbookmarket.ReviewYouGotActivity
 import com.example.usedbookmarket.StartActivity
 import com.example.usedbookmarket.databinding.FragmentAccountBinding
 import com.example.usedbookmarket.model.Friend
@@ -210,7 +210,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
     private fun initIntentActivity(){
         binding.accountListBooksYouHaveBtn.setOnClickListener {
-            startActivity(Intent(requireContext(), BooksYouHaveActivity::class.java))
+            startActivity(Intent(requireContext(), ReviewYouGotActivity::class.java))
         }
         binding.accountListBooksYouSellBtn.setOnClickListener {
             startActivity(Intent(requireContext(), BooksYouSellActivity::class.java))

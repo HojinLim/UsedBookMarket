@@ -1,17 +1,12 @@
 package com.example.usedbookmarket
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.Signature
-import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.example.usedbookmarket.fragment.AccountFragment
 import com.example.usedbookmarket.fragment.ChatFragment
@@ -28,6 +23,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
+
+
+
         homeFragment = HomeFragment.newInstance()
         changeFragment(homeFragment)
 
@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
 
 
     private fun getHashKey() {
@@ -89,5 +88,9 @@ class MainActivity : AppCompatActivity() {
                 replace(R.id.fragmentContainer, fragment)
                 commit()
             }
+    }
+    companion object {
+        private const val TAG = "MyFirebaseMsgService"
+        private const val CHANNEL_ID = "default_channel_id"
     }
 }

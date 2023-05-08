@@ -27,4 +27,7 @@
     <string name="book_reservation">예약중</string>
     <string name="book_sales">판매중</string>
     <string name="nickname">닉네임</string>
+    <string name="snooze">snooze</string>
+    <string name="default_notification_channel_id">default_channel</string>
+    <string name="msg_token_fmt">Message: %s</string>
 </resources>

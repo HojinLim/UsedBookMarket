@@ -1,5 +1,6 @@
 package com.example.usedbookmarket
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.example.usedbookmarket.databinding.ActivityReviewBinding
 import com.example.usedbookmarket.databinding.ItemReviewTextBtnBinding
 import com.example.usedbookmarket.model.ArticleForm
 import com.example.usedbookmarket.model.Friend
+import com.example.usedbookmarket.model.ReviewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,25 +27,26 @@ import com.google.firebase.ktx.Firebase
 
 class ReviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReviewBinding
-    private lateinit var currentState: State
+    private lateinit var review: String
     private lateinit var list1: List<String>
     private lateinit var list2: List<String>
     private lateinit var recyclerView: RecyclerView
     private lateinit var desNickName: String
+    private lateinit var detailReview: MutableList<String>
 
-    enum class State {
-        IDLE,
-        BAD,
-        GOOD
-    }
+//    enum class State {
+//        IDLE,
+//        BAD,
+//        GOOD
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        currentState = State.IDLE
         recyclerView = binding.reviewRecyclerView
+        detailReview= arrayListOf()
 
         // form 정보 가져오기
         val formModel: ArticleForm = intent.getParcelableExtra("formModel")!!
@@ -67,7 +70,7 @@ class ReviewActivity : AppCompatActivity() {
 
     }
 
-    private fun initView( formModel: ArticleForm) {
+    private fun initView(formModel: ArticleForm) {
         // 책 이미지 적용
         Glide.with(this)
             .load(formModel.coverSmallUrl)
@@ -115,7 +118,7 @@ class ReviewActivity : AppCompatActivity() {
             btn1.alpha = 1f
             btn2.alpha = 0.5f
             btn3.alpha = 0.5f
-            currentState = State.BAD
+            review = "bad"
             changeListAdapter(list2)
 
         }
@@ -123,14 +126,14 @@ class ReviewActivity : AppCompatActivity() {
             btn1.alpha = 0.5f
             btn2.alpha = 1f
             btn3.alpha = 0.5f
-            currentState = State.GOOD
+            review = "good"
             changeListAdapter(list1)
         }
         btn3.setOnClickListener {
             btn1.alpha = 0.5f
             btn2.alpha = 0.5f
             btn3.alpha = 1f
-            currentState = State.GOOD
+            review = "veryGood"
             changeListAdapter(list1)
         }
 
@@ -142,8 +145,20 @@ class ReviewActivity : AppCompatActivity() {
                 .setMessage("\"$desNickName\"님에게 후기를 보냅니다.")
                 .setPositiveButton("입력완료",
                     DialogInterface.OnClickListener { dialog, id ->
+                        if(detailReview.isEmpty()) {
+                            // 아무런 상세 리뷰를 클릭하지 않았을 시
+                            Toast.makeText(this, "리뷰를 클릭해주세요.", Toast.LENGTH_SHORT).show()
+                            return@OnClickListener
+                        }else{
+                            // 외부 DB에 저장
+                            val review= ReviewModel(destinationUid, review, detailReview)
+                            FirebaseDatabase.getInstance()
+                                .getReference("review_list/$uid").push()
+                                .setValue(review)
 
                         Toast.makeText(this, "보내기 완료!", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
                     })
                 .setNegativeButton("취소",
                     DialogInterface.OnClickListener { dialog, id ->
@@ -155,7 +170,6 @@ class ReviewActivity : AppCompatActivity() {
     }
 
     private fun changeListAdapter(list: List<String>) {
-
         // 상세 리뷰 적용
         val adapter = MyAdapter(list)
         adapter.notifyDataSetChanged()
@@ -188,6 +202,7 @@ class ReviewActivity : AppCompatActivity() {
         inner class ViewHolder(private val binding: ItemReviewTextBtnBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
+            @SuppressLint("NewApi")
             fun bind(item: String) {
                 val btn = binding.itemViewBtn
                 btn.text = item
@@ -198,8 +213,10 @@ class ReviewActivity : AppCompatActivity() {
                     isClicked = !isClicked // 클릭 여부를 반전시킴
 
                     if (isClicked) {
+                        detailReview.add(item)
                         btn.setTextColor(getColor(R.color.gold)) // 빨간색으로 설정
                     } else {
+                        detailReview.remove(item)
                         btn.setTextColor(getColor(R.color.white)) // 원래 색으로 설정
                     }
                 }

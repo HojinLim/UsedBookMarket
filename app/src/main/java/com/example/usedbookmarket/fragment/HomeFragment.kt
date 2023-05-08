@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.example.usedbookmarket.*
 import com.example.usedbookmarket.adapter.ArticleAdapter
-import com.example.usedbookmarket.adapter.HistoryAdapter
 import com.example.usedbookmarket.databinding.FragmentHomeBinding
 import com.example.usedbookmarket.databinding.ItemHistoryBinding
 import com.example.usedbookmarket.model.ArticleForm
@@ -140,7 +139,7 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
             startActivity(Intent(requireContext(), AddBookActivity::class.java))
         }
         binding.homeNotificationButton.setOnClickListener {
-            startActivity(Intent(requireContext(), NotificationActivity::class.java))
+            startActivity(Intent(requireContext(), MyFirebaseMessagingService::class.java))
         }
         recyclerView = binding.homeBookRecyclerView
 

@@ -13,6 +13,7 @@ class NotePad : AppCompatActivity() {
     companion object{
         const val CHANNEL_ID= "hojin"
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_pad)
