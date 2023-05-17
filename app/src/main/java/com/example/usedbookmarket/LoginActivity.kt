@@ -44,7 +44,8 @@ class LoginActivity : AppCompatActivity() {
                         //finish()
                         Toast.makeText(this, "로그인 완료!", Toast.LENGTH_SHORT).show()
 
-                        startActivity(Intent(this, StartActivity::class.java))
+                        startActivity(Intent(this, MainActivity::class.java))
+                        //startActivity(Intent(this, StartActivity::class.java))
                     }else{
                         Toast.makeText(this, "잘못 입력하였거나 계정이 존재하지 않습니다!", Toast.LENGTH_SHORT).show()
                     }

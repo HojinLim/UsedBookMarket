@@ -15,22 +15,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:text=""
         />
+
     <androidx.appcompat.widget.AppCompatButton
+        android:visibility="invisible"
         android:id="@+id/shortCutButton"
-        android:textColor="@color/white"
-        android:text="책 목록 바로가기"
-        android:fontFamily="@font/gan_pan_font"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/carrot"
         android:layout_margin="15dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/carrot"
+        android:fontFamily="@font/gan_pan_font"
+        android:text="책 목록 바로가기"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/shortCutButton2"
         android:textColor="@color/white"
         android:text="Test1"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/carrot"
@@ -47,24 +52,11 @@
         android:layout_height="wrap_content"
         android:background="@color/carrot"
         android:fontFamily="@font/gan_pan_font"
+        android:visibility="invisible"
         android:layout_margin="15dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/shortCutButton2"
         />
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/shortCutButton4"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:fontFamily="@font/gan_pan_font"
-        android:layout_margin="15dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/shortCutButton3"
-
-        />
-
-
 
     <ImageView
         android:id="@+id/logoImage"

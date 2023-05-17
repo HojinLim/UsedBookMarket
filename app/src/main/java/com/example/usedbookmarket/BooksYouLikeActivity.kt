@@ -37,10 +37,6 @@ class BooksYouLikeActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_books_you_like)
 
-
-
-        //TODO 해당 계정 내에 소지 중인 책 데이터 가져오기
-
         recyclerView = findViewById(R.id.books_you_like_recyclerView)
 
 
@@ -135,7 +131,7 @@ class BooksYouLikeActivity: AppCompatActivity() {
                     startActivity(intent)
             }
 
-            holder.articleTitle.text= likeList[position].formTitle
+            holder.articleTitle.text= likeList[position].title
             holder.bookPrice.text= likeList[position].wishPrice
 
 

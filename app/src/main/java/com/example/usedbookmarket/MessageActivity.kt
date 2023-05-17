@@ -1,6 +1,7 @@
 package com.example.usedbookmarket
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -85,10 +87,27 @@ class MessageActivity: AppCompatActivity() {
 
         // 거래 완료 버튼
         binding.messageCompleteBtn.setOnClickListener {
-            val intent = Intent(this, ReviewActivity::class.java)
-            intent.putExtra("formModel", formModel)
-            intent.putExtra("destinationUid", destinationUid)
-            startActivity(intent)
+            val builder = AlertDialog.Builder(this@MessageActivity)
+            builder.setTitle("거래 완료")
+                .setMessage("리뷰 작성 페이지로 갑니다")
+                .setPositiveButton("확인",
+                    DialogInterface.OnClickListener { dialog, id ->
+//                                resultText.text = "확인 클릭"
+
+                        val intent = Intent(this, ReviewActivity::class.java)
+                        intent.putExtra("formModel", formModel)
+                        intent.putExtra("destinationUid", destinationUid)
+                        startActivity(intent)
+                    })
+                .setNegativeButton("취소",
+                    DialogInterface.OnClickListener { dialog, id ->
+//                                resultText.text = "취소 클릭"
+                        return@OnClickListener
+                    })
+            // 다이얼로그를 띄워주기
+            builder.show()
+
+
         }
 
         // 채팅하기 버튼 클릭

@@ -139,6 +139,11 @@ class BooksYouSellActivity: AppCompatActivity() {
                 // 거래 완료 버튼
                 binding.itemBookSoldBtn.setOnClickListener {
                     initBookStatus("sold", articleModel)
+                    val aid= articleModel.aid
+
+                    FirebaseDatabase.getInstance().reference
+                        .child("sell_list/$aid/")
+                        .removeValue()
                 }
                 // 거래중 버튼
                 binding.itemBookSellBtn.setOnClickListener {

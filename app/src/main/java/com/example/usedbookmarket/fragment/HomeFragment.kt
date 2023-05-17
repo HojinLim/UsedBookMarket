@@ -138,8 +138,9 @@ class HomeFragment: androidx.fragment.app.Fragment(R.layout.fragment_home) {
         binding.homeFloatBtn.setOnClickListener {
             startActivity(Intent(requireContext(), AddBookActivity::class.java))
         }
+        // 알림 히스토리
         binding.homeNotificationButton.setOnClickListener {
-            startActivity(Intent(requireContext(), MyFirebaseMessagingService::class.java))
+            startActivity(Intent(requireContext(), AlertHistoryActivity::class.java))
         }
         recyclerView = binding.homeBookRecyclerView
 

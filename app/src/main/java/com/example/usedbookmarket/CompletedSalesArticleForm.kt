@@ -123,7 +123,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
             })
             setupIndicators(images.size)
             bindStatus(binding.statusImage,"stop")
-        }, 2000)
+        }, 2500)
 
         // 뒤로가기 버튼
         findViewById<AppCompatButton>(R.id.books_you_have_backButton).setOnClickListener {
@@ -278,7 +278,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
 
 
             heart.setOnClickListener {
-                Toast.makeText(this@CompletedSalesArticleForm,"클릭",Toast.LENGTH_SHORT).show()
+
                 formRef.child("whoLike").child(uid).addListenerForSingleValueEvent(
                     object : ValueEventListener {
                         @SuppressLint("NewApi")
@@ -295,6 +295,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                                 FirebaseDatabase.getInstance().reference
                                     .child("sell_list/$aid/likeCount")
                                     .setValue(ServerValue.increment(-1))
+                                Toast.makeText(this@CompletedSalesArticleForm,"좋아요 삭제",Toast.LENGTH_SHORT).show()
                             } else {
                                 formRef.child("whoLike/$uid").setValue(true)
                                 heart.background.setTint(getColor(R.color.red))
@@ -302,6 +303,7 @@ class CompletedSalesArticleForm : AppCompatActivity(), AdapterView.OnItemSelecte
                                 FirebaseDatabase.getInstance().reference
                                     .child("sell_list/$aid/likeCount")
                                     .setValue(ServerValue.increment(1))
+                                Toast.makeText(this@CompletedSalesArticleForm,"좋아요 추가!",Toast.LENGTH_SHORT).show()
 
 
                             }

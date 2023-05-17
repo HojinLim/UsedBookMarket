@@ -62,6 +62,8 @@
         android:layout_margin="15dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:paddingVertical="20dp"
+        android:paddingHorizontal="8dp"
         app:layout_constraintTop_toBottomOf="@+id/detail_coverImageView"
         app:layout_constraintBottom_toTopOf="@id/price_layout"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,19 +71,20 @@
         >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+
             android:orientation="vertical">
             <TextView
                 android:textSize="18sp"
                 android:padding="10dp"
-                android:layout_marginTop="20dp"
+
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gan_pan_font"
                 android:ellipsize="end"
                 app:layout_constraintTop_toBottomOf="@+id/detail_coverImageView"
-                tools:text="우리 시대에 가장 사랑받는 21세기의 고전 《해리포터》를 고전답게 재해석하다! 선과 악의 대립 속에서 평범한 어린 소년이 한 사람의 영웅으로 성장해나가는 보편적인 테마를 바탕으로 빈틈없는 소설적 구성과 생생하게 살아"
+                tools:text="우리 시대에 가장 사랑받는 21세기의 고전 《해리포터》를 고전답게 재해석하다! 선과 악의 대립 속에서 평범한 어린 소년이 한 사람의 영웅으로 성장해나가는 보편적인 테마를 바탕으로 빈틈없는 소설적 구성과 생생하게 살아우리 시대에 가장 사랑받는 21세기의 고전 《해리포터》를 고전답게 재해석하다! 선과 악의 대립 속에서 평범한 어린 소년이 한 사람의 영웅으로 성장해나가는 보편적인 테마를 바탕으로 빈틈없는 소설적 구성과 생생하게 살아우리 시대에 가장 사랑받는 21세기의 고전 《해리포터》를 고전답게 재해석하다! 선과 악의 대립 속에서 평범한 어린 소년이 한 사람의 영웅으로 성장해나가는 보편적인 테마를 바탕으로 빈틈없는 소설적 구성과 생생하게 살아우리 시대에 가장 사랑받는 21세기의 고전 《해리포터》를 고전답게 재해석하다! 선과 악의 대립 속에서 평범한 어린 소년이 한 사람의 영웅으로 성장해나가는 보편적인 테마를 바탕으로 빈틈없는 소설적 구성과 생생하게 살아"
                 android:id="@+id/detail_descriptionTextView"
                 />
 

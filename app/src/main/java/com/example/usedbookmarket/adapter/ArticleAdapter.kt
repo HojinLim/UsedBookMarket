@@ -10,6 +10,10 @@ import com.bumptech.glide.Glide
 import com.example.usedbookmarket.adapter.ArticleAdapter.ArticleItemViewHolder
 import com.example.usedbookmarket.databinding.ItemArticleBinding
 import com.example.usedbookmarket.model.ArticleForm
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class ArticleAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<ArticleForm, ArticleItemViewHolder>(diffUtil) {
     inner class ArticleItemViewHolder(private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
@@ -35,6 +39,22 @@ class ArticleAdapter(val clickListener: (ArticleForm) -> Unit): ListAdapter<Arti
 //            else
             binding.itemArticleLikeText.text= articleForm.likeCount.toString()
 
+            var num= 0
+
+            FirebaseDatabase.getInstance().reference.child("chatrooms")
+                .orderByChild("aid").equalTo(articleForm.aid).addValueEventListener(object:
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                            num = snapshot.childrenCount.toInt()
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
+            binding.itemArticleChatMany.text= num.toString()
         }
 
 

@@ -151,7 +151,7 @@ class ReviewActivity : AppCompatActivity() {
                             return@OnClickListener
                         }else{
                             // 외부 DB에 저장
-                            val review= ReviewModel(destinationUid, review, detailReview)
+                            val review= ReviewModel(destinationUid, review, formModel.aid, detailReview)
                             FirebaseDatabase.getInstance()
                                 .getReference("review_list/$uid").push()
                                 .setValue(review)

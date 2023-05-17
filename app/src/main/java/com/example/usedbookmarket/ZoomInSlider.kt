@@ -84,7 +84,7 @@ private lateinit var images: Array<String?>
             })
             setupIndicators(images.size)
             bindStatus(statusImageView,"stop")
-        }, 1500)
+        }, 2500)
     }
     private fun bindStatus(
         statusImageView: ImageView, status: String

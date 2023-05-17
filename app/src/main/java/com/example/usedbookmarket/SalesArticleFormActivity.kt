@@ -75,7 +75,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
         } else if (intentFrom =="B") {
             // 로드하는 글
 //            Toast.makeText(this, intentFrom, Toast.LENGTH_SHORT).show()
-            Toast.makeText(this, "된글", Toast.LENGTH_SHORT).show()
+
             Log.d("TEST", intentFrom)
             initOldForm()
         }
@@ -93,6 +93,7 @@ class SalesArticleFormActivity: AppCompatActivity() {
         binding.booksYouHaveBackButton.setOnClickListener {
             onBackPressed()
         }
+
 
         val user= auth.currentUser
         val userId = user?.email
@@ -283,6 +284,9 @@ class SalesArticleFormActivity: AppCompatActivity() {
 //        public fun getPhotos(): ArrayList<Uri?>{
 //            return images
 //        }
+//        Glide.with(context)
+//        .load(imageURL)
+//        .into(mImageView)
         override fun getItemCount(): Int {
             return images.size
         }

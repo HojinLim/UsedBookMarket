@@ -66,6 +66,7 @@
         android:textColor="@color/white"
         android:textSize="25dp"/>
     <TextView
+        android:visibility="invisible"
         android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
