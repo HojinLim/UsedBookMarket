@@ -5,6 +5,12 @@
 
 ![](../header.png)
 
+# 관련 사진
+<img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/84ebcf2b-e60d-469a-ad17-3ecc077126f8" width="400" height="750">
+<img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/45ae9e08-09da-463d-9214-f438541c5312" width="400" height="750">
+<img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/1a5b2092-8b92-4be7-b210-927489165c44" width="400" height="750">
+<img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/dfc965b4-c5de-4a4b-9ea2-c7cc10e99811" width="400" height="750">
+
 ## 주요 파일
 
 OS X & 리눅스:
@@ -74,9 +80,5 @@ XYZ 라이센스를 준수하며 ``LICENSE``에서 자세한 정보를 확인할
 [wiki]: https://github.com/yourname/yourproject/wiki
 
 
-# 관련 사진
-<img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/84ebcf2b-e60d-469a-ad17-3ecc077126f8" width="400" height="750">
-<img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/45ae9e08-09da-463d-9214-f438541c5312" width="400" height="750">
-<img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/1a5b2092-8b92-4be7-b210-927489165c44" width="400" height="750">
-<img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/dfc965b4-c5de-4a4b-9ea2-c7cc10e99811" width="400" height="750">
+
 
