@@ -1,12 +1,7 @@
 # 프로젝트명
-> 자신이 팔고 싶은 중고 도서를 올리고 판매할 수 있고,
+> 자신이 팔고 싶은 중고 도서를 올리고 판매할 수 있고, <br/>
 > 원하는 책을 사용자로부터 구입할 수 있습니다.
 
-[![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
-
-한 두 문단으로 프로젝트 소개 글을 작성합니다.
 
 ![](../header.png)
 
@@ -79,7 +74,7 @@ XYZ 라이센스를 준수하며 ``LICENSE``에서 자세한 정보를 확인할
 [wiki]: https://github.com/yourname/yourproject/wiki
 
 
-# UsedBookMarket
+# 관련 사진
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/84ebcf2b-e60d-469a-ad17-3ecc077126f8" width="400" height="750">
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/45ae9e08-09da-463d-9214-f438541c5312" width="400" height="750">
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/1a5b2092-8b92-4be7-b210-927489165c44" width="400" height="750">
