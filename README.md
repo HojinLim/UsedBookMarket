@@ -6,8 +6,11 @@
 
 ![](../header.png)
 
-# 관련 사진
+# 미리보기
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/5bd965f3-a965-41ff-ae18-2ecf1e51d455" width="1200" height="600">
+
+> 인트로 화면입니다
+
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/c212801e-fc58-421f-b469-85aefe59ec2b" width="1200" height="600">
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/7f7beeb7-45ee-4b20-9fc8-04ce9a06ed9f" width="1200" height="600">
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/6f386ea0-4a2a-49f9-8a9a-8507d768a750" width="1200" height="600">
