@@ -44,6 +44,16 @@
 
 ## 주요 파일
 
+* MainActivity.kt -> Fragment 변경 리스너, 로그인 후 알림 팝업
+* SalesArticleFormActivity.kt -> 새로운 글 작성 코드
+* ReviewActivity.kt -> 리뷰 작성 후 DB에 저장
+* HistoryDao.kt, AppDatabase.kt, History.kt -> 검색 기록 저장 코드
+* BookAPI-> 네이버 데이터 통신 코드
+* HomeFragment.kt-> 현재 존재하는 글들을 리스트해서 보여줍니다.
+* ChatFragment.kt-> 자신의 계정으로 채팅한 이력을 리스트해서 보여줍니다.
+* AccountFragment-> 계정 정보, 찜 목록, 회원 등을 관리하는 화면입니다.
+
+
 ## 트러블 슈팅
 
 _firebase 로그인 시 로그인이 안되고, 권한이 없다고 뜸_
@@ -54,41 +64,11 @@ _firebase 로그인 시 로그인이 안되고, 권한이 없다고 뜸_
 
 ## 아쉬운 점
 
-FirebaseMessageService로 실시간 푸시 알림을 구현하려 했으나, <br/> 
+1. FirebaseMessageService로 실시간 푸시 알림을 구현하려 했으나, <br/> 
 구현 과정에서 오류는 뜨지 않았지만 원하는 결과가 나오지 않아서 <br />
-많은 시간이 지체되어서 결국 구현을 하지 못한 점이 아쉬움이 남았다.
+많은 시간이 지체되어서 결국 구현을 하지 못한 점이 아쉬움이 남았다. <br />
+2. 처리되지 않은 주석 코드와 반복되는 코드 (특히, recyclerview)가 존재한다.
 
-## 개발 환경 설정
-
---
-
-## 업데이트 내역
-
-* 0.2.1
-    * 수정: 
-
-
-## 비고
-
-
-
-## 기타
-
-1. (<https://github.com/yourname/yourproject/fork>)을 포크합니다.
-
-
-<!-- Markdown link & img dfn's -->
-
-
--- 코드
-
-```sh
-edit autoexec.bat
-```
-
--- 회색
-
-``LICENSE``
 
 
 
