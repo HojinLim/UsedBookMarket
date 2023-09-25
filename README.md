@@ -7,7 +7,7 @@
 
 ![](../header.png)
 
-# 미리보기
+# :see_no_evil: 미리보기
 
 > 인트로
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/5bd965f3-a965-41ff-ae18-2ecf1e51d455" width="900" height="550">
