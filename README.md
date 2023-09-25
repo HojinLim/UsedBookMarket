@@ -8,32 +8,37 @@
 
 # 미리보기
 
-> 인트로 화면입니다
+> 인트로
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/5bd965f3-a965-41ff-ae18-2ecf1e51d455" width="900" height="550">
 
 * * *
 
-> 네이버 쇼핑 목록에 있는 책 정보를 가져와서 글 등록해주는 화면입니다.
+> 네이버 쇼핑 목록에 있는 책 정보를 가져와서 글 등록
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/c212801e-fc58-421f-b469-85aefe59ec2b" width="900" height="550">
 
 * * *
 
+> 거래 글 '좋아요' 누를 시 찜 목록 추가.
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/7f7beeb7-45ee-4b20-9fc8-04ce9a06ed9f" width="900" height="550">
 
 * * *
 
+> 메인 페이지가 Fragment로 화면 전환되게끔 구성
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/6f386ea0-4a2a-49f9-8a9a-8507d768a750" width="900" height="550">
 
 * * *
 
+> 글 쓰기 유효성 검사
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/5102211e-f73f-4cd9-866d-bb2c45f3d12f" width="900" height="550">
 
 * * *
 
+> 상대방과 채팅으로 거래 진행, 그 후에 평가
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/0acff949-78fd-49f9-b381-b7c50c22c483" width="900" height="550">
 
 * * *
 
+> 검색 기록 저장
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/3ad6daa1-4099-44cc-926e-db661788e28f" width="900" height="550">
 
 
