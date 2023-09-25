@@ -10,7 +10,8 @@
 
 > 인트로 화면입니다
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/5bd965f3-a965-41ff-ae18-2ecf1e51d455" width="900" height="550">
-***
+
+* * *
 
 > 네이버 쇼핑 목록에 있는 책 정보를 가져와서 글 등록해주는 화면입니다.
 <img src="https://github.com/HojinLim/UsedBookMarket/assets/69897998/c212801e-fc58-421f-b469-85aefe59ec2b" width="900" height="550">
